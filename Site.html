@@ -11,7 +11,7 @@
             text-align: center;
         }
 
-        .nameInput{
+        .nicknameInput{
             background-color: #dddcdd;
             text-align: center;
         }
@@ -25,7 +25,7 @@
             text-align: center;
         }
 
-        .name{
+        .nickname{
             text-align: center;
         }
 
@@ -39,20 +39,30 @@
     </head>
 
     <body>
-        <p class = "title"> Вибивний! </p>
+        <p class = "title"> Knockout game! </p>
 
-        <p class = "roomCode"> Код <br> <input class = "roomCodeInput" type = "text" 
-            size = "4" maxlength = "4" name = "roomCodeInput" max = "10"> <br> </p>
+        <p class = "roomCode"> Code <br> <input class = "roomCodeInput" type = "text" 
+            size = "4" maxlength = "4" name = "roomCodeInput" id="roomCodeInput"> <br> </p>
         
-        <p class = "name"> Ім'я <br> <input class = "nameInput" type = "text" 
-            size = "16" maxlength = "16" name = "nameInput"> <br> </p>
+        <p class = "nickname"> Nickname <br> <input class = "nicknameInput" type = "text" 
+            size = "16" maxlength = "16" name = "nicknameInput" id="nicknameInput"> <br> </p>
 
         <div class = "roomButton">
-            <button class = "roomCodeButton" type = "button" name = "roomCodeButton"> Conect <br>
+            <button class = "roomCodeButton" type = "button" name = "roomCodeButton"
+            id="roomCodeButton"> Conect <br>
         </div>
         
         <script>
-            
+
+            const roomCodeButton = document.getElementById('roomCodeButton');
+            const roomCodeInput = document.getElementById('roomCodeInput');
+            const nicknameInput = document.getElementById('nicknameInput');
+
+            roomCodeButton.addEventListener('click', function() {
+                alert("Code is: " + roomCodeInput.value);
+                alert("Name is: " + nicknameInput.value);
+            });
+
         </script>
     </body>
 </html>
