@@ -1,97 +1,120 @@
 <!DOCTYPE html>
 <html>
-    <style>
-        .roomCodeInput {
-            background-color: #bbbabb;
-            text-align: center;
-        }
+<style>
+    .roomCodeInput {
+        background-color: #bbbbbb;
+        text-align: center;
+    }
 
-        .roomCodeButton{
-            background-color: #cccbcc;
-            text-align: center;
-        }
+    .roomCodeButton {
+        background-color: #cccccc;
+        text-align: center;
+    }
 
-        .nicknameInput{
-            background-color: #dddcdd;
-            text-align: center;
-        }
+    .nicknameInput {
+        background-color: #999999;
+        text-align: center;
+    }
+
+    .errorBox {
+        z-index: 10;
+        background-color: #73eaff;
+        width: 150px;
+        height: 100px;
+
+        position: absolute;
+        top: 10%;
+        left: 50%;
+        transform: translateX(-50%);
+
+        align-content: center;
+        text-align: center;
+        padding: 10px 10px 10px 10px;
+    }
+
+    .errorBoxButton {
+        position: absolute;
+        height: 30px;
+        width: 30px;
+        background: rgba(0, 0, 0, 0);
+        border: none;
+    }
 
 
-        .title {
-            text-align: center;
-        }
+    .title {
+        user-select: none;
+        text-align: center;
+    }
 
-        .roomCode{
-            text-align: center;
-        }
+    .roomCode {
+        text-align: center;
+    }
 
-        .nickname{
-            text-align: center;
-        }
+    .nickname {
+        text-align: center;
+    }
 
-        .roomButton{
-            text-align: center;
-        }
-    </style>
+    .roomButton {
+        user-select: none;
+        text-align: center;
+    }
+</style>
 
-    <head>
-        <title>  </title>
-    </head>
+<head>
+    <title> Knockout </title>
+</head>
 
-    <body>
-        <p class = "title"> Knockout game! </p>
+<body>
+    <p class="title"> Knockout game! </p>
 
-        <p class = "roomCode"> Code <br> <input class = "roomCodeInput" type = "text" 
-            size = "4" maxlength = "4" name = "roomCodeInput" id="roomCodeInput"> <br> </p>
-        
-        <p class = "nickname"> Nickname <br> <input class = "nicknameInput" type = "text" 
-            size = "16" maxlength = "16" name = "nicknameInput" id="nicknameInput"> <br> </p>
+    <p class="roomCode"> Code <br> <input class="roomCodeInput" type="text" size="4" maxlength="4" name="roomCodeInput"
+            id="roomCodeInput"> <br> </p>
 
-        <div class = "roomButton">
-            <button class = "roomCodeButton" type = "button" name = "roomCodeButton"
-            id="roomCodeButton" onclick="saveData()"> Conect <br>
-        </div>
+    <p class="nickname"> Nickname <br> <input class="nicknameInput" type="text" size="16" maxlength="16"
+            name="nicknameInput" id="nicknameInput"> <br> </p>
 
-        <div class = "resetButton">
-            <button class = "resetDevButton" type = "button" name = "resetDevButton"
-            id="resetDevButton" onclick="resetData()"> Reset <br>
-        </div>
+    <div class="roomButton">
+        <button class="roomCodeButton" type="button" name="roomCodeButton" id="roomCodeButton" onclick="joinRoom()">
+            Conect <br>
+    </div>
 
-        <script>
-            
+    <div class="resetButton">
+        <button class="resetDevButton" type="button" name="resetDevButton" id="resetDevButton" onclick="resetData()">
+            Reset <br>
+    </div>
+
+    <script>
+
         const roomCodeButton = document.getElementById('roomCodeButton');
         const roomCodeInput = document.getElementById('roomCodeInput');
         const nicknameInput = document.getElementById('nicknameInput');
 
         const api = 'https://sitebackend-ebr5.onrender.com/data';
 
-        async function loadData() {
-            const res = await fetch(api);
-            const data = await res.json();
-            console.log(data);
-            return data;
-        }
+        async function joinRoom() {
+            const roomCodeValue = roomCodeInput.value;
+            const nicknameValue = nicknameInput.value;
 
-        async function saveData() {
-            var roomCodeValue = roomCodeInput.value;
-            var nicknameValue = nicknameInput.value;
+            if (roomCodeValue.length < 4) return popUpWindowOfErroe("(ICT) Incorect code type");
 
-            const payload = await loadData();
-            if (!payload.sessions) payload.sessions = {};
+            for (let i = 0; i < roomCodeValue.length; i++) {
+                const charCode = roomCodeValue.charCodeAt(i);
+                if (charCode < 48 || charCode > 57) return popUpWindowOfErroe("(ICT) Incorect code type");
+            }
 
-            console.log(payload);
+            let payload = await loadData();
 
-            if (payload.rooms.includes(roomCodeValue)) {
-                var newPlayer = {
+            if (payload.roomsCodes.includes(roomCodeValue)) {
+                const newPlayer = {
                     "name": nicknameValue,
                     "skin": 2,
                     "enemy": "None",
                     "tasks": "None"
                 }
-                payload.sessions[roomCodeValue].push(newPlayer);
+                payload.rooms[roomCodeValue].push(newPlayer);
             }
             else {
-                var newRoom = [
+                const newRoom = [
                     {
                         "name": nicknameValue,
                         "skin": 2,
@@ -100,23 +123,52 @@
                     }
                 ];
 
-                payload.rooms.push(roomCodeValue);
-                payload.sessions[roomCodeValue] = newRoom;
+                payload.roomsCodes.push(roomCodeValue);
+                payload.rooms[roomCodeValue] = newRoom;
             }
 
+            saveData(payload);
+        }
+
+        async function popUpWindowOfErroe(errorType) {
+            let errorBox = document.createElement("div");
+            errorBox.setAttribute('class', 'errorBox');
+
+            let closeButton = document.createElement("button");
+            closeButton.textContent = "X";
+            closeButton.setAttribute('class', 'errorBoxButton');
+            closeButton.onclick = function () {
+                errorBox.remove();
+            };
+            errorBox.innerHTML += `Error: <br> ${errorType}`;
+            errorBox.appendChild(closeButton);
+
+            document.body.appendChild(errorBox);
+        }
+
+        //Check the data: https://sitebackend-ebr5.onrender.com/data
+
+        // Never chaged functions
+
+        async function loadData() {
+            const res = await fetch(api);
+            const data = await res.json();
+            console.log(data);
+            return data;
+        }
+
+        async function saveData(payload) {
             await fetch(api, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(payload)
             });
-
-            console.log("LOADED!");
         }
 
         async function resetData() {
-            var payload = {
-                rooms: [],
-                sessions: {}
+            let payload = {
+                roomsCodes: [],
+                rooms: {}
             };
 
             await fetch(api, {
@@ -126,8 +178,7 @@
             });
         }
 
-        //Check the data: https://sitebackend-ebr5.onrender.com/data
+    </script>
+</body>
 
-        </script>
-    </body>
 </html>
