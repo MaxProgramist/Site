@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
 <style>
-    .roomCodeInput {
+    .joinRoomCodeInput {
         background-color: #bbbbbb;
         text-align: center;
     }
 
-    .roomCodeButton {
+    .joinRoomCodeButton {
         background-color: #cccccc;
         text-align: center;
     }
@@ -46,7 +46,7 @@
         text-align: center;
     }
 
-    .roomCode {
+    .joinRoomCode {
         text-align: center;
     }
 
@@ -54,7 +54,7 @@
         text-align: center;
     }
 
-    .roomButton {
+    .joinRoomButton {
         user-select: none;
         text-align: center;
     }
@@ -67,14 +67,15 @@
 <body>
     <p class="title"> Knockout game! </p>
 
-    <p class="roomCode"> Code <br> <input class="roomCodeInput" type="text" size="4" maxlength="4" name="roomCodeInput"
-            id="roomCodeInput"> <br> </p>
+    <p class="joinRoomCode"> Code <br> <input class="joinRoomCodeInput" type="text" size="4" maxlength="4"
+            name="joinRoomCodeInput" id="joinRoomCodeInput"> <br> </p>
 
     <p class="nickname"> Nickname <br> <input class="nicknameInput" type="text" size="16" maxlength="16"
             name="nicknameInput" id="nicknameInput"> <br> </p>
 
-    <div class="roomButton">
-        <button class="roomCodeButton" type="button" name="roomCodeButton" id="roomCodeButton" onclick="joinRoom()">
+    <div class="joinRoomButton">
+        <button class="joinRoomCodeButton" type="button" name="joinRoomCodeButton" id="joinRoomCodeButton"
+            onclick="joinRoom()">
             Conect <br>
     </div>
 
@@ -85,49 +86,64 @@
 
     <script>
 
-        const roomCodeButton = document.getElementById('roomCodeButton');
-        const roomCodeInput = document.getElementById('roomCodeInput');
+        const joinRoomCodeButton = document.getElementById('joinRoomCodeButton');
+        const joinRoomCodeInput = document.getElementById('joinRoomCodeInput');
         const nicknameInput = document.getElementById('nicknameInput');
 
         const api = 'https://sitebackend-ebr5.onrender.com/data';
 
         async function joinRoom() {
-            const roomCodeValue = roomCodeInput.value;
+            const joinRoomCodeValue = joinRoomCodeInput.value;
             const nicknameValue = nicknameInput.value;
 
-            if (roomCodeValue.length < 4) return popUpWindowOfErroe("(ICT) Incorect code type");
+            if (joinRoomCodeValue.length < 4) return popUpWindowOfErroe("(ICT) Incorect code type");
+            if (nicknameValue.length < 1) return popUpWindowOfErroe("(INT) Incorect nickname type");
 
-            for (let i = 0; i < roomCodeValue.length; i++) {
-                const charCode = roomCodeValue.charCodeAt(i);
+            for (let i = 0; i < joinRoomCodeValue.length; i++) {
+                const charCode = joinRoomCodeValue.charCodeAt(i);
                 if (charCode < 48 || charCode > 57) return popUpWindowOfErroe("(ICT) Incorect code type");
             }
 
             let payload = await loadData();
 
-            if (payload.roomsCodes.includes(roomCodeValue)) {
+            if (payload.roomsCodes.includes(joinRoomCodeValue)) {
+                if (payload.rooms[joinRoomCodeValue].countOfPlayers <= payload.rooms[joinRoomCodeValue].players.length) 
+                    return popUpWindowOfErroe("Too many players in room");
                 const newPlayer = {
                     "name": nicknameValue,
                     "skin": 2,
                     "enemy": "None",
                     "tasks": "None"
                 }
-                payload.rooms[roomCodeValue].push(newPlayer);
+                payload.rooms[joinRoomCodeValue].players.push(newPlayer);
             }
-            else {
-                const newRoom = [
-                    {
-                        "name": nicknameValue,
-                        "skin": 2,
-                        "enemy": "None",
-                        "tasks": "None"
-                    }
-                ];
-
-                payload.roomsCodes.push(roomCodeValue);
-                payload.rooms[roomCodeValue] = newRoom;
-            }
+            else return popUpWindowOfErroe("(WRC) Wrong room code");
 
             saveData(payload);
+        }
+
+        async function makeRoom() {
+            const makeRoomCodeValue = joinRoomCodeInput.value;
+            const roomPlayersCount = nicknameInput.value;
+
+            if (makeRoomCodeValue.length < 4) return popUpWindowOfErroe("(ICT) Incorect code type");
+            if (roomPlayersCount < 5) return popUpWindowOfErroe("(INT) Count of players is to small");
+
+            for (let i = 0; i < makeRoomCodeValue.length; i++) {
+                const charCode = makeRoomCodeValue.charCodeAt(i);
+                if (charCode < 48 || charCode > 57) return popUpWindowOfErroe("(ICT) Incorect code type");
+            }
+
+            let payload = await loadData();
+
+            const newRoom = {
+                "countOfPlayers": 0,
+                "players": []
+            };
+
+            payload.roomsCodes.push(makeRoomCodeValue);
+            payload.rooms[joinRoomCodeValue] = newRoom;
+            payload.rooms[joinRoomCodeValue].countOfPlayers = roomPlayersCount;
         }
 
         async function popUpWindowOfErroe(errorType) {
