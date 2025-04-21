@@ -2,17 +2,22 @@
 <html>
 <style>
     .joinRoomCodeInput {
-        background-color: #bbbbbb;
         text-align: center;
     }
 
     .joinRoomCodeButton {
-        background-color: #cccccc;
         text-align: center;
     }
 
     .nicknameInput {
-        background-color: #999999;
+        text-align: center;
+    }
+
+    .makeRoomCodeInput {
+        text-align: center;
+    }
+
+    .countOfPlayersInput {
         text-align: center;
     }
 
@@ -34,29 +39,34 @@
 
     .errorBoxButton {
         position: absolute;
-        height: 30px;
-        width: 30px;
-        background: rgba(0, 0, 0, 0);
+        top: 1%;
+        right: 1%;
+        height: 20px;
+        width: 20px;
+        background: #458c99;
         border: none;
     }
 
 
     .title {
         user-select: none;
+    }
+
+    .title,
+    .joinRoomCode,
+    .nickname,
+    .joinRoomButton,
+    .makeRoomCode,
+    .countOfPlayers,
+    .makeRoomButton,
+    .makeRandomRoom {
         text-align: center;
     }
 
-    .joinRoomCode {
-        text-align: center;
-    }
-
-    .nickname {
-        text-align: center;
-    }
-
-    .joinRoomButton {
+    .joinRoomButton,
+    .makeRoomButton,
+    .makeRandomRoom {
         user-select: none;
-        text-align: center;
     }
 </style>
 
@@ -76,7 +86,26 @@
     <div class="joinRoomButton">
         <button class="joinRoomCodeButton" type="button" name="joinRoomCodeButton" id="joinRoomCodeButton"
             onclick="joinRoom()">
-            Conect <br>
+            Conect room <br>
+    </div>
+
+
+    <p class="makeRoomCode"> Code <br> <input class="makeRoomCodeInput" type="text" size="4" maxlength="4"
+            name="makeRoomCodeInput" id="makeRoomCodeInput">
+    </p>
+    <div class="makeRandomRoom">
+        <button class="makeRandomRoomCodeButton" type="button" name="makeRandomRoomCodeButton"
+            id="makeRandomRoomCodeButton" onclick="makeRandomRoomCode()">
+            Make random code <br>
+    </div>
+
+    <p class="countOfPlayers"> Count of players <br> <input class="countOfPlayersInput" type="number" size="16"
+            maxlength="16" name="countOfPlayersInput" id="countOfPlayersInput" max="199" min="4"> <br> </p>
+
+    <div class="makeRoomButton">
+        <button class="makeRoomCodeButton" type="button" name="makeRoomCodeButton" id="makeRoomCodeButton"
+            onclick="makeRoom()">
+            Make room <br>
     </div>
 
     <div class="resetButton">
@@ -86,9 +115,10 @@
 
     <script>
 
-        const joinRoomCodeButton = document.getElementById('joinRoomCodeButton');
         const joinRoomCodeInput = document.getElementById('joinRoomCodeInput');
         const nicknameInput = document.getElementById('nicknameInput');
+        const makeRoomCodeInput = document.getElementById('makeRoomCodeInput');
+        const countOfPlayersInput = document.getElementById('countOfPlayersInput');
 
         const api = 'https://sitebackend-ebr5.onrender.com/data';
 
@@ -96,18 +126,18 @@
             const joinRoomCodeValue = joinRoomCodeInput.value;
             const nicknameValue = nicknameInput.value;
 
-            if (joinRoomCodeValue.length < 4) return popUpWindowOfErroe("(ICT) Incorect code type");
-            if (nicknameValue.length < 1) return popUpWindowOfErroe("(INT) Incorect nickname type");
+            if (joinRoomCodeValue.length < 4) return popUpWindowOfErroe("Incorect code type");
+            if (nicknameValue.length < 1) return popUpWindowOfErroe("Incorect nickname type");
 
             for (let i = 0; i < joinRoomCodeValue.length; i++) {
                 const charCode = joinRoomCodeValue.charCodeAt(i);
-                if (charCode < 48 || charCode > 57) return popUpWindowOfErroe("(ICT) Incorect code type");
+                if (charCode < 48 || charCode > 57) return popUpWindowOfErroe("Incorect code type");
             }
 
             let payload = await loadData();
 
             if (payload.roomsCodes.includes(joinRoomCodeValue)) {
-                if (payload.rooms[joinRoomCodeValue].countOfPlayers <= payload.rooms[joinRoomCodeValue].players.length) 
+                if (payload.rooms[joinRoomCodeValue].countOfPlayers <= payload.rooms[joinRoomCodeValue].players.length)
                     return popUpWindowOfErroe("Too many players in room");
                 const newPlayer = {
                     "name": nicknameValue,
@@ -117,22 +147,24 @@
                 }
                 payload.rooms[joinRoomCodeValue].players.push(newPlayer);
             }
-            else return popUpWindowOfErroe("(WRC) Wrong room code");
+            else return popUpWindowOfErroe("Wrong room code");
 
             saveData(payload);
         }
 
         async function makeRoom() {
-            const makeRoomCodeValue = joinRoomCodeInput.value;
-            const roomPlayersCount = nicknameInput.value;
+            const makeRoomCodeValue = makeRoomCodeInput.value;
+            const roomPlayersCount = countOfPlayersInput.value;
 
-            if (makeRoomCodeValue.length < 4) return popUpWindowOfErroe("(ICT) Incorect code type");
-            if (roomPlayersCount < 5) return popUpWindowOfErroe("(INT) Count of players is to small");
+            if (makeRoomCodeValue.length < 4) return popUpWindowOfErroe("Incorect code type");
+            if (roomPlayersCount < 4) return popUpWindowOfErroe("Count of players is to small (at least 4)");
 
             for (let i = 0; i < makeRoomCodeValue.length; i++) {
                 const charCode = makeRoomCodeValue.charCodeAt(i);
-                if (charCode < 48 || charCode > 57) return popUpWindowOfErroe("(ICT) Incorect code type");
+                if (charCode < 48 || charCode > 57) return popUpWindowOfErroe("Incorect code type");
             }
+
+            if (payload.roomsCodes.includes(joinRoomCodeValue)) return popUpWindowOfErroe("Room is already created!");
 
             let payload = await loadData();
 
@@ -146,7 +178,19 @@
             payload.rooms[joinRoomCodeValue].countOfPlayers = roomPlayersCount;
         }
 
-        async function popUpWindowOfErroe(errorType) {
+        async function makeRandomRoomCode() {
+            let payload = await loadData();
+
+            let curentRoomCode = randomString(4);
+
+            while (payload.roomsCodes.includes(curentRoomCode)) {
+                curentRoomCode = randomString(4);
+            }
+
+            makeRoomCodeInput.value = `${curentRoomCode}`;
+        }
+
+        function popUpWindowOfErroe(errorType) {
             let errorBox = document.createElement("div");
             errorBox.setAttribute('class', 'errorBox');
 
@@ -156,7 +200,8 @@
             closeButton.onclick = function () {
                 errorBox.remove();
             };
-            errorBox.innerHTML += `Error: <br> ${errorType}`;
+
+            errorBox.innerHTML += `Error: <br> ${errorType} <br>`;
             errorBox.appendChild(closeButton);
 
             document.body.appendChild(errorBox);
@@ -166,10 +211,21 @@
 
         // Never chaged functions
 
+        function randomString(length) {
+            let result = '';
+            const characters = '0123456789';
+
+            for (let i = 0; i < length; i++) {
+                const randomInd = Math.floor(Math.random() * characters.length);
+                result += characters.charAt(randomInd);
+            }
+
+            return result;
+        }
+
         async function loadData() {
             const res = await fetch(api);
             const data = await res.json();
-            console.log(data);
             return data;
         }
 
