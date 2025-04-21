@@ -77,39 +77,45 @@
 <body>
     <p class="title"> Knockout game! </p>
 
-    <p class="joinRoomCode"> Code <br> <input class="joinRoomCodeInput" type="text" size="4" maxlength="4"
+    <p class="title"> Conect to room </p>
+
+    <p class="joinRoomCode"> Code: <input class="joinRoomCodeInput" type="text" size="4" maxlength="4"
             name="joinRoomCodeInput" id="joinRoomCodeInput"> <br> </p>
 
-    <p class="nickname"> Nickname <br> <input class="nicknameInput" type="text" size="16" maxlength="16"
+
+    <p class="nickname"> Nickname: <input class="nicknameInput" type="text" size="16" maxlength="16"
             name="nicknameInput" id="nicknameInput"> <br> </p>
 
     <div class="joinRoomButton">
         <button class="joinRoomCodeButton" type="button" name="joinRoomCodeButton" id="joinRoomCodeButton"
-            onclick="joinRoom()">
-            Conect room <br>
+            onclick="JoinRoom()">
+            Conect to room <br>
     </div>
 
-
-    <p class="makeRoomCode"> Code <br> <input class="makeRoomCodeInput" type="text" size="4" maxlength="4"
-            name="makeRoomCodeInput" id="makeRoomCodeInput">
-    </p>
-    <div class="makeRandomRoom">
-        <button class="makeRandomRoomCodeButton" type="button" name="makeRandomRoomCodeButton"
-            id="makeRandomRoomCodeButton" onclick="makeRandomRoomCode()">
-            Make random code <br>
+    <br>
+    <p class="title"> Creat room </p>
+    
+    <div>
+        <p class="makeRoomCode"> Code:
+            <input class="makeRoomCodeInput" type="text" size="4" maxlength="4" name="makeRoomCodeInput"
+                id="makeRoomCodeInput">
+            <button class="makeRandomRoomCodeButton" type="button" name="makeRandomRoomCodeButton"
+                id="makeRandomRoomCodeButton" onclick="MakeRandomRoomCode()">
+                Make random code <br>
+        </p>
     </div>
 
-    <p class="countOfPlayers"> Count of players <br> <input class="countOfPlayersInput" type="number" size="16"
+    <p class="countOfPlayers"> Count of players: <input class="countOfPlayersInput" type="number" size="16"
             maxlength="16" name="countOfPlayersInput" id="countOfPlayersInput" max="199" min="4"> <br> </p>
 
     <div class="makeRoomButton">
         <button class="makeRoomCodeButton" type="button" name="makeRoomCodeButton" id="makeRoomCodeButton"
-            onclick="makeRoom()">
+            onclick="MakeRoom()">
             Make room <br>
     </div>
 
     <div class="resetButton">
-        <button class="resetDevButton" type="button" name="resetDevButton" id="resetDevButton" onclick="resetData()">
+        <button class="resetDevButton" type="button" name="resetDevButton" id="resetDevButton" onclick="ResetData()">
             Reset <br>
     </div>
 
@@ -120,25 +126,25 @@
         const makeRoomCodeInput = document.getElementById('makeRoomCodeInput');
         const countOfPlayersInput = document.getElementById('countOfPlayersInput');
 
-        const api = 'https://sitebackend-ebr5.onrender.com/data';
+        const API = 'https://sitebackend-ebr5.onrender.com/data';
 
-        async function joinRoom() {
+        async function JoinRoom() {
             const joinRoomCodeValue = joinRoomCodeInput.value;
             const nicknameValue = nicknameInput.value;
 
-            if (joinRoomCodeValue.length < 4) return popUpWindowOfErroe("Incorect code type");
-            if (nicknameValue.length < 1) return popUpWindowOfErroe("Incorect nickname type");
+            if (joinRoomCodeValue.length < 4) return PopUpWindowOfError("Incorect code type");
+            if (nicknameValue.length < 1) return PopUpWindowOfError("Incorect nickname type");
 
             for (let i = 0; i < joinRoomCodeValue.length; i++) {
                 const charCode = joinRoomCodeValue.charCodeAt(i);
-                if (charCode < 48 || charCode > 57) return popUpWindowOfErroe("Incorect code type");
+                if (charCode < 48 || charCode > 57) return PopUpWindowOfError("Incorect code type");
             }
 
-            let payload = await loadData();
+            let payload = await LoadData();
 
             if (payload.roomsCodes.includes(joinRoomCodeValue)) {
                 if (payload.rooms[joinRoomCodeValue].countOfPlayers <= payload.rooms[joinRoomCodeValue].players.length)
-                    return popUpWindowOfErroe("Too many players in room");
+                    return PopUpWindowOfError("Too many players in room");
                 const newPlayer = {
                     "name": nicknameValue,
                     "skin": 2,
@@ -147,26 +153,26 @@
                 }
                 payload.rooms[joinRoomCodeValue].players.push(newPlayer);
             }
-            else return popUpWindowOfErroe("Wrong room code");
+            else return PopUpWindowOfError("Wrong room code");
 
-            saveData(payload);
+            SaveData(payload);
         }
 
-        async function makeRoom() {
+        async function MakeRoom() {
             const makeRoomCodeValue = makeRoomCodeInput.value;
             const roomPlayersCount = countOfPlayersInput.value;
 
-            if (makeRoomCodeValue.length < 4) return popUpWindowOfErroe("Incorect code type");
-            if (roomPlayersCount < 4) return popUpWindowOfErroe("Count of players is to small (at least 4)");
+            if (makeRoomCodeValue.length < 4) return PopUpWindowOfError("Incorect code type");
+            if (roomPlayersCount < 4) return PopUpWindowOfError("Count of players is to small (at least 4)");
 
             for (let i = 0; i < makeRoomCodeValue.length; i++) {
                 const charCode = makeRoomCodeValue.charCodeAt(i);
-                if (charCode < 48 || charCode > 57) return popUpWindowOfErroe("Incorect code type");
+                if (charCode < 48 || charCode > 57) return PopUpWindowOfError("Incorect code type");
             }
 
-            if (payload.roomsCodes.includes(joinRoomCodeValue)) return popUpWindowOfErroe("Room is already created!");
+            if (payload.roomsCodes.includes(joinRoomCodeValue)) return PopUpWindowOfError("Room is already created!");
 
-            let payload = await loadData();
+            let payload = await LoadData();
 
             const newRoom = {
                 "countOfPlayers": 0,
@@ -176,21 +182,23 @@
             payload.roomsCodes.push(makeRoomCodeValue);
             payload.rooms[joinRoomCodeValue] = newRoom;
             payload.rooms[joinRoomCodeValue].countOfPlayers = roomPlayersCount;
+
+            SaveData(payload);
         }
 
-        async function makeRandomRoomCode() {
-            let payload = await loadData();
+        async function MakeRandomRoomCode() {
+            let payload = await LoadData();
 
-            let curentRoomCode = randomString(4);
+            let curentRoomCode = RandomString(4);
 
             while (payload.roomsCodes.includes(curentRoomCode)) {
-                curentRoomCode = randomString(4);
+                curentRoomCode = RandomString(4);
             }
 
             makeRoomCodeInput.value = `${curentRoomCode}`;
         }
 
-        function popUpWindowOfErroe(errorType) {
+        function PopUpWindowOfError(errorType) {
             let errorBox = document.createElement("div");
             errorBox.setAttribute('class', 'errorBox');
 
@@ -211,7 +219,7 @@
 
         // Never chaged functions
 
-        function randomString(length) {
+        function RandomString(length) {
             let result = '';
             const characters = '0123456789';
 
@@ -223,27 +231,27 @@
             return result;
         }
 
-        async function loadData() {
-            const res = await fetch(api);
+        async function LoadData() {
+            const res = await fetch(API);
             const data = await res.json();
             return data;
         }
 
-        async function saveData(payload) {
-            await fetch(api, {
+        async function SaveData(payload) {
+            await fetch(API, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(payload)
             });
         }
 
-        async function resetData() {
+        async function ResetData() {
             let payload = {
                 roomsCodes: [],
                 rooms: {}
             };
 
-            await fetch(api, {
+            await fetch(API, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(payload)
