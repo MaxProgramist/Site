@@ -161,7 +161,7 @@
             else return PopUpWindowOfError("Wrong room code");
 
             SaveData(payload);
-            document.joinRoomCodeInput.style.setProperty('--isVisible', 'hidden');
+            joinRoomCodeInput.style.setProperty('--isVisible', 'hidden');
         }
 
         async function MakeRoom() {
@@ -190,7 +190,7 @@
             payload.rooms[joinRoomCodeValue].countOfPlayers = roomPlayersCount;
 
             SaveData(payload);
-            document.joinRoomCodeInput.style.setProperty('--isVisible', 'hidden');
+            joinRoomCodeInput.style.setProperty('--isVisible', 'hidden');
 
             console.log("MAKE ROOM!");
         }
