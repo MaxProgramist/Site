@@ -176,18 +176,17 @@
                 if (charCode < 48 || charCode > 57) return PopUpWindowOfError("Incorect code type");
             }
 
-            if (payload.roomsCodes.includes(joinRoomCodeValue)) return PopUpWindowOfError("Room is already created!");
-
             let payload = await LoadData();
 
+            if (payload.roomsCodes.includes(makeRoomCodeValue)) return PopUpWindowOfError("Room is already created!");
+
             const newRoom = {
-                "countOfPlayers": 0,
+                "countOfPlayers": roomPlayersCount,
                 "players": []
             };
 
             payload.roomsCodes.push(makeRoomCodeValue);
-            payload.rooms[joinRoomCodeValue] = newRoom;
-            payload.rooms[joinRoomCodeValue].countOfPlayers = roomPlayersCount;
+            payload.rooms[makeRoomCodeValue] = newRoom;
 
             SaveData(payload);
             joinRoomCodeInput.style.setProperty('--isVisible', 'hidden');
