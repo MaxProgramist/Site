@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html>
 <style>
+    .lobbyElements {
+        --isVisible:visible; /* hidden / visible */
+        visibility:var(--isVisible);
+    }
+    
     .joinRoomCodeInput {
         text-align: center;
     }
@@ -75,15 +80,15 @@
 </head>
 
 <body>
-    <p class="title"> Knockout game! </p>
+    <p class="title lobbyElements"> Knockout game! </p>
 
-    <p class="title"> Conect to room </p>
+    <p class="title lobbyElements"> Conect to room </p>
 
-    <p class="joinRoomCode"> Code: <input class="joinRoomCodeInput" type="text" size="4" maxlength="4"
+    <p class="joinRoomCode lobbyElements"> Code: <input class="joinRoomCodeInput" type="text" size="4" maxlength="4"
             name="joinRoomCodeInput" id="joinRoomCodeInput"> <br> </p>
 
 
-    <p class="nickname"> Nickname: <input class="nicknameInput" type="text" size="16" maxlength="16"
+    <p class="nickname lobbyElements"> Nickname: <input class="nicknameInput" type="text" size="16" maxlength="16"
             name="nicknameInput" id="nicknameInput"> <br> </p>
 
     <div class="joinRoomButton">
@@ -101,7 +106,7 @@
                 id="makeRoomCodeInput">
             <button class="makeRandomRoomCodeButton" type="button" name="makeRandomRoomCodeButton"
                 id="makeRandomRoomCodeButton" onclick="MakeRandomRoomCode()">
-                Make random code <br>
+                Random <br>
         </p>
     </div>
 
@@ -121,10 +126,10 @@
 
     <script>
 
-        const joinRoomCodeInput = document.getElementById('joinRoomCodeInput');
-        const nicknameInput = document.getElementById('nicknameInput');
-        const makeRoomCodeInput = document.getElementById('makeRoomCodeInput');
-        const countOfPlayersInput = document.getElementById('countOfPlayersInput');
+        var joinRoomCodeInput = document.getElementById('joinRoomCodeInput');
+        var nicknameInput = document.getElementById('nicknameInput');
+        var makeRoomCodeInput = document.getElementById('makeRoomCodeInput');
+        var countOfPlayersInput = document.getElementById('countOfPlayersInput');
 
         const API = 'https://sitebackend-ebr5.onrender.com/data';
 
@@ -156,6 +161,7 @@
             else return PopUpWindowOfError("Wrong room code");
 
             SaveData(payload);
+            document.joinRoomCodeInput.style.setProperty('--isVisible', 'hidden');
         }
 
         async function MakeRoom() {
@@ -184,6 +190,9 @@
             payload.rooms[joinRoomCodeValue].countOfPlayers = roomPlayersCount;
 
             SaveData(payload);
+            document.joinRoomCodeInput.style.setProperty('--isVisible', 'hidden');
+
+            console.log("MAKE ROOM!");
         }
 
         async function MakeRandomRoomCode() {
