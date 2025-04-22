@@ -2,10 +2,11 @@
 <html>
 <style>
     .lobbyElements {
-        --isVisible:visible; /* hidden / visible */
-        visibility:var(--isVisible);
+        --isVisible: visible;
+        /* hidden / visible */
+        visibility: var(--isVisible);
     }
-    
+
     .joinRoomCodeInput {
         text-align: center;
     }
@@ -99,7 +100,7 @@
 
     <br>
     <p class="title"> Creat room </p>
-    
+
     <div>
         <p class="makeRoomCode"> Code:
             <input class="makeRoomCodeInput" type="text" size="4" maxlength="4" name="makeRoomCodeInput"
@@ -126,10 +127,11 @@
 
     <script>
 
-        var joinRoomCodeInput = document.getElementById('joinRoomCodeInput');
-        var nicknameInput = document.getElementById('nicknameInput');
-        var makeRoomCodeInput = document.getElementById('makeRoomCodeInput');
-        var countOfPlayersInput = document.getElementById('countOfPlayersInput');
+        const joinRoomCodeInput = document.getElementById('joinRoomCodeInput');
+        const nicknameInput = document.getElementById('nicknameInput');
+        const makeRoomCodeInput = document.getElementById('makeRoomCodeInput');
+        const countOfPlayersInput = document.getElementById('countOfPlayersInput');
+        const lobbyElements = document.querySelector('.lobbyElements');
 
         const API = 'https://sitebackend-ebr5.onrender.com/data';
 
@@ -161,7 +163,7 @@
             else return PopUpWindowOfError("Wrong room code");
 
             SaveData(payload);
-            joinRoomCodeInput.style.setProperty('--isVisible', 'hidden');
+            lobbyElements.style.setProperty('--isVisible', 'hidden');
         }
 
         async function MakeRoom() {
@@ -189,7 +191,7 @@
             payload.rooms[makeRoomCodeValue] = newRoom;
 
             SaveData(payload);
-            joinRoomCodeInput.style.setProperty('--isVisible', 'hidden');
+            lobbyElements.style.setProperty('--isVisible', 'hidden');
 
             console.log("MAKE ROOM!");
         }
