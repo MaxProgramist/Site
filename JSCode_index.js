@@ -21,7 +21,7 @@ async function JoinRoom() {
     if (payload.roomsCodes.includes(joinRoomCodeValue)) {
         if (payload.rooms[joinRoomCodeValue].countOfPlayers <= payload.rooms[joinRoomCodeValue].players.length)
             return PopUpWindowOfError("Too many players in room");
-if (!payload.rooms[joinRoomCodeValue].isActive)
+        if (!payload.rooms[joinRoomCodeValue].isActive)
             return PopUpWindowOfError("The game has started in this room");
         const newPlayer = {
             "name": nicknameValue,
