@@ -1,14 +1,4 @@
-function RandomString(length) {
-    let result = '';
-    const characters = '0123456789';
-
-    for (let i = 0; i < length; i++) {
-        const randomInd = Math.floor(Math.random() * characters.length);
-        result += characters.charAt(randomInd);
-    }
-
-    return result;
-}
+const API = 'https://sitebackend-ebr5.onrender.com/data';
 
 async function LoadData() {
     const res = await fetch(API);
