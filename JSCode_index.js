@@ -4,6 +4,8 @@ const makeRoomCodeInput = document.getElementById('makeRoomCodeInput');
 const countOfPlayersInput = document.getElementById('countOfPlayersInput');
 const lobbyElements = document.querySelector('.lobbyElements');
 
+localStorage.setItem("makeRoomCodeInput", "makeRoomCodeInput");
+
 async function JoinRoom() {
     const joinRoomCodeValue = joinRoomCodeInput.value;
     const nicknameValue = nicknameInput.value;
@@ -62,9 +64,8 @@ async function MakeRoom() {
     payload.roomsCodes.push(makeRoomCodeValue);
     payload.rooms[makeRoomCodeValue] = newRoom;
 
-    SaveData(payload);
+    await SaveData(payload);
 
-    console.log("MAKE ROOM!");
     window.location.href = "adminPage.html";
 }
 

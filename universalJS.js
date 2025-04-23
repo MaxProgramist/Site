@@ -7,13 +7,12 @@ async function LoadData() {
 }
 
 async function SaveData(payload) {
+    console.log("URL:", API);
     await fetch(API, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)
     });
-
-    console.log("Saved");
 }
 
 async function ResetData() {
