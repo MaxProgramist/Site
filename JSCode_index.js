@@ -27,7 +27,8 @@ async function JoinRoom() {
             "name": nicknameValue,
             "skin": 2,
             "enemy": "None",
-            "tasks": "None"
+            "tasks": "None",
+            "score": 0
         }
         payload.rooms[joinRoomCodeValue].players.push(newPlayer);
     }
