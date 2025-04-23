@@ -1,24 +1,26 @@
-.joinRoomCodeInput {
+/* ---------- Index ---------- */
+
+.index_joinRoomCodeInput {
     text-align: center;
 }
 
-.joinRoomCodeButton {
+.index_joinRoomCodeButton {
     text-align: center;
 }
 
-.nicknameInput {
+.index_nicknameInput {
     text-align: center;
 }
 
-.makeRoomCodeInput {
+.index_makeRoomCodeInput {
     text-align: center;
 }
 
-.countOfPlayersInput {
+.index_countOfPlayersInput {
     text-align: center;
 }
 
-.errorBox {
+.index_errorBox {
     z-index: 10;
     background-color: #73eaff;
     width: 150px;
@@ -34,7 +36,7 @@
     padding: 10px 10px 10px 10px;
 }
 
-.errorBoxButton {
+.index_errorBoxButton {
     position: absolute;
     top: 1%;
     right: 1%;
@@ -45,23 +47,33 @@
 }
 
 
-.title {
+.index_title {
     user-select: none;
 }
 
-.title,
-.joinRoomCode,
-.nickname,
-.joinRoomButton,
-.makeRoomCode,
-.countOfPlayers,
-.makeRoomButton,
-.makeRandomRoom {
+.index_title,
+.index_joinRoomCode,
+.index_nickname,
+.index_joinRoomButton,
+.index_makeRoomCode,
+.index_countOfPlayers,
+.index_makeRoomButton,
+.index_makeRandomRoom {
     text-align: center;
 }
 
-.joinRoomButton,
-.makeRoomButton,
-.makeRandomRoom {
+.index_joinRoomButton,
+.index_makeRoomButton,
+.index_makeRandomRoom {
+    user-select: none;
+}
+
+/* ---------- Admin ---------- */
+
+.admin_title {
+    text-align: center;
+}
+
+.admin_title {
     user-select: none;
 }
