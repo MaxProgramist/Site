@@ -12,15 +12,13 @@
 
     <p class="title"> Під'єднатися до кімнати </p>
 
-    <p class="joinRoomCode"> Код: <input class="joinRoomCodeInput" type="text" size="4" maxlength="4"
-            name="joinRoomCodeInput" id="joinRoomCodeInput"> <br> </p>
+    <p class="joinRoomCode"> Код: <input class="joinRoomCodeInput" type="text" size="4" maxlength="4" id="joinRoomCodeInput"> <br> </p>
 
 
-    <p class="nickname"> Нікнейм: <input class="nicknameInput" type="text" size="16" maxlength="16"
-            name="nicknameInput" id="nicknameInput"> <br> </p>
+    <p class="nickname"> Нікнейм: <input class="nicknameInput" type="text" size="16" maxlength="16" id="nicknameInput"> <br> </p>
 
     <div class="joinRoomButton">
-        <button class="joinRoomCodeButton" type="button" name="joinRoomCodeButton" id="joinRoomCodeButton"
+        <button class="joinRoomCodeButton" type="button" id="joinRoomCodeButton"
             onclick="JoinRoom()">
             Приєднатись до кімнати <br>
     </div>
@@ -30,25 +28,23 @@
 
     <div>
         <p class="makeRoomCode"> Код:
-            <input class="makeRoomCodeInput" type="text" size="4" maxlength="4" name="makeRoomCodeInput"
-                id="makeRoomCodeInput">
-            <button class="makeRandomRoomCodeButton" type="button" name="makeRandomRoomCodeButton"
-                id="makeRandomRoomCodeButton" onclick="MakeRandomRoomCode()">
+            <input class="makeRoomCodeInput" type="text" size="4" maxlength="4" id="makeRoomCodeInput">
+            <button class="makeRandomRoomCodeButton" type="button" id="makeRandomRoomCodeButton" onclick="MakeRandomRoomCode()">
                 Рандомний <br>
         </p>
     </div>
 
-    <p class="countOfPlayers"> Кількість людей: <input class="countOfPlayersInput" type="number" size="16"
-            maxlength="16" name="countOfPlayersInput" id="countOfPlayersInput" max="199" min="4"> <br> </p>
+    <p class="countOfPlayers"> Кількість людей: <input class="countOfPlayersInput" type="number" size="16" maxlength="16" id="countOfPlayersInput" max="199" min="4"> <br> </p>
 
     <div class="makeRoomButton">
-        <button class="makeRoomCodeButton" type="button" name="makeRoomCodeButton" id="makeRoomCodeButton"
+        <button class="makeRoomCodeButton" type="button" id="makeRoomCodeButton"
             onclick="MakeRoom()">
             Зробити кімнату <br>
     </div>
 
     <div class="resetButton">
-        <button class="resetDevButton" type="button" name="resetDevButton" id="resetDevButton" onclick="ResetData()">
+        <button class="resetDevButton" type="button"
+id="resetDevButton" onclick="ResetData()">
             Перезапустити <br>
     </div>
 
