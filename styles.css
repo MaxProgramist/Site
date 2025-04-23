@@ -70,10 +70,6 @@
 
 /* ---------- Admin ---------- */
 
-.admin_title {
+.admin_code {
     text-align: center;
-}
-
-.admin_title {
-    user-select: none;
 }

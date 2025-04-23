@@ -12,6 +12,8 @@ async function SaveData(payload) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)
     });
+
+    console.log("Saved");
 }
 
 async function ResetData() {
