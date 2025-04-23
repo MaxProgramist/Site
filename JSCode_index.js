@@ -4,8 +4,6 @@ const makeRoomCodeInput = document.getElementById('makeRoomCodeInput');
 const countOfPlayersInput = document.getElementById('countOfPlayersInput');
 const lobbyElements = document.querySelector('.lobbyElements');
 
-const API = 'https://sitebackend-ebr5.onrender.com/data';
-
 async function JoinRoom() {
     const joinRoomCodeValue = joinRoomCodeInput.value;
     const nicknameValue = nicknameInput.value;
@@ -54,6 +52,7 @@ async function MakeRoom() {
 
     const newRoom = {
         "countOfPlayers": roomPlayersCount,
+        "isActive": false,
         "players": []
     };
 
@@ -63,6 +62,7 @@ async function MakeRoom() {
     SaveData(payload);
 
     console.log("MAKE ROOM!");
+    window.location.href = "adminPage.html";
 }
 
 async function MakeRandomRoomCode() {
@@ -92,4 +92,16 @@ function PopUpWindowOfError(errorType) {
     errorBox.appendChild(closeButton);
 
     document.body.appendChild(errorBox);
+}
+
+function RandomString(length) {
+    let result = '';
+    const characters = '0123456789';
+
+    for (let i = 0; i < length; i++) {
+        const randomInd = Math.floor(Math.random() * characters.length);
+        result += characters.charAt(randomInd);
+    }
+
+    return result;
 }
