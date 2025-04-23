@@ -3,52 +3,53 @@
 
 <head>
     <title> Knockout </title>
+    <meta charset="utf-8">
     <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
-    <p class="title"> Knockout game! </p>
+    <p class="title"> Гра в вибивного! </p>
 
-    <p class="title"> Conect to room </p>
+    <p class="title"> Під'єднатися до кімнати </p>
 
-    <p class="joinRoomCode"> Code: <input class="joinRoomCodeInput" type="text" size="4" maxlength="4"
+    <p class="joinRoomCode"> Код: <input class="joinRoomCodeInput" type="text" size="4" maxlength="4"
             name="joinRoomCodeInput" id="joinRoomCodeInput"> <br> </p>
 
 
-    <p class="nickname"> Nickname: <input class="nicknameInput" type="text" size="16" maxlength="16"
+    <p class="nickname"> Нікнейм: <input class="nicknameInput" type="text" size="16" maxlength="16"
             name="nicknameInput" id="nicknameInput"> <br> </p>
 
     <div class="joinRoomButton">
         <button class="joinRoomCodeButton" type="button" name="joinRoomCodeButton" id="joinRoomCodeButton"
             onclick="JoinRoom()">
-            Conect to room <br>
+            Приєднатись до кімнати <br>
     </div>
 
     <br>
-    <p class="title"> Creat room </p>
+    <p class="title"> Створити кімнату </p>
 
     <div>
-        <p class="makeRoomCode"> Code:
+        <p class="makeRoomCode"> Код:
             <input class="makeRoomCodeInput" type="text" size="4" maxlength="4" name="makeRoomCodeInput"
                 id="makeRoomCodeInput">
             <button class="makeRandomRoomCodeButton" type="button" name="makeRandomRoomCodeButton"
                 id="makeRandomRoomCodeButton" onclick="MakeRandomRoomCode()">
-                Random <br>
+                Рандомний <br>
         </p>
     </div>
 
-    <p class="countOfPlayers"> Count of players: <input class="countOfPlayersInput" type="number" size="16"
+    <p class="countOfPlayers"> Кількість людей: <input class="countOfPlayersInput" type="number" size="16"
             maxlength="16" name="countOfPlayersInput" id="countOfPlayersInput" max="199" min="4"> <br> </p>
 
     <div class="makeRoomButton">
         <button class="makeRoomCodeButton" type="button" name="makeRoomCodeButton" id="makeRoomCodeButton"
             onclick="MakeRoom()">
-            Make room <br>
+            Зробити кімнату <br>
     </div>
 
     <div class="resetButton">
         <button class="resetDevButton" type="button" name="resetDevButton" id="resetDevButton" onclick="ResetData()">
-            Reset <br>
+            Перезапустити <br>
     </div>
 
     <script src="JSCode_index.js"></script>
