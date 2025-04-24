@@ -87,7 +87,6 @@
     width: 150px;
     height: 90px;
     display: flex;
-    justify-self: center;
     align-items: center;
-    background-color: #666666;
+    background-color: #999999;
 }
