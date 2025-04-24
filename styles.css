@@ -103,11 +103,18 @@
 
 /* ---------- Spectator ---------- */
 
+.spectator_gridWrapper {
+    display: flex;
+    justify-content: center;
+    padding-top: 50px;
+    min-height: 100vh; /* висота всього вікна */
+}
+
 .spectator_grid {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 10px;
+    gap: 20px 10px;
     width: 320px;
 }
 

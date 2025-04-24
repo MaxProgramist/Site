@@ -2,6 +2,7 @@ const roomCode = localStorage.getItem("roomCode");
 
 const playerListDiv = document.getElementById("playersGrid");
 
+MakePlayersGroups();
 
 async function MakePlayersGroups() {
     let payload = await LoadData();
@@ -21,7 +22,9 @@ function NewPlayerIcon(payload, playerIndex) {
     let playerBox = document.createElement("div");
     playerBox.setAttribute('class', 'admin_grid_item');
 
-    playerBox.innerHTML += payload.rooms[roomCode].players[playerIndex].name;
+    let playerName = payload.rooms[roomCode].players[playerIndex].name;
+    let playerScore = payload.rooms[roomCode].players[playerIndex].score;
+    playerBox.innerHTML += `${playerName} <br> Рахунок ${playerScore}`;
 
     playerListDiv.appendChild(playerBox);
 }

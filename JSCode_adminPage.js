@@ -7,6 +7,8 @@ codeTextField.innerText = "Code: " + roomCode;
 
 var curentRoomPlayers = 0;
 
+Loop();
+
 
 async function Loop() {
     while (true) {
@@ -56,10 +58,10 @@ async function StartGame() {
 
         payload.rooms[roomCode].players[playerList[0]].enemy = randomInd;
         payload.rooms[roomCode].players[randomInd].enemy = playerList[0];
-        playerList.splice(0, 1);
-        playerList.splice(playerList.indexOf(randomInd), 1);
         usedPlayers.push(randomInd);
         usedPlayers.push(playerList[0]);
+        playerList.splice(0, 1);
+        playerList.splice(playerList.indexOf(randomInd), 1);
     }
 
     await SaveData(payload);
@@ -70,5 +72,3 @@ async function StartGame() {
 function getRandomInt(min, max) {
     return min + Math.floor(Math.random() * max);
 }
-
-Loop();
