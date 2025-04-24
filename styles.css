@@ -73,3 +73,10 @@
 .admin_code {
     text-align: center;
 }
+
+.admin_grid {
+    display: grid;
+    grid-auto-rows: 100px;
+    column-gap: 10px;
+    row-gap: 10px;
+}
