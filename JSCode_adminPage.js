@@ -1,4 +1,4 @@
-const makeRoomCodeInput = localStorage.getItem("makeRoomCodeInput");
+const makeRoomCodeInput = localStorage.getItem("roomCode");
 const codeTextField = document.getElementById('code');
 
-codeTextField.innerText = "Code: " + makeRoomCodeInput.value;
+codeTextField.innerText = "Code: " + makeRoomCodeInput;

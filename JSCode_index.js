@@ -2,9 +2,8 @@ const joinRoomCodeInput = document.getElementById('joinRoomCodeInput');
 const nicknameInput = document.getElementById('nicknameInput');
 const makeRoomCodeInput = document.getElementById('makeRoomCodeInput');
 const countOfPlayersInput = document.getElementById('countOfPlayersInput');
-const lobbyElements = document.querySelector('.lobbyElements');
 
-localStorage.setItem("makeRoomCodeInput", "makeRoomCodeInput");
+
 
 async function JoinRoom() {
     const joinRoomCodeValue = joinRoomCodeInput.value;
@@ -23,7 +22,7 @@ async function JoinRoom() {
     if (payload.roomsCodes.includes(joinRoomCodeValue)) {
         if (payload.rooms[joinRoomCodeValue].countOfPlayers <= payload.rooms[joinRoomCodeValue].players.length)
             return PopUpWindowOfError("Too many players in room");
-        if (!payload.rooms[joinRoomCodeValue].isActive)
+        if (payload.rooms[joinRoomCodeValue].isActive)
             return PopUpWindowOfError("The game has started in this room");
         const newPlayer = {
             "name": nicknameValue,
@@ -44,7 +43,8 @@ async function MakeRoom() {
     const roomPlayersCount = countOfPlayersInput.value;
 
     if (makeRoomCodeValue.length < 4) return PopUpWindowOfError("Incorect code type");
-    if (roomPlayersCount < 4) return PopUpWindowOfError("Count of players is to small (at least 4)");
+    if (roomPlayersCount < 2) return PopUpWindowOfError("Count of players is to small (at least 2)");
+    if (roomPlayersCount > 199) return PopUpWindowOfError("Count of players is to big (at most 199)");
 
     for (let i = 0; i < makeRoomCodeValue.length; i++) {
         const charCode = makeRoomCodeValue.charCodeAt(i);
@@ -66,6 +66,8 @@ async function MakeRoom() {
 
     await SaveData(payload);
 
+
+    await localStorage.setItem("roomCode", makeRoomCodeInput.value);
     window.location.href = "adminPage.html";
 }
 
@@ -83,11 +85,11 @@ async function MakeRandomRoomCode() {
 
 function PopUpWindowOfError(errorType) {
     let errorBox = document.createElement("div");
-    errorBox.setAttribute('class', 'errorBox');
+    errorBox.setAttribute('class', 'index_errorBox');
 
     let closeButton = document.createElement("button");
     closeButton.textContent = "X";
-    closeButton.setAttribute('class', 'errorBoxButton');
+    closeButton.setAttribute('class', 'index_errorBoxButton');
     closeButton.onclick = function () {
         errorBox.remove();
     };
