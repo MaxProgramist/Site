@@ -76,6 +76,8 @@
 
 .admin_grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 250px));
+    grid-template-columns: repeat(auto-fit, minmax(150px, 150px)); /* Ширина елементів 150px */
     gap: 20px;
+    justify-content: center;
+    align-content: center;
 }
