@@ -76,6 +76,6 @@
 
 .admin_grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(100px, 200px));
+    grid-template-columns: repeat(auto-fit, minmax(150px, 250px));
     gap: 20px;
 }
