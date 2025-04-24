@@ -3,8 +3,6 @@ const nicknameInput = document.getElementById('nicknameInput');
 const makeRoomCodeInput = document.getElementById('makeRoomCodeInput');
 const countOfPlayersInput = document.getElementById('countOfPlayersInput');
 
-
-
 async function JoinRoom() {
     const joinRoomCodeValue = joinRoomCodeInput.value;
     const nicknameValue = nicknameInput.value;
@@ -24,10 +22,15 @@ async function JoinRoom() {
             return PopUpWindowOfError("Too many players in room");
         if (payload.rooms[joinRoomCodeValue].isActive)
             return PopUpWindowOfError("The game has started in this room");
+
+        for (const curentPlayer of payload.rooms[joinRoomCodeValue].players)
+            if (curentPlayer.name == nicknameValue)
+                return PopUpWindowOfError("Nickname is already taken!");
+
         const newPlayer = {
             "name": nicknameValue,
             "skin": 2,
-            "enemy": "None",
+            "enemy": -1,
             "tasks": "None",
             "score": 0
         }
@@ -35,7 +38,8 @@ async function JoinRoom() {
     }
     else return PopUpWindowOfError("Wrong room code");
 
-    SaveData(payload);
+
+    await SaveData(payload);
 }
 
 async function MakeRoom() {
@@ -53,7 +57,8 @@ async function MakeRoom() {
 
     let payload = await LoadData();
 
-    if (payload.roomsCodes.includes(makeRoomCodeValue)) return PopUpWindowOfError("Room is already created!");
+    if (payload.roomsCodes.includes(makeRoomCodeValue))
+        return PopUpWindowOfError("Room is already created!");
 
     const newRoom = {
         "countOfPlayers": roomPlayersCount,

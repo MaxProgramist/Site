@@ -4,7 +4,7 @@
     text-align: center;
 }
 
-.index_joinRoomCodeButton {
+.index_joinRoomButton {
     text-align: center;
 }
 
@@ -27,8 +27,8 @@
     height: 100px;
 
     position: absolute;
-    top: 10%;
-    left: 50%;
+    top: 10vh;
+    left: 50vw;
     transform: translateX(-50%);
 
     align-content: center;
@@ -70,22 +70,31 @@
 
 /* ---------- Admin ---------- */
 
-.admin_code {
+.admin_code,
+.admin_startGame {
     text-align: center;
 }
 
 .admin_grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, 150px);
-    gap: 5px;
-    justify-items: center;
-    align-content: center;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
 }
 
 .admin_grid_item {
     width: 150px;
     height: 90px;
+    background-color: #aaaaaa;
     display: flex;
     align-items: center;
-    background-color: #999999;
+    justify-content: center;
+}
+
+.admin_startGameButton {
+    position: sticky;
+    margin-top: 25px;
+    bottom: 10vh;
+    left: 50vw;
+    transform: translateX(-50%);
 }
