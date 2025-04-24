@@ -76,7 +76,7 @@
 
 .admin_grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 150px));
+    grid-template-columns: repeat(auto-fit, 150px);
     gap: 20px;
     justify-content: center;
     align-content: center;
@@ -84,7 +84,7 @@
 
 .admin_grid_item {
     width: 150px;
-    height: 150px;
+    height: 90px;
     display: flex;
     justify-content: center;
     align-items: center;
