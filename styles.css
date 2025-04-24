@@ -83,7 +83,6 @@
 }
 
 .admin_grid_item {
-    margin: auto;
     width: 150px;
     height: 90px;
     display: flex;
