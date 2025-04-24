@@ -78,7 +78,7 @@
     display: grid;
     grid-template-columns: repeat(auto-fit, 150px);
     gap: 5px;
-    justify-content: center;
+    justify-items: center;
     align-content: center;
 }
 
@@ -87,7 +87,7 @@
     width: 150px;
     height: 90px;
     display: flex;
-    justify-content: center;
+    justify-self: center;
     align-items: center;
     background-color: #aaaaaa;
 }
