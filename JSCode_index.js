@@ -3,6 +3,7 @@ const nicknameInput = document.getElementById('nicknameInput');
 const makeRoomCodeInput = document.getElementById('makeRoomCodeInput');
 const countOfPlayersInput = document.getElementById('countOfPlayersInput');
 
+
 async function JoinRoom() {
     const joinRoomCodeValue = joinRoomCodeInput.value;
     const nicknameValue = nicknameInput.value;

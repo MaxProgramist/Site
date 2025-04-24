@@ -1,5 +1,6 @@
 const API = 'https://sitebackend-ebr5.onrender.com/data';
 
+
 async function LoadData() {
     const res = await fetch(API);
     const data = await res.json();

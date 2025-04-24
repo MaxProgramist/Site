@@ -68,6 +68,7 @@
     user-select: none;
 }
 
+
 /* ---------- Admin ---------- */
 
 .admin_code,
@@ -97,4 +98,24 @@
     bottom: 10vh;
     left: 50vw;
     transform: translateX(-50%);
+}
+
+
+/* ---------- Spectator ---------- */
+
+.spectator_grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    width: 320px;
+}
+
+.spectator_grid_item {
+    width: 150px;
+    height: 90px;
+    background-color: #aaaaaa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

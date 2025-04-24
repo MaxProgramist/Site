@@ -7,6 +7,7 @@ codeTextField.innerText = "Code: " + roomCode;
 
 var curentRoomPlayers = 0;
 
+
 async function Loop() {
     while (true) {
         await SomeAsyncFunction();
@@ -62,6 +63,8 @@ async function StartGame() {
     }
 
     await SaveData(payload);
+
+    window.location.href = "spectatorPage.html";
 }
 
 function getRandomInt(min, max) {
