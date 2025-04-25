@@ -41,7 +41,7 @@ async function JoinRoom() {
 
     await SaveData(payload);
 
-    await localStorage.setItem("roomCode", joinRoomCodeValue.value);
+    await localStorage.setItem("roomCode", joinRoomCodeValue);
     window.location.href = "playerPage.html";
 }
 
@@ -75,7 +75,7 @@ async function MakeRoom() {
     await SaveData(payload);
 
 
-    await localStorage.setItem("roomCode", makeRoomCodeInput.value);
+    await localStorage.setItem("roomCode", makeRoomCodeValue);
     window.location.href = "adminPage.html";
 }
 

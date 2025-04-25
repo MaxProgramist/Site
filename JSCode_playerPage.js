@@ -1,6 +1,7 @@
 const roomCode = localStorage.getItem("roomCode");
 
 const playerListDiv = document.getElementById("playersGrid");
+var curentRoomPlayers = 0;
 
 Loop();
 

@@ -102,6 +102,13 @@
     transform: translateX(-50%);
 }
 
+.player_chooseImageButton {
+    background: url(/Icons/icon_0.png);
+    background-size: 70px;
+    height: 70px;
+    width: 70px;
+}
+
 
 /* ---------- Spectator ---------- */
 
