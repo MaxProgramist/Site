@@ -1,5 +1,26 @@
 const API = 'https://sitebackend-ebr5.onrender.com/data';
 
+// * ------------ Universal Funcrions ------------ //
+// * --------------- Without Server -------------- //
+
+function PopUpWindowOfError(errorType) {
+    let errorBox = document.createElement("div");
+    errorBox.setAttribute('class', 'index_errorBox');
+
+    let closeButton = document.createElement("button");
+    closeButton.textContent = "X";
+    closeButton.setAttribute('class', 'index_errorBoxButton');
+    closeButton.onclick = function () {
+        errorBox.remove();
+    };
+
+    errorBox.innerHTML += `Error: <br> ${errorType} <br>`;
+    errorBox.appendChild(closeButton);
+
+    document.body.appendChild(errorBox);
+}
+
+// * ---------------- With Server --------------- //
 
 async function LoadData() {
     const res = await fetch(API);
@@ -27,3 +48,19 @@ async function ResetData() {
         body: JSON.stringify(payload)
     });
 }
+
+/*
+! Додати до серверної частини, після закінчення розробки
+const allowedOrigins = ['https://your-frontend.com', 'https://another-allowed.com'];
+
+app.use(cors({
+  origin: function(origin, callback) {
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    } else {
+      return callback(new Error('Not allowed by CORS'));
+    }
+  }
+}));
+*/

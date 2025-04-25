@@ -24,6 +24,8 @@ function Delay(ms) {
 async function SomeAsyncFunction() {
     let payload = await LoadData();
 
+    if (payload.roomsCodes.length < 1) window.location.href = "index.html";
+
     while (payload.rooms[roomCode].players.length > curentRoomPlayers) {
         NewPlayerIcon(payload, curentRoomPlayers);
         curentRoomPlayers++;
@@ -41,6 +43,10 @@ function NewPlayerIcon(payload, playerIndex) {
 
 async function StartGame() {
     let payload = await LoadData();
+
+    if (payload.roomsCodes.length < 1) window.location.href = "index.html";
+    if (payload.rooms[roomCode].players.length < 1)
+        return PopUpWindowOfError("Count of players is to small (at least 2)");
 
     payload.rooms[roomCode].isActive = true;
 

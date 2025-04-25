@@ -39,8 +39,10 @@ async function JoinRoom() {
     }
     else return PopUpWindowOfError("Wrong room code");
 
-
     await SaveData(payload);
+
+    await localStorage.setItem("roomCode", joinRoomCodeValue.value);
+    window.location.href = "playerPage.html";
 }
 
 async function MakeRoom() {

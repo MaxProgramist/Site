@@ -69,21 +69,23 @@
 }
 
 
-/* ---------- Admin ---------- */
+/* ---------- Admin / Player ---------- */
 
 .admin_code,
 .admin_startGame {
     text-align: center;
 }
 
-.admin_grid {
+.admin_grid,
+.player_grid {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     gap: 10px;
 }
 
-.admin_grid_item {
+.admin_grid_item,
+.player_grid_item {
     width: 150px;
     height: 90px;
     background-color: #aaaaaa;
@@ -103,19 +105,11 @@
 
 /* ---------- Spectator ---------- */
 
-.spectator_gridWrapper {
-    display: flex;
-    justify-content: center;
-    padding-top: 50px;
-    min-height: 100vh; /* висота всього вікна */
-}
-
 .spectator_grid {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 20px 10px;
-    width: 320px;
+    display: grid;
+    grid-template-columns: 150px 150px;
+    gap: 25px 7px;
+    transform: translateX(25vw);
 }
 
 .spectator_grid_item {
