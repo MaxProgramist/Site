@@ -1,7 +1,7 @@
 const API = 'https://sitebackend-ebr5.onrender.com/data';
 
-const iconsNamesList = ['icon_0.png'];
-const iconsList = iconsNamesList.map(name => `/Icons/${name}`);
+const iconsNamesList = ['icon_0.png', 'icon_1.png'];
+const iconsList = iconsNamesList.map(name => `./Icons/${name}`);
 
 
 // * ------------ Universal Funcrions ------------ //

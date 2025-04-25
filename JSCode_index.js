@@ -30,7 +30,7 @@ async function JoinRoom() {
 
         const newPlayer = {
             "name": nicknameValue,
-            "skin": 2,
+            "skin": 0,
             "enemy": -1,
             "tasks": "None",
             "score": 0
