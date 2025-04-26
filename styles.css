@@ -106,7 +106,6 @@
     display: grid;
     grid-template-columns: repeat(5,80px);
     gap: 25px 7px;
-    transform: translateX(25vw);
 }
 
 .player_chooseImageButton {

@@ -5,6 +5,8 @@ const PLAYER_DIV_LIST = document.getElementById("playersGrid");
 
 CODE_TEXTFIELD.innerText = "Code: " + ROOM_CODE;
 
+let divToPlayer = [];
+
 var currentRoomPlayers = 0;
 
 Loop();
@@ -26,17 +28,43 @@ async function SomeAsyncFunction() {
 
     if (payload.roomsCodes.length < 1) window.location.href = "index.html";
 
+    for (let i = 0; i < divToPlayer.length; i++)
+        UpdatePlayerSkin(payload, i);
+
     while (payload.rooms[ROOM_CODE].players.length > currentRoomPlayers) {
         NewPlayerIcon(payload, currentRoomPlayers);
         currentRoomPlayers++;
     }
 }
 
+function UpdatePlayerSkin(payload, playerIndex) {
+    let playerDiv = divToPlayer[playerIndex];
+
+    let playerSkin = payload.rooms[ROOM_CODE].players[playerIndex].skin;
+    let playerName = payload.rooms[ROOM_CODE].players[playerIndex].name;
+
+    let imgInsideDiv = playerDiv.querySelector("img");
+    let pInsideDiv = playerDiv.querySelector("p");
+    imgInsideDiv.src = `./Icons/icon_${playerSkin}.png`;
+    pInsideDiv.textContent = playerName;
+}
+
 function NewPlayerIcon(payload, playerIndex) {
     let playerBox = document.createElement("div");
     playerBox.setAttribute('class', 'admin_grid_item');
 
-    playerBox.innerHTML += payload.rooms[ROOM_CODE].players[playerIndex].name;
+    let playerBoxSkinImage = document.createElement("img");
+    playerBoxSkinImage.src = "./Icons/icon_0.png";
+    playerBoxSkinImage.width = 60;
+    playerBoxSkinImage.height = 60;
+
+    let playerBoxName = document.createElement("p");
+    playerBoxName.textContent = payload.rooms[ROOM_CODE].players[playerIndex].name;
+
+    playerBox.appendChild(playerBoxSkinImage);
+    playerBox.appendChild(playerBoxName);
+
+    divToPlayer[playerIndex] = playerBox;
 
     PLAYER_DIV_LIST.appendChild(playerBox);
 }

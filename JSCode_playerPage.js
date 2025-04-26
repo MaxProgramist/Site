@@ -3,7 +3,9 @@ const THIS_PLAYER_INDEX = localStorage.getItem("playerIndex");
 
 const PLAYER_DIV_LIST = document.getElementById("playersGrid");
 const CHOOSE_IMAGE_GRID = document.getElementById("chooseImageGrid");
+
 var currentRoomPlayers = 0;
+let divToPlayer = [];
 
 Loop();
 
@@ -22,7 +24,10 @@ function Delay(ms) {
 async function SomeAsyncFunction() {
     let payload = await LoadData();
 
-    if (payload.roomsCodes.length < 1) window.location.href = "index.html";
+    //if (payload.roomsCodes.length < 1) window.location.href = "index.html";
+
+    for (let i = 0; i < divToPlayer.length; i++)
+        UpdatePlayerSkin(payload, i);
 
     while (payload.rooms[ROOM_CODE].players.length > currentRoomPlayers) {
         NewPlayerIcon(payload, currentRoomPlayers);
@@ -30,27 +35,46 @@ async function SomeAsyncFunction() {
     }
 }
 
+function UpdatePlayerSkin(payload, playerIndex) {
+    let playerDiv = divToPlayer[playerIndex];
+
+    let playerSkin = payload.rooms[ROOM_CODE].players[playerIndex].skin;
+    let playerName = payload.rooms[ROOM_CODE].players[playerIndex].name;
+
+    let imgInsideDiv = playerDiv.querySelector("img");
+    let pInsideDiv = playerDiv.querySelector("p");
+    imgInsideDiv.src = `./Icons/icon_${playerSkin}.png`;
+    pInsideDiv.textContent = playerName;
+}
+
 function NewPlayerIcon(payload, playerIndex) {
     let playerBox = document.createElement("div");
     playerBox.setAttribute('class', 'player_grid_item');
 
-    playerBox.innerHTML += payload.rooms[ROOM_CODE].players[playerIndex].name;
+    let playerBoxSkinImage = document.createElement("img");
+    playerBoxSkinImage.src = "./Icons/icon_0.png";
+    playerBoxSkinImage.width = 60;
+    playerBoxSkinImage.height = 60;
+
+    let playerBoxName = document.createElement("p");
+    playerBoxName.textContent = payload.rooms[ROOM_CODE].players[playerIndex].name;
+
+    playerBox.appendChild(playerBoxSkinImage);
+    playerBox.appendChild(playerBoxName);
+
+    divToPlayer[playerIndex] = playerBox;
 
     PLAYER_DIV_LIST.appendChild(playerBox);
 }
 
-async function ChooseImage() {
-    let payload = await LoadData();
-
+async function SkinMenu() {
     if (CHOOSE_IMAGE_GRID.style.display === "none")
         CHOOSE_IMAGE_GRID.style.display = "grid";
     else
         CHOOSE_IMAGE_GRID.style.display = "none";
-
-
 }
 
-async function ChooseCurrentImage(skinIndex) {
+async function ChooseSkin(skinIndex) {
     let payload = await LoadData();
 
     payload.rooms[ROOM_CODE].players[THIS_PLAYER_INDEX].skin = skinIndex;
