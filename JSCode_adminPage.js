@@ -1,11 +1,11 @@
-const roomCode = localStorage.getItem("roomCode");
+const ROOM_CODE = localStorage.getItem("roomCode");
 
-const codeTextField = document.getElementById("code");
-const playerListDiv = document.getElementById("playersGrid");
+const CODE_TEXTFIELD = document.getElementById("code");
+const PLAYER_DIV_LIST = document.getElementById("playersGrid");
 
-codeTextField.innerText = "Code: " + roomCode;
+CODE_TEXTFIELD.innerText = "Code: " + ROOM_CODE;
 
-var curentRoomPlayers = 0;
+var currentRoomPlayers = 0;
 
 Loop();
 
@@ -26,9 +26,9 @@ async function SomeAsyncFunction() {
 
     if (payload.roomsCodes.length < 1) window.location.href = "index.html";
 
-    while (payload.rooms[roomCode].players.length > curentRoomPlayers) {
-        NewPlayerIcon(payload, curentRoomPlayers);
-        curentRoomPlayers++;
+    while (payload.rooms[ROOM_CODE].players.length > currentRoomPlayers) {
+        NewPlayerIcon(payload, currentRoomPlayers);
+        currentRoomPlayers++;
     }
 }
 
@@ -36,34 +36,34 @@ function NewPlayerIcon(payload, playerIndex) {
     let playerBox = document.createElement("div");
     playerBox.setAttribute('class', 'admin_grid_item');
 
-    playerBox.innerHTML += payload.rooms[roomCode].players[playerIndex].name;
+    playerBox.innerHTML += payload.rooms[ROOM_CODE].players[playerIndex].name;
 
-    playerListDiv.appendChild(playerBox);
+    PLAYER_DIV_LIST.appendChild(playerBox);
 }
 
 async function StartGame() {
     let payload = await LoadData();
 
     if (payload.roomsCodes.length < 1) window.location.href = "index.html";
-    if (payload.rooms[roomCode].players.length < 1)
+    if (payload.rooms[ROOM_CODE].players.length < 1)
         return PopUpWindowOfError("Count of players is to small (at least 2)");
 
-    payload.rooms[roomCode].isActive = true;
+    payload.rooms[ROOM_CODE].isActive = true;
 
     let playerList = [];
-    for (let i = 0; i < payload.rooms[roomCode].players.length; i++) {
+    for (let i = 0; i < payload.rooms[ROOM_CODE].players.length; i++) {
         playerList.push(i);
     }
 
     let usedPlayers = [];
 
-    while (usedPlayers.length < payload.rooms[roomCode].players.length) {
-        let randomInd = getRandomInt(0, payload.rooms[roomCode].players.length);
+    while (usedPlayers.length < payload.rooms[ROOM_CODE].players.length) {
+        let randomInd = getRandomInt(0, payload.rooms[ROOM_CODE].players.length);
         while (usedPlayers.includes(randomInd) || playerList[0] == randomInd)
-            randomInd = getRandomInt(0, payload.rooms[roomCode].players.length);
+            randomInd = getRandomInt(0, payload.rooms[ROOM_CODE].players.length);
 
-        payload.rooms[roomCode].players[playerList[0]].enemy = randomInd;
-        payload.rooms[roomCode].players[randomInd].enemy = playerList[0];
+        payload.rooms[ROOM_CODE].players[playerList[0]].enemy = randomInd;
+        payload.rooms[ROOM_CODE].players[randomInd].enemy = playerList[0];
         usedPlayers.push(randomInd);
         usedPlayers.push(playerList[0]);
         playerList.splice(0, 1);

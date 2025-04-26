@@ -102,18 +102,18 @@
     transform: translateX(-50%);
 }
 
-.player_chooseImageButton {
-    background: url(./Icons/icon_0.png);
-    background-size: 70px;
-    height: 70px;
-    width: 70px;
-}
-
 .player_chooseImageGrid {
     display: grid;
     grid-template-columns: repeat(5,80px);
     gap: 25px 7px;
     transform: translateX(25vw);
+}
+
+.player_chooseImageButton {
+    background: url(./Icons/icon_0.png);
+    background-size: 70px;
+    height: 70px;
+    width: 70px;
 }
 
 

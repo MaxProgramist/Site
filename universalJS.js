@@ -1,10 +1,10 @@
 const API = 'https://sitebackend-ebr5.onrender.com/data';
 
-const iconsNamesList = ['icon_0.png', 'icon_1.png'];
-const iconsList = iconsNamesList.map(name => `./Icons/${name}`);
+const ICONS_NAMES_LIST = ['icon_0.png', 'icon_1.png'];
+const ICONS_LIST = ICONS_NAMES_LIST.map(name => `./Icons/${name}`);
 
 
-// * ------------ Universal Funcrions ------------ //
+// * ------------ Universal Functions ------------ //
 // * --------------- Without Server -------------- //
 
 function PopUpWindowOfError(errorType) {
@@ -27,8 +27,8 @@ function PopUpWindowOfError(errorType) {
 // * ---------------- With Server --------------- //
 
 async function LoadData() {
-    const res = await fetch(API);
-    const data = await res.json();
+    let res = await fetch(API);
+    let data = await res.json();
     return data;
 }
 

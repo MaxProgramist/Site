@@ -1,6 +1,6 @@
-const roomCode = localStorage.getItem("roomCode");
+const ROOM_CODE = localStorage.getItem("roomCode");
 
-const playerListDiv = document.getElementById("playersGrid");
+const PLAYER_DIV_LIST = document.getElementById("playersGrid");
 
 let divToPlayer = [];
 
@@ -25,15 +25,15 @@ async function SomeAsyncFunction() {
 
     if (payload.roomsCodes.length < 1) window.location.href = "index.html";
 
-    for (let i = 0; i < payload.rooms[roomCode].players.length; i++)
-        ChagePlayersScore(payload, i);
+    for (let i = 0; i < payload.rooms[ROOM_CODE].players.length; i++)
+        ChangePlayersScore(payload, i);
 }
 
-function ChagePlayersScore(payload, playerIndex) {
+function ChangePlayersScore(payload, playerIndex) {
     let playerDiv = divToPlayer[playerIndex];
 
-    let playerName = payload.rooms[roomCode].players[playerIndex].name;
-    let playerScore = payload.rooms[roomCode].players[playerIndex].score;
+    let playerName = payload.rooms[ROOM_CODE].players[playerIndex].name;
+    let playerScore = payload.rooms[ROOM_CODE].players[playerIndex].score;
     playerDiv.innerHTML = `${playerName} <br> Рахунок: ${playerScore}/800`;
 }
 
@@ -43,13 +43,13 @@ async function MakePlayersGroups() {
     if (payload.roomsCodes.length < 1) window.location.href = "index.html";
 
     let usedPlayers = [];
-    for (let i = 0; i < payload.rooms[roomCode].players.length; i++) {
+    for (let i = 0; i < payload.rooms[ROOM_CODE].players.length; i++) {
         if (usedPlayers.includes(i)) continue;
 
         NewPlayerIcon(payload, i);
-        NewPlayerIcon(payload, payload.rooms[roomCode].players[i].enemy);
+        NewPlayerIcon(payload, payload.rooms[ROOM_CODE].players[i].enemy);
         usedPlayers.push(i);
-        usedPlayers.push(payload.rooms[roomCode].players[i].enemy);
+        usedPlayers.push(payload.rooms[ROOM_CODE].players[i].enemy);
     }
 }
 
@@ -57,11 +57,11 @@ function NewPlayerIcon(payload, playerIndex) {
     let playerBox = document.createElement("div");
     playerBox.setAttribute('class', 'admin_grid_item');
 
-    let playerName = payload.rooms[roomCode].players[playerIndex].name;
-    let playerScore = payload.rooms[roomCode].players[playerIndex].score;
-    playerBox.innerHTML += `${playerName} <br> Рахунок ${playerScore}`;
+    let playerName = payload.rooms[ROOM_CODE].players[playerIndex].name;
+    let playerScore = payload.rooms[ROOM_CODE].players[playerIndex].score;
+    playerBox.innerHTML += `${playerName} <br> Рахунок ${playerScore}/800`;
 
     divToPlayer[playerIndex] = playerBox;
 
-    playerListDiv.appendChild(playerBox);
+    PLAYER_DIV_LIST.appendChild(playerBox);
 }

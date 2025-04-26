@@ -1,19 +1,19 @@
-const joinRoomCodeInput = document.getElementById('joinRoomCodeInput');
-const nicknameInput = document.getElementById('nicknameInput');
-const makeRoomCodeInput = document.getElementById('makeRoomCodeInput');
-const countOfPlayersInput = document.getElementById('countOfPlayersInput');
+const JOIN_ROOM_CODE_INPUT = document.getElementById('joinRoomCodeInput');
+const NICKNAME_INPUT = document.getElementById('nicknameInput');
+const MAKE_ROOM_CODE_INPUT = document.getElementById('makeRoomCodeInput');
+const COUNT_OF_PLAYERS_INPUT = document.getElementById('countOfPlayersInput');
 
 
 async function JoinRoom() {
-    const joinRoomCodeValue = joinRoomCodeInput.value;
-    const nicknameValue = nicknameInput.value;
+    let joinRoomCodeValue = JOIN_ROOM_CODE_INPUT.value;
+    let nicknameValue = NICKNAME_INPUT.value;
 
-    if (joinRoomCodeValue.length < 4) return PopUpWindowOfError("Incorect code type");
-    if (nicknameValue.length < 1) return PopUpWindowOfError("Incorect nickname type");
+    if (joinRoomCodeValue.length < 4) return PopUpWindowOfError("Incorrect code type");
+    if (nicknameValue.length < 1) return PopUpWindowOfError("Incorrect nickname type");
 
     for (let i = 0; i < joinRoomCodeValue.length; i++) {
-        const charCode = joinRoomCodeValue.charCodeAt(i);
-        if (charCode < 48 || charCode > 57) return PopUpWindowOfError("Incorect code type");
+        let charCode = joinRoomCodeValue.charCodeAt(i);
+        if (charCode < 48 || charCode > 57) return PopUpWindowOfError("Incorrect code type");
     }
 
     let payload = await LoadData();
@@ -24,8 +24,8 @@ async function JoinRoom() {
         if (payload.rooms[joinRoomCodeValue].isActive)
             return PopUpWindowOfError("The game has started in this room");
 
-        for (const curentPlayer of payload.rooms[joinRoomCodeValue].players)
-            if (curentPlayer.name == nicknameValue)
+        for (let currentPlayer of payload.rooms[joinRoomCodeValue].players)
+            if (currentPlayer.name == nicknameValue)
                 return PopUpWindowOfError("Nickname is already taken!");
 
         const newPlayer = {
@@ -42,20 +42,21 @@ async function JoinRoom() {
     await SaveData(payload);
 
     await localStorage.setItem("roomCode", joinRoomCodeValue);
+    await localStorage.setItem("playerIndex", payload.rooms[joinRoomCodeValue].players.length-1);
     window.location.href = "playerPage.html";
 }
 
 async function MakeRoom() {
-    const makeRoomCodeValue = makeRoomCodeInput.value;
-    const roomPlayersCount = countOfPlayersInput.value;
+    let makeRoomCodeValue = MAKE_ROOM_CODE_INPUT.value;
+    let roomPlayersCount = COUNT_OF_PLAYERS_INPUT.value;
 
-    if (makeRoomCodeValue.length < 4) return PopUpWindowOfError("Incorect code type");
+    if (makeRoomCodeValue.length < 4) return PopUpWindowOfError("Incorrect code type");
     if (roomPlayersCount < 2) return PopUpWindowOfError("Count of players is to small (at least 2)");
     if (roomPlayersCount > 199) return PopUpWindowOfError("Count of players is to big (at most 199)");
 
     for (let i = 0; i < makeRoomCodeValue.length; i++) {
-        const charCode = makeRoomCodeValue.charCodeAt(i);
-        if (charCode < 48 || charCode > 57) return PopUpWindowOfError("Incorect code type");
+        let charCode = makeRoomCodeValue.charCodeAt(i);
+        if (charCode < 48 || charCode > 57) return PopUpWindowOfError("Incorrect code type");
     }
 
     let payload = await LoadData();
@@ -63,7 +64,7 @@ async function MakeRoom() {
     if (payload.roomsCodes.includes(makeRoomCodeValue))
         return PopUpWindowOfError("Room is already created!");
 
-    const newRoom = {
+    let newRoom = {
         "countOfPlayers": roomPlayersCount,
         "isActive": false,
         "players": []
@@ -82,13 +83,13 @@ async function MakeRoom() {
 async function MakeRandomRoomCode() {
     let payload = await LoadData();
 
-    let curentRoomCode = RandomString(4);
+    let currentRoomCode = RandomString(4);
 
-    while (payload.roomsCodes.includes(curentRoomCode)) {
-        curentRoomCode = RandomString(4);
+    while (payload.roomsCodes.includes(currentRoomCode)) {
+        currentRoomCode = RandomString(4);
     }
 
-    makeRoomCodeInput.value = `${curentRoomCode}`;
+    MAKE_ROOM_CODE_INPUT.value = `${currentRoomCode}`;
 }
 
 function PopUpWindowOfError(errorType) {
@@ -110,11 +111,11 @@ function PopUpWindowOfError(errorType) {
 
 function RandomString(length) {
     let result = '';
-    const characters = '0123456789';
+    const CHARACTERS = '0123456789';
 
     for (let i = 0; i < length; i++) {
-        const randomInd = Math.floor(Math.random() * characters.length);
-        result += characters.charAt(randomInd);
+        let randomInd = Math.floor(Math.random() * CHARACTERS.length);
+        result += CHARACTERS.charAt(randomInd);
     }
 
     return result;
