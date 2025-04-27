@@ -3,7 +3,6 @@ const API = 'https://sitebackend-ebr5.onrender.com/data';
 const ICONS_NAMES_LIST = ['icon_0.png', 'icon_1.png'];
 const ICONS_LIST = ICONS_NAMES_LIST.map(name => `./Icons/${name}`);
 
-
 // * ------------ Universal Functions ------------ //
 // * --------------- Without Server -------------- //
 
