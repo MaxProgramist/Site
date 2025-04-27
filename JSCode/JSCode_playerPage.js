@@ -26,6 +26,14 @@ async function SomeAsyncFunction() {
 
     if (payload.roomsCodes.length < 1) window.location.href = "index.html";
 
+    if (payload.rooms[ROOM_CODE].isActive)
+    {
+        await localStorage.setItem("gradeNum", payload.rooms[ROOM_CODE].grade);
+        await localStorage.setItem("setOfTasksNum", payload.rooms[ROOM_CODE].numberOfTasksSet);
+
+        window.location.href = "chooseTasksPage.html";
+    }
+
     for (let i = 0; i < divToPlayer.length; i++)
         UpdatePlayerSkin(payload, i);
 

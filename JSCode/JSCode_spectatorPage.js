@@ -7,7 +7,6 @@ let divToPlayer = [];
 MakePlayersGroups();
 Loop();
 
-//
 
 async function Loop() {
     while (true) {
