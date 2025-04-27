@@ -92,23 +92,6 @@ async function MakeRandomRoomCode() {
     MAKE_ROOM_CODE_INPUT.value = `${currentRoomCode}`;
 }
 
-function PopUpWindowOfError(errorType) {
-    let errorBox = document.createElement("div");
-    errorBox.setAttribute('class', 'index_errorBox');
-
-    let closeButton = document.createElement("button");
-    closeButton.textContent = "X";
-    closeButton.setAttribute('class', 'index_errorBoxButton');
-    closeButton.onclick = function () {
-        errorBox.remove();
-    };
-
-    errorBox.innerHTML += `Error: <br> ${errorType} <br>`;
-    errorBox.appendChild(closeButton);
-
-    document.body.appendChild(errorBox);
-}
-
 function RandomString(length) {
     let result = '';
     const CHARACTERS = '0123456789';

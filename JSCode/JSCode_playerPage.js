@@ -24,7 +24,7 @@ function Delay(ms) {
 async function SomeAsyncFunction() {
     let payload = await LoadData();
 
-    //if (payload.roomsCodes.length < 1) window.location.href = "index.html";
+    if (payload.roomsCodes.length < 1) window.location.href = "index.html";
 
     for (let i = 0; i < divToPlayer.length; i++)
         UpdatePlayerSkin(payload, i);
