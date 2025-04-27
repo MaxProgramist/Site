@@ -67,7 +67,7 @@ function NewPlayerIcon(payload, playerIndex) {
     PLAYER_DIV_LIST.appendChild(playerBox);
 }
 
-async function SkinMenu() {
+function SkinMenu() {
     if (CHOOSE_IMAGE_GRID.style.display === "none")
         CHOOSE_IMAGE_GRID.style.display = "grid";
     else

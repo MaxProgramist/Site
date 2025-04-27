@@ -8,7 +8,16 @@
 </head>
 
 <body>
-    <p class="admin_code" id="code"> Code: </p>
+    <div>
+        <button class="admin_gradeListButton" type="button" onclick="GradeMenu()"> Клас </button>
+        <button class="admin_gradeListButton" type="button" onclick="SetOfTasksMenu()"> Сет задач </button>
+
+        <div class="admin_roomSettings">
+            <span id="code"> Код: </span>
+            <span id="grade"> ; Клас: </span>
+            <span id="setOfTasks"> ; Сет задач: </span>
+        </div>
+    </div>
 
     <div class="admin_grid" id="playersGrid">
         <!--
@@ -16,8 +25,53 @@
     </div>
 
     <div class="admin_startGame">
-        <button class="admin_startGameButton" type="button" id="startGameButton" onclick="StartGame()">
+        <button class="admin_startGameButton" type="button" onclick="StartGame()">
             Почати гру <br>
+    </div>
+
+    <div id="gradeList" class="admin_gradeList">
+        <ul>
+            <li> <button class="admin_gradeList_item" type="button" onclick="ChangeGradeOfRoom(8)"> Клас 8 </button>
+            </li>
+            <li> <button class="admin_gradeList_item" type="button" onclick="ChangeGradeOfRoom(9)"> Клас 9 </button>
+            </li>
+            <li> <button class="admin_gradeList_item" type="button" onclick="ChangeGradeOfRoom(10)"> Клас 10 </button>
+            </li>
+            <li> <button class="admin_gradeList_item" type="button" onclick="ChangeGradeOfRoom(11)"> Клас 11 </button>
+            </li>
+        </ul>
+    </div>
+
+    <div id="setList" class="admin_setList">
+        <ul>
+            <li> <button class="admin_setList_item" type="button" onclick="ChangeSetOfTasksOfRoom(1)"> Сет задач 1
+                </button>
+            </li>
+            <li> <button class="admin_setList_item" type="button" onclick="ChangeSetOfTasksOfRoom(2)"> Сет задач 2
+                </button>
+            </li>
+            <li> <button class="admin_setList_item" type="button" onclick="ChangeSetOfTasksOfRoom(3)"> Сет задач 3
+                </button>
+            </li>
+            <li> <button class="admin_setList_item" type="button" onclick="ChangeSetOfTasksOfRoom(4)"> Сет задач 4
+                </button>
+            </li>
+            <li> <button class="admin_setList_item" type="button" onclick="ChangeSetOfTasksOfRoom(5)"> Сет задач 5
+                </button>
+            </li>
+            <li> <button class="admin_setList_item" type="button" onclick="ChangeSetOfTasksOfRoom(6)"> Сет задач 6
+                </button>
+            </li>
+            <li> <button class="admin_setList_item" type="button" onclick="ChangeSetOfTasksOfRoom(7)"> Сет задач 7
+                </button>
+            </li>
+            <li> <button class="admin_setList_item" type="button" onclick="ChangeSetOfTasksOfRoom(8)"> Сет задач 8
+                </button>
+            </li>
+            <li> <button class="admin_setList_item" type="button" onclick="ChangeSetOfTasksOfRoom(9)"> Сет задач 9
+                </button>
+            </li>
+        </ul>
     </div>
 
     <script src="JSCode/universalJS.js"></script>

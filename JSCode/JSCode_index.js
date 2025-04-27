@@ -67,6 +67,8 @@ async function MakeRoom() {
     let newRoom = {
         "countOfPlayers": roomPlayersCount,
         "isActive": false,
+        "grade": 8,
+        "numberOfTasksSet": 1,
         "players": []
     };
 

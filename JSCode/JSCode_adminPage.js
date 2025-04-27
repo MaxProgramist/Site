@@ -1,9 +1,15 @@
 const ROOM_CODE = localStorage.getItem("roomCode");
 
-const CODE_TEXTFIELD = document.getElementById("code");
+const CODE_TEXT_FIELD = document.getElementById("code");
+const GRADE_TEXT_FIELD = document.getElementById("grade");
+const SET_OF_TASKS_TEXT_FIELD = document.getElementById("setOfTasks");
 const PLAYER_DIV_LIST = document.getElementById("playersGrid");
+const GRADE_DIV_LIST = document.getElementById("gradeList");
+const SET_OF_TASKS_DIV_LIST = document.getElementById("setList");
 
-CODE_TEXTFIELD.innerText = "Code: " + ROOM_CODE;
+CODE_TEXT_FIELD.innerText = "Код: " + ROOM_CODE;
+GRADE_TEXT_FIELD.innerText = ";  Клас:" + 8;
+SET_OF_TASKS_TEXT_FIELD.innerText = ";  Сет задач: " + 1;
 
 let divToPlayer = [];
 
@@ -26,7 +32,7 @@ function Delay(ms) {
 async function SomeAsyncFunction() {
     let payload = await LoadData();
 
-    if (payload.roomsCodes.length < 1) window.location.href = "index.html";
+    //if (payload.roomsCodes.length < 1) window.location.href = "index.html";
 
     for (let i = 0; i < divToPlayer.length; i++)
         UpdatePlayerSkin(payload, i);
@@ -67,6 +73,40 @@ function NewPlayerIcon(payload, playerIndex) {
     divToPlayer[playerIndex] = playerBox;
 
     PLAYER_DIV_LIST.appendChild(playerBox);
+}
+
+function GradeMenu() {
+    if (GRADE_DIV_LIST.style.display === "none")
+        GRADE_DIV_LIST.style.display = "block";
+    else
+        GRADE_DIV_LIST.style.display = "none";
+    SET_OF_TASKS_DIV_LIST.style.display = "none";
+}
+
+function SetOfTasksMenu() {
+    if (SET_OF_TASKS_DIV_LIST.style.display === "none")
+        SET_OF_TASKS_DIV_LIST.style.display = "block";
+    else
+        SET_OF_TASKS_DIV_LIST.style.display = "none";
+    GRADE_DIV_LIST.style.display = "none";
+}
+
+async function ChangeGradeOfRoom(numberOfGrade) {
+    let payload = await LoadData();
+
+    payload.rooms[ROOM_CODE].grade = numberOfGrade;
+    GRADE_TEXT_FIELD.innerText = ";  Клас:" + numberOfGrade;
+
+    await SaveData(payload);
+}
+
+async function ChangeSetOfTasksOfRoom(numberOfSet) {
+    let payload = await LoadData();
+
+    payload.rooms[ROOM_CODE].numberOfTasksSet = numberOfSet;
+    SET_OF_TASKS_TEXT_FIELD.innerText = ";  Сет задач: " + numberOfSet;
+
+    await SaveData(payload);
 }
 
 async function StartGame() {

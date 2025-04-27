@@ -71,7 +71,7 @@
 
 /* ---------- Admin / Player ---------- */
 
-.admin_code,
+.admin_roomSettings,
 .admin_startGame {
     text-align: center;
 }
@@ -102,9 +102,18 @@
     transform: translateX(-50%);
 }
 
+.admin_gradeList {
+    display: none;
+}
+
+.admin_gradeList,
+.admin_setList {
+    display: none;
+}
+
 .player_chooseImageGrid {
-    display: grid;
-    grid-template-columns: repeat(5,80px);
+    display: none;
+    grid-template-columns: repeat(5, 80px);
     gap: 25px 7px;
 }
 
