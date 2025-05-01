@@ -33,7 +33,7 @@ const userCode = `#include <iostream>
 submitSolution(8, 1, 'A', userCode)
     .then(result => {
         if (!result.compiled) {
-            console.error("Compile errors:", result.errors);
+            PopUpWindowOfError("Compile errors:", result.errors);
         } else {
             result.results.forEach(r => {
                                 return PopUpWindowOfError(
