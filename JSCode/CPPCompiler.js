@@ -1,7 +1,7 @@
 const API_CPP = 'https://cppcompiler.onrender.com';
 
 
-async function fetchTask(grade, category, taskName) {
+async function FetchTask(grade, category, taskName) {
     const res = await fetch(
         `${API_CPP}/tasks/${grade}/${category}/${taskName}`
     );
@@ -9,7 +9,7 @@ async function fetchTask(grade, category, taskName) {
     return await res.json();
 }
 
-async function submitSolution(grade, category, taskName, codeText) {
+async function SubmitSolution(grade, category, taskName, codeText) {
     const res = await fetch(`${API_CPP}/compile`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -26,25 +26,19 @@ async function submitSolution(grade, category, taskName, codeText) {
 
 const userCode = `#include <iostream>
   int main() {
-    std::cout << "Hello C++";
+    std::cout << "Hello, C++!";
     return 0;
   }`;
+run();
 
-submitSolution(8, "linar_1", 'A', userCode)
-    .then(result => {
-        if (!result.compiled) {
-            PopUpWindowOfError("Compile errors:", result.errors);
-        } else {
-            result.results.forEach(r => {
-                return PopUpWindowOfError(`Test ${r.test}: ${r.passed ? "OK" : "FAIL"}`);
-            });
-        }
-    })
-    .catch(err => console.error(err));
+async function run() {
+    let res = await SubmitSolution(8, "linar_1", 'A', userCode) 
+    console.log(res.results);
+}
 
 //! ----------------- Використання -----------------  !//
 /*
-fetchTask(8, 1, 'A')
+FetchTask(8, "linar_1", 'A')
     .then(task => {
         console.log("Title:", task.title);
         console.log("Statement:", task.statement);
@@ -60,7 +54,7 @@ const userCode = `#include <iostream>
     return 0;
   }`;
 
-submitSolution(8, 1, 'A', userCode)
+SubmitSolution(8, "linar_1", 'A', userCode)
     .then(result => {
         if (!result.compiled) {
             console.error("Compile errors:", result.errors);
