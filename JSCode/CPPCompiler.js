@@ -1,16 +1,16 @@
-const API = 'https://cppcompiler.onrender.com';
+const API_CPP = 'https://cppcompiler.onrender.com';
 
 
 async function fetchTask(grade, category, taskName) {
     const res = await fetch(
-        `${API}/tasks/${grade}/${category}/${taskName}`
+        `${API_CPP}/tasks/${grade}/${category}/${taskName}`
     );
     if (!res.ok) throw new Error("Task not found");
     return await res.json();
 }
 
 async function submitSolution(grade, category, taskName, codeText) {
-    const res = await fetch(`${API}/compile`, {
+    const res = await fetch(`${API_CPP}/compile`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
