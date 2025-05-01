@@ -29,7 +29,7 @@ fetchTask(8, 1, 'A')
         alert("Title:", task.title);
         alert("Statement:", task.statement);
     })
-    .catch(err => console.error(err));
+    .catch(err => alert(err));
 
 //! ----------------- Використання -----------------  !//
 /*
