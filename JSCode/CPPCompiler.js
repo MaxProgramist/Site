@@ -24,9 +24,23 @@ async function submitSolution(grade, category, taskName, codeText) {
     return await res.json();
 }
 
-fetchTask(8, "linar_1", 'A')
-    .then(task => {
-         PopUpWindowOfError(task.name);
+const userCode = `#include <iostream>
+  int main() {
+    std::cout << "Hello C++";
+    return 0;
+  }`;
+
+submitSolution(8, 1, 'A', userCode)
+    .then(result => {
+        if (!result.compiled) {
+            console.error("Compile errors:", result.errors);
+        } else {
+            result.results.forEach(r => {
+                                return PopUpWindowOfError(
+                    `Test ${r.test}: ${r.passed ? "OK" : "FAIL"}`
+                );
+            });
+        }
     })
     .catch(err => console.error(err));
 
