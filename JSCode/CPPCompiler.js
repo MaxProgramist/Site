@@ -24,6 +24,13 @@ async function submitSolution(grade, category, taskName, codeText) {
     return await res.json();
 }
 
+fetchTask(8, 1, 'A')
+    .then(task => {
+        alert("Title:", task.title);
+        alert("Statement:", task.statement);
+    })
+    .catch(err => console.error(err));
+
 //! ----------------- Використання -----------------  !//
 /*
 fetchTask(8, 1, 'A')
