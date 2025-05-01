@@ -26,10 +26,10 @@ async function submitSolution(grade, category, taskName, codeText) {
 
 fetchTask(8, "linar_1", 'A')
     .then(task => {
-        alert("Title:", task.title);
+        console.log("Title:", task.title);
         alert("Statement:", task.statement);
     })
-    .catch(err => alert(err));
+    .catch(err => console.error(err));
 
 //! ----------------- Використання -----------------  !//
 /*
