@@ -42,7 +42,7 @@ async function JoinRoom() {
     await SaveData(payload);
 
     await localStorage.setItem("roomCode", joinRoomCodeValue);
-    await localStorage.setItem("playerIndex", payload.rooms[joinRoomCodeValue].players.length-1);
+    await localStorage.setItem("playerIndex", payload.rooms[joinRoomCodeValue].players.length - 1);
     window.location.href = "playerPage.html";
 }
 
