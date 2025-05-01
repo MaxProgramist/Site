@@ -29,7 +29,7 @@ async function SomeAsyncFunction() {
     if (payload.rooms[ROOM_CODE].isActive)
     {
         await localStorage.setItem("gradeNum", payload.rooms[ROOM_CODE].grade);
-        await localStorage.setItem("setOfTasksNum", payload.rooms[ROOM_CODE].numberOfTasksSet);
+        await localStorage.setItem("setOfTasks", payload.rooms[ROOM_CODE].numberOfTasksSet);
 
         window.location.href = "chooseTasksPage.html";
     }

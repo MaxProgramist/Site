@@ -146,5 +146,10 @@
 
 /* ---------- Battle_ChooseTasks ---------- */
 
+.chooseTasks_cardOfTask {
+    background-color: #458c99;
+    width: 200px;
+    height: 300px;
+}
 
 /* ---------- Battle_DooTasks ---------- */

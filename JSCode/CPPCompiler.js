@@ -41,7 +41,7 @@ async function run() {
 /*
 ! ----------------- Використання -----------------  !
  
-let res = await FetchTask(8, "linar_1", 'A', userCode);
+let res = await FetchTask(8, "linar_1", 'A');
 let res = await SubmitSolution(8, "linar_1", 'A', userCode);
  
 *-------------------------------------------------------*

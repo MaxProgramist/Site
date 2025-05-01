@@ -4,8 +4,12 @@ const CODE_TEXT_FIELD = document.getElementById("code");
 const GRADE_TEXT_FIELD = document.getElementById("grade");
 const SET_OF_TASKS_TEXT_FIELD = document.getElementById("setOfTasks");
 const PLAYER_DIV_LIST = document.getElementById("playersGrid");
+
 const GRADE_DIV_LIST = document.getElementById("gradeList");
-const SET_OF_TASKS_DIV_LIST = document.getElementById("setList");
+const SET_OF_TASKS_DIV_LIST_GRADE_8 = document.getElementById("setList_grade_8");
+const SET_OF_TASKS_DIV_LIST_GRADE_9 = document.getElementById("setList_grade_9");
+const SET_OF_TASKS_DIV_LIST_GRADE_10 = document.getElementById("setList_grade_10");
+const SET_OF_TASKS_DIV_LIST_GRADE_11 = document.getElementById("setList_grade_11");
 
 CODE_TEXT_FIELD.innerText = "Код: " + ROOM_CODE;
 GRADE_TEXT_FIELD.innerText = ";  Клас:" + 8;
@@ -32,7 +36,7 @@ function Delay(ms) {
 async function SomeAsyncFunction() {
     let payload = await LoadData();
 
-    //if (payload.roomsCodes.length < 1) window.location.href = "index.html";
+    if (payload.roomsCodes.length < 1) window.location.href = "index.html";
 
     for (let i = 0; i < divToPlayer.length; i++)
         UpdatePlayerSkin(payload, i);
@@ -80,15 +84,31 @@ function GradeMenu() {
         GRADE_DIV_LIST.style.display = "block";
     else
         GRADE_DIV_LIST.style.display = "none";
-    SET_OF_TASKS_DIV_LIST.style.display = "none";
+
+    SET_OF_TASKS_DIV_LIST_GRADE_8.style.display = "none";
+    SET_OF_TASKS_DIV_LIST_GRADE_9.style.display = "none";
+    SET_OF_TASKS_DIV_LIST_GRADE_10.style.display = "none";
+    SET_OF_TASKS_DIV_LIST_GRADE_11.style.display = "none";
 }
 
-function SetOfTasksMenu() {
-    if (SET_OF_TASKS_DIV_LIST.style.display === "none")
-        SET_OF_TASKS_DIV_LIST.style.display = "block";
+async function SetOfTasksMenu() {
+    let payload = await LoadData();
+
+    SET_OF_TASKS_DIV_LIST_GRADE_8.style.display = "none";
+    SET_OF_TASKS_DIV_LIST_GRADE_9.style.display = "none";
+    SET_OF_TASKS_DIV_LIST_GRADE_10.style.display = "none";
+    SET_OF_TASKS_DIV_LIST_GRADE_11.style.display = "none";
+
+    let currentDivList = null;
+    if (payload.rooms[ROOM_CODE].grade == 8) currentDivList = SET_OF_TASKS_DIV_LIST_GRADE_8;
+    else if (payload.rooms[ROOM_CODE].grade == 9) currentDivList = SET_OF_TASKS_DIV_LIST_GRADE_9;
+    else if (payload.rooms[ROOM_CODE].grade == 10) currentDivList = SET_OF_TASKS_DIV_LIST_GRADE_10;
+    else if (payload.rooms[ROOM_CODE].grade == 11) currentDivList = SET_OF_TASKS_DIV_LIST_GRADE_11;
+
+    if (currentDivList.style.display === "none")
+        currentDivList.style.display = "block";
     else
-        SET_OF_TASKS_DIV_LIST.style.display = "none";
-    GRADE_DIV_LIST.style.display = "none";
+    currentDivList.style.display = "none";
 }
 
 async function ChangeGradeOfRoom(numberOfGrade) {
