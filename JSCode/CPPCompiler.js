@@ -36,9 +36,7 @@ submitSolution(8, 1, 'A', userCode)
             PopUpWindowOfError("Compile errors:", result.errors);
         } else {
             result.results.forEach(r => {
-                                return PopUpWindowOfError(
-                    `Test ${r.test}: ${r.passed ? "OK" : "FAIL"}`
-                );
+                                return PopUpWindowOfError(`Test ${r.test}: ${r.passed ? "OK" : "FAIL"}`);
             });
         }
     })
