@@ -30,7 +30,7 @@ const userCode = `#include <iostream>
     return 0;
   }`;
 
-submitSolution(8, 1, 'A', userCode)
+submitSolution(8, "linar_1", 'A', userCode)
     .then(result => {
         if (!result.compiled) {
             PopUpWindowOfError("Compile errors:", result.errors);
