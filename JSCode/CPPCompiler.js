@@ -26,8 +26,7 @@ async function submitSolution(grade, category, taskName, codeText) {
 
 fetchTask(8, "linar_1", 'A')
     .then(task => {
-        console.log("Title:", task.title);
-        alert("Statement:", task.statement);
+         PopUpWindowOfError(task.name);
     })
     .catch(err => console.error(err));
 
