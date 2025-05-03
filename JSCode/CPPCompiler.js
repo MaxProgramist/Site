@@ -24,6 +24,7 @@ async function SubmitSolution(grade, category, taskName, codeText) {
     return await res.json();
 }
 
+/*
 const userCode = `
 #include <iostream>
 int main() {
@@ -36,7 +37,7 @@ async function run() {
     let res = await SubmitSolution(8, "linar_1", 'A', userCode)
     console.log(res.results);
 }
-
+*/
 
 /*
 ! ----------------- Використання -----------------  !

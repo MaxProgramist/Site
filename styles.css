@@ -1,25 +1,5 @@
 /* ---------- Index ---------- */
 
-.index_joinRoomCodeInput {
-    text-align: center;
-}
-
-.index_joinRoomButton {
-    text-align: center;
-}
-
-.index_nicknameInput {
-    text-align: center;
-}
-
-.index_makeRoomCodeInput {
-    text-align: center;
-}
-
-.index_countOfPlayersInput {
-    text-align: center;
-}
-
 .index_errorBox {
     z-index: 10;
     background-color: #73eaff;
@@ -44,28 +24,6 @@
     width: 20px;
     background: #458c99;
     border: none;
-}
-
-
-.index_title {
-    user-select: none;
-}
-
-.index_title,
-.index_joinRoomCode,
-.index_nickname,
-.index_joinRoomButton,
-.index_makeRoomCode,
-.index_countOfPlayers,
-.index_makeRoomButton,
-.index_makeRandomRoom {
-    text-align: center;
-}
-
-.index_joinRoomButton,
-.index_makeRoomButton,
-.index_makeRandomRoom {
-    user-select: none;
 }
 
 
@@ -148,8 +106,32 @@
 
 .chooseTasks_cardOfTask {
     background-color: #458c99;
-    width: 200px;
-    height: 300px;
+    width: 100px;
+    height: 150px;
+}
+
+.chooseTasks_fullTask {
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
+    background-color: #9fe8f5;
+    width: 60%;
+    height: 80%;
+}
+
+.chooseTasks_fullTask_p_letter,
+.chooseTasks_fullTask_p_name {
+    margin: 2px 0;
+    padding: 0;
+    line-height: 1.3;
+}
+
+.chooseTasks_fullTask_p_condition {
+    overflow: auto;
 }
 
 /* ---------- Battle_DooTasks ---------- */
