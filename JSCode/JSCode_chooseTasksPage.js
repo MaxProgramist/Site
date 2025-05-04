@@ -30,8 +30,10 @@ async function SomeAsyncFunction() {
     //if (payload.roomsCodes.length < 1) window.location.href = "index.html";
 
     let myTasks = payload.rooms[ROOM_CODE].players[THIS_PLAYER_INDEX].tasks;
+    console.log(`My tasks` + listOfCardsLetter.length);
 
-    for (let myCurrentTask in myTasks) {
+    for (let myCurrentTaskIndex = 0; myCurrentTaskIndex < myTasks.length; myCurrentTaskIndex++) {
+        let myCurrentTask = myTasks[myCurrentTaskIndex];
         for (let currentTaskIndex = 0; currentTaskIndex < listOfCardsLetter.length; currentTaskIndex++) {
             console.log(`CardConsole of ${currentTaskIndex}` + listOfCardsLetter[currentTaskIndex].innerHTML);
             if (`<font size="3"> Задача ${myCurrentTask} </font>` == listOfCardsLetter[currentTaskIndex].innerHTML) {
@@ -68,6 +70,8 @@ function CreateCardWithTask(task, taskPeriod) {
     taskLetter.innerHTML = `<font size="3"> Задача ${taskPeriod} </font>`;
     taskName.innerHTML = `<font size="4"> ${task.name} </font>`;
 
+    listOfCardsLetter.push(taskLetter);
+
     selectButton.innerHTML = "✓";
     selectButton.setAttribute('class', 'chooseTasks_cardOfTask_button_select');
     selectButton.onclick = async function () {
@@ -79,6 +83,15 @@ function CreateCardWithTask(task, taskPeriod) {
         console.log(canPlayerChoose + " " + THIS_PLAYER_INDEX);
 
         if (!canPlayerChoose) return;
+
+        let myTasks = payload.rooms[ROOM_CODE].players[THIS_PLAYER_INDEX].tasks;
+
+        for (let myCurrentTaskIndex = 0; myCurrentTaskIndex < myTasks.length; myCurrentTaskIndex++) {
+            let myCurrentTask = myTasks[myCurrentTaskIndex];
+            if (myCurrentTask == taskPeriod) {
+                return;
+            }
+        }
 
         payload.rooms[ROOM_CODE].players[ENEMY_INDEX].tasks += taskPeriod;
 
@@ -131,8 +144,6 @@ function FullTaskField(task, taskPeriod) {
     fullTask.appendChild(taskName);
     fullTask.appendChild(taskCondition);
     fullTask.appendChild(closeButton);
-
-    listOfCardsLetter.push(taskLetter);
 
     document.body.appendChild(fullTask);
     cardIsOpen = true;
