@@ -3,11 +3,12 @@ const THIS_PLAYER_INDEX = localStorage.getItem("playerIndex");
 const GRADE_NUM = localStorage.getItem("gradeNum");
 const SET_OF_TASKS = localStorage.getItem("setOfTasks");
 
-const LIST_OF_CARDS = document.getElementById("cardsList");;
+const DIV_LIST_OF_CARDS = document.getElementById("cardsList");;
+
+var listOfCardsLetter = [];
 
 var cardMade = false;
-
-let cardIsOpen = false;
+var cardIsOpen = false;
 
 Loop();
 
@@ -28,37 +29,76 @@ async function SomeAsyncFunction() {
 
     //if (payload.roomsCodes.length < 1) window.location.href = "index.html";
 
+    let myTasks = payload.rooms[ROOM_CODE].players[THIS_PLAYER_INDEX].tasks;
+
+    for (let myCurrentTask in myTasks) {
+        for (let currentTaskIndex = 0; currentTaskIndex < listOfCardsLetter.length; currentTaskIndex++) {
+            console.log(`CardConsole of ${currentTaskIndex}` + listOfCardsLetter[currentTaskIndex].innerHTML);
+            if (`<font size="3"> Задача ${myCurrentTask} </font>` == listOfCardsLetter[currentTaskIndex].innerHTML) {
+                listOfCardsLetter[currentTaskIndex].parentElement.remove();
+                listOfCardsLetter.splice(currentTaskIndex,currentTaskIndex);
+
+                break;
+            }
+        }
+    }
+
+
     if (!cardMade) {
         for (let i = 0; i < 16; i++) {
-            let taskChar = String.fromCharCode('A'.charCodeAt(0)+i);
-            let res = await FetchTask(8, 'linar_2', taskChar);
+            let taskChar = String.fromCharCode('A'.charCodeAt(0) + i);
+            let res = await FetchTask(8, 'linar_1', taskChar);
             CreateCardWithTask(res, taskChar);
         }
         cardMade = !cardMade;
     }
+
+    console.log(THIS_PLAYER_INDEX);
 }
 
 function CreateCardWithTask(task, taskPeriod) {
     let taskCard = document.createElement("div");
     taskCard.setAttribute('class', 'chooseTasks_cardOfTask');
 
-    taskCard.addEventListener('click', () => FullTaskField(task,taskPeriod));
-
     let selectButton = document.createElement("button");
+    let infoButton = document.createElement("button");
     let taskLetter = document.createElement("p");
     let taskName = document.createElement("p");
 
-    taskLetter.innerHTML = ` <font size="3"> Задача ${taskPeriod} </font> `;
-    taskName.innerHTML = ` <font size="4"> ${task.name} </font> `;
+    taskLetter.innerHTML = `<font size="3"> Задача ${taskPeriod} </font>`;
+    taskName.innerHTML = `<font size="4"> ${task.name} </font>`;
 
     selectButton.innerHTML = "✓";
     selectButton.setAttribute('class', 'chooseTasks_cardOfTask_button_select');
+    selectButton.onclick = async function () {
+        let payload = await LoadData();
+
+        const ENEMY_INDEX = payload.rooms[ROOM_CODE].players[THIS_PLAYER_INDEX].enemy;
+
+        let canPlayerChoose = payload.rooms[ROOM_CODE].players[THIS_PLAYER_INDEX].canChoose;
+        console.log(canPlayerChoose + " " + THIS_PLAYER_INDEX);
+
+        if (!canPlayerChoose) return;
+
+        payload.rooms[ROOM_CODE].players[ENEMY_INDEX].tasks += taskPeriod;
+
+        payload.rooms[ROOM_CODE].players[THIS_PLAYER_INDEX].canChoose = !canPlayerChoose;
+        payload.rooms[ROOM_CODE].players[ENEMY_INDEX].canChoose = canPlayerChoose;
+
+        await SaveData(payload);
+
+        taskCard.remove();
+    };
+    infoButton.innerHTML = "I";
+    infoButton.setAttribute('class', 'chooseTasks_cardOfTask_button_info');
+    infoButton.onclick = () => FullTaskField(task, taskPeriod);
 
     taskCard.appendChild(taskLetter);
     taskCard.appendChild(taskName);
     taskCard.appendChild(selectButton);
+    taskCard.appendChild(infoButton);
 
-    LIST_OF_CARDS.appendChild(taskCard);
+    DIV_LIST_OF_CARDS.appendChild(taskCard);
 }
 
 function FullTaskField(task, taskPeriod) {
@@ -91,6 +131,8 @@ function FullTaskField(task, taskPeriod) {
     fullTask.appendChild(taskName);
     fullTask.appendChild(taskCondition);
     fullTask.appendChild(closeButton);
+
+    listOfCardsLetter.push(taskLetter);
 
     document.body.appendChild(fullTask);
     cardIsOpen = true;

@@ -30,6 +30,7 @@ async function SomeAsyncFunction() {
     {
         await localStorage.setItem("gradeNum", payload.rooms[ROOM_CODE].grade);
         await localStorage.setItem("setOfTasks", payload.rooms[ROOM_CODE].numberOfTasksSet);
+        await localStorage.setItem("playerIndex", THIS_PLAYER_INDEX);
 
         window.location.href = "chooseTasksPage.html";
     }
@@ -41,6 +42,8 @@ async function SomeAsyncFunction() {
         NewPlayerIcon(payload, currentRoomPlayers);
         currentRoomPlayers++;
     }
+
+    console.log(THIS_PLAYER_INDEX);
 }
 
 function UpdatePlayerSkin(payload, playerIndex) {
@@ -52,7 +55,10 @@ function UpdatePlayerSkin(payload, playerIndex) {
     let imgInsideDiv = playerDiv.querySelector("img");
     let pInsideDiv = playerDiv.querySelector("p");
     imgInsideDiv.src = `./Icons/icon_${playerSkin}.png`;
-    pInsideDiv.textContent = playerName;
+    if (playerIndex == THIS_PLAYER_INDEX)
+        pInsideDiv.textContent = playerName + " (Ти)";
+    else
+        pInsideDiv.textContent = playerName;
 }
 
 function NewPlayerIcon(payload, playerIndex) {
@@ -65,7 +71,10 @@ function NewPlayerIcon(payload, playerIndex) {
     playerBoxSkinImage.height = 60;
 
     let playerBoxName = document.createElement("p");
-    playerBoxName.textContent = payload.rooms[ROOM_CODE].players[playerIndex].name;
+    if (playerIndex == THIS_PLAYER_INDEX)
+        playerBoxName.textContent = payload.rooms[ROOM_CODE].players[playerIndex].name + " (Ти)";
+    else
+        playerBoxName.textContent = payload.rooms[ROOM_CODE].players[playerIndex].name;
 
     playerBox.appendChild(playerBoxSkinImage);
     playerBox.appendChild(playerBoxName);

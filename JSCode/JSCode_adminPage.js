@@ -152,6 +152,8 @@ async function StartGame() {
 
         payload.rooms[ROOM_CODE].players[playerList[0]].enemy = randomInd;
         payload.rooms[ROOM_CODE].players[randomInd].enemy = playerList[0];
+        payload.rooms[ROOM_CODE].players[playerList[0]].canChoose = Math.random() < 0.5;
+        payload.rooms[ROOM_CODE].players[randomInd].canChoose = !payload.rooms[ROOM_CODE].players[playerList[0]].canChoose;
         usedPlayers.push(randomInd);
         usedPlayers.push(playerList[0]);
         playerList.splice(0, 1);

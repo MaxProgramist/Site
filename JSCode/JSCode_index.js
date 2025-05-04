@@ -32,8 +32,9 @@ async function JoinRoom() {
             "name": nicknameValue,
             "skin": 0,
             "enemy": -1,
-            "tasks": "None",
-            "score": 0
+            "tasks": "",
+            "score": 0,
+            "canChoose": false
         }
         payload.rooms[joinRoomCodeValue].players.push(newPlayer);
     }
@@ -42,7 +43,7 @@ async function JoinRoom() {
     await SaveData(payload);
 
     await localStorage.setItem("roomCode", joinRoomCodeValue);
-    await localStorage.setItem("playerIndex", payload.rooms[joinRoomCodeValue].players.length - 1);
+    await localStorage.setItem("playerIndex", payload.rooms[joinRoomCodeValue].players.length-1);
     window.location.href = "playerPage.html";
 }
 
@@ -76,7 +77,6 @@ async function MakeRoom() {
     payload.rooms[makeRoomCodeValue] = newRoom;
 
     await SaveData(payload);
-
 
     await localStorage.setItem("roomCode", makeRoomCodeValue);
     window.location.href = "adminPage.html";
