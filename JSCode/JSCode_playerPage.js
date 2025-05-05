@@ -67,8 +67,7 @@ function NewPlayerIcon(payload, playerIndex) {
 
     let playerBoxSkinImage = document.createElement("img");
     playerBoxSkinImage.src = "./Icons/icon_0.png";
-    playerBoxSkinImage.width = 60;
-    playerBoxSkinImage.height = 60;
+    playerBoxSkinImage.setAttribute('class', 'universal_iconImage');
 
     let playerBoxName = document.createElement("p");
     if (playerIndex == THIS_PLAYER_INDEX)

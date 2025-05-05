@@ -3,9 +3,18 @@ const THIS_PLAYER_INDEX = localStorage.getItem("playerIndex");
 const GRADE_NUM = localStorage.getItem("gradeNum");
 const SET_OF_TASKS = localStorage.getItem("setOfTasks");
 
-const DIV_LIST_OF_CARDS = document.getElementById("cardsList");;
+const PLAYER_PROFILE_ICON = document.getElementById("playerIcon");
+const PLAYER_PROFILE_NAME = document.getElementById("playerName");
+const ENEMY_PROFILE_ICON = document.getElementById("enemyIcon");
+const ENEMY_PROFILE_NAME = document.getElementById("enemyName");
+
+const DIV_LIST_OF_CARDS = document.getElementById("cardsList");
+const ENEMY_SPAN_LIST_OF_TASKS = document.getElementById("enemy_taskLetters");
+const PLAYER_SPAN_LIST_OF_TASKS = document.getElementById("player_taskLetters");
 
 var listOfCardsLetter = [];
+var listOfPlayerLetter = [];
+var listOfEnemyLetter = [];
 
 var cardMade = false;
 var cardIsOpen = false;
@@ -13,10 +22,20 @@ var cardIsOpen = false;
 Loop();
 
 
+async function SetUpProfiles(payload) {
+    let playerProfile = payload.rooms[ROOM_CODE].players[THIS_PLAYER_INDEX];
+    let enemyProfile = payload.rooms[ROOM_CODE].players[playerProfile.enemy];
+
+    PLAYER_PROFILE_ICON.src = `./Icons/icon_${playerProfile.skin}.png`;
+    PLAYER_PROFILE_NAME.innerHTML = playerProfile.name + " (Ти)";
+    ENEMY_PROFILE_ICON.src = `./Icons/icon_${enemyProfile.skin}.png`;
+    ENEMY_PROFILE_NAME.innerHTML = enemyProfile.name;
+}
+
 async function Loop() {
     while (true) {
         await SomeAsyncFunction();
-        await Delay(100);
+        await Delay(75);
     }
 }
 
@@ -27,18 +46,33 @@ function Delay(ms) {
 async function SomeAsyncFunction() {
     let payload = await LoadData();
 
-    //if (payload.roomsCodes.length < 1) window.location.href = "index.html";
+    if (payload.roomsCodes.length < 1) window.location.href = "index.html";
 
     let myTasks = payload.rooms[ROOM_CODE].players[THIS_PLAYER_INDEX].tasks;
-    console.log(`My tasks` + listOfCardsLetter.length);
+    let enemyTasks = payload.rooms[ROOM_CODE].players[payload.rooms[ROOM_CODE].players[THIS_PLAYER_INDEX].enemy].tasks;
+
+    if (myTasks.length == 8 && enemyTasks.length == 8) {
+        await localStorage.setItem("gradeNum", payload.rooms[ROOM_CODE].grade);
+        await localStorage.setItem("setOfTasks", payload.rooms[ROOM_CODE].numberOfTasksSet);
+        await localStorage.setItem("playerIndex", THIS_PLAYER_INDEX);
+
+        window.location.href = "programmingPage.html";
+    }
 
     for (let myCurrentTaskIndex = 0; myCurrentTaskIndex < myTasks.length; myCurrentTaskIndex++) {
         let myCurrentTask = myTasks[myCurrentTaskIndex];
         for (let currentTaskIndex = 0; currentTaskIndex < listOfCardsLetter.length; currentTaskIndex++) {
-            console.log(`CardConsole of ${currentTaskIndex}` + listOfCardsLetter[currentTaskIndex].innerHTML);
             if (`<font size="3"> Задача ${myCurrentTask} </font>` == listOfCardsLetter[currentTaskIndex].innerHTML) {
                 listOfCardsLetter[currentTaskIndex].parentElement.remove();
-                listOfCardsLetter.splice(currentTaskIndex,currentTaskIndex);
+                listOfCardsLetter.splice(currentTaskIndex, currentTaskIndex);
+
+                let playerTaskLatter = document.createElement("span");
+                playerTaskLatter.innerHTML = myCurrentTask;
+
+                if (!listOfPlayerLetter.includes(myCurrentTask)) {
+                    PLAYER_SPAN_LIST_OF_TASKS.appendChild(playerTaskLatter);
+                    listOfPlayerLetter.push(myCurrentTask);
+                }
 
                 break;
             }
@@ -47,9 +81,11 @@ async function SomeAsyncFunction() {
 
 
     if (!cardMade) {
+        SetUpProfiles(payload);
+
         for (let i = 0; i < 16; i++) {
             let taskChar = String.fromCharCode('A'.charCodeAt(0) + i);
-            let res = await FetchTask(8, 'linar_1', taskChar);
+            let res = await FetchTask(GRADE_NUM, SET_OF_TASKS, taskChar);
             CreateCardWithTask(res, taskChar);
         }
         cardMade = !cardMade;
@@ -86,6 +122,8 @@ function CreateCardWithTask(task, taskPeriod) {
 
         let myTasks = payload.rooms[ROOM_CODE].players[THIS_PLAYER_INDEX].tasks;
 
+        if (listOfEnemyLetter.includes(taskPeriod)) return;
+
         for (let myCurrentTaskIndex = 0; myCurrentTaskIndex < myTasks.length; myCurrentTaskIndex++) {
             let myCurrentTask = myTasks[myCurrentTaskIndex];
             if (myCurrentTask == taskPeriod) {
@@ -94,6 +132,11 @@ function CreateCardWithTask(task, taskPeriod) {
         }
 
         payload.rooms[ROOM_CODE].players[ENEMY_INDEX].tasks += taskPeriod;
+        listOfEnemyLetter.push(taskPeriod);
+
+        let enemyTaskLatter = document.createElement("span");
+        enemyTaskLatter.innerHTML = taskPeriod;
+        ENEMY_SPAN_LIST_OF_TASKS.appendChild(enemyTaskLatter);
 
         payload.rooms[ROOM_CODE].players[THIS_PLAYER_INDEX].canChoose = !canPlayerChoose;
         payload.rooms[ROOM_CODE].players[ENEMY_INDEX].canChoose = canPlayerChoose;

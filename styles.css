@@ -1,3 +1,8 @@
+.universal_iconImage {
+    width: min(10vw, min(10vh, 60px));
+    height: min(10vw, min(10vh, 60px));;
+}
+
 /* ---------- Index ---------- */
 
 .index_errorBox {
@@ -134,15 +139,27 @@
     overflow: auto;
 }
 
-.chooseTasks_playerStats {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  background: #333;
-  color: white;
-  text-align: center;
-  padding: 10px;
+.chooseTasks_playerStats,
+.chooseTasks_enemyStats {
+    position: fixed;
+    width: auto;
+    background: #333;
+    color: white;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
 }
 
-/* ---------- Battle_DooTasks ---------- */
+.chooseTasks_playerStats {
+    bottom: 0;
+    left: 0;
+}
+
+.chooseTasks_enemyStats {
+    top: 0;
+    right: 0;
+}
+
+/* ---------- Battle_DoTasks ---------- */

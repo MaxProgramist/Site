@@ -69,7 +69,7 @@ async function MakeRoom() {
         "countOfPlayers": roomPlayersCount,
         "isActive": false,
         "grade": 8,
-        "numberOfTasksSet": 1,
+        "numberOfTasksSet": "linar_1",
         "players": []
     };
 
@@ -108,5 +108,6 @@ function RandomString(length) {
 
 async function WakeUpServers() {
     await LoadData();
-    await FetchTask(8, 'linar_1', taskChar);
+    await FetchTask(8, 'linar_1', 'A');
+    return PopUpWindowOfError("Servers are awake!");
 }

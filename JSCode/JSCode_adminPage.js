@@ -13,7 +13,7 @@ const SET_OF_TASKS_DIV_LIST_GRADE_11 = document.getElementById("setList_grade_11
 
 CODE_TEXT_FIELD.innerText = "Код: " + ROOM_CODE;
 GRADE_TEXT_FIELD.innerText = ";  Клас:" + 8;
-SET_OF_TASKS_TEXT_FIELD.innerText = ";  Сет задач: " + 1;
+SET_OF_TASKS_TEXT_FIELD.innerText = ";  Сет задач: Лінійні алгоритми 1";
 
 let divToPlayer = [];
 
@@ -36,7 +36,7 @@ function Delay(ms) {
 async function SomeAsyncFunction() {
     let payload = await LoadData();
 
-    if (payload.roomsCodes.length < 1) window.location.href = "index.html";
+    //if (payload.roomsCodes.length < 1) window.location.href = "index.html";
 
     for (let i = 0; i < divToPlayer.length; i++)
         UpdatePlayerSkin(payload, i);
@@ -65,8 +65,7 @@ function NewPlayerIcon(payload, playerIndex) {
 
     let playerBoxSkinImage = document.createElement("img");
     playerBoxSkinImage.src = "./Icons/icon_0.png";
-    playerBoxSkinImage.width = 60;
-    playerBoxSkinImage.height = 60;
+    playerBoxSkinImage.setAttribute('class', 'universal_iconImage');
 
     let playerBoxName = document.createElement("p");
     playerBoxName.textContent = payload.rooms[ROOM_CODE].players[playerIndex].name;

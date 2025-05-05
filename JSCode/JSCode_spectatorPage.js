@@ -31,14 +31,13 @@ async function SomeAsyncFunction() {
 function ChangePlayersScore(payload, playerIndex) {
     let playerDiv = divToPlayer[playerIndex];
 
-    let playerName = payload.rooms[ROOM_CODE].players[playerIndex].name;
     let playerScore = payload.rooms[ROOM_CODE].players[playerIndex].score;
     let playerSkin = payload.rooms[ROOM_CODE].players[playerIndex].skin;
     
     let imgInsideDiv = playerDiv.querySelector("img");
     let pInsideDiv = playerDiv.querySelectorAll("p");
     imgInsideDiv.src = `./Icons/icon_${playerSkin}.png`;
-    pInsideDiv[1].textContent = `Рахунок: ${playerScore}/800`;
+    pInsideDiv[1].textContent = `${playerScore}/800`;
 }
 
 async function MakePlayersGroups() {
@@ -67,17 +66,20 @@ function NewPlayerIcon(payload, playerIndex) {
 
     let playerBoxSkinImage = document.createElement("img");
     playerBoxSkinImage.src = "./Icons/icon_0.png";
-    playerBoxSkinImage.width = 60;
-    playerBoxSkinImage.height = 60;
+    playerBoxSkinImage.setAttribute('class', 'universal_iconImage');
+
+    let playerBoxProfile = document.createElement("div");
 
     let playerBoxName = document.createElement("p");
     playerBoxName.textContent = `${playerName}`;
     let playerBoxScore = document.createElement("p");
-    playerBoxScore.textContent = `Рахунок: ${playerScore}/800`;
+    playerBoxScore.textContent = `${playerScore}/800`;
+
+    playerBoxProfile.appendChild(playerBoxName);
+    playerBoxProfile.appendChild(playerBoxScore);
 
     playerBox.appendChild(playerBoxSkinImage);
-    playerBox.appendChild(playerBoxName);
-    playerBox.appendChild(playerBoxScore);
+    playerBox.appendChild(playerBoxProfile);
 
     divToPlayer[playerIndex] = playerBox;
 
