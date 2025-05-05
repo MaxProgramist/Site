@@ -105,3 +105,8 @@ function RandomString(length) {
 
     return result;
 }
+
+async function WakeUpServers() {
+    await LoadData();
+    await GetTask(8, 'linar_8', 'A');
+}
