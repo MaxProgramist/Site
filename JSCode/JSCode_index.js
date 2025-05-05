@@ -108,5 +108,5 @@ function RandomString(length) {
 
 async function WakeUpServers() {
     await LoadData();
-    await GetTask(8, 'linar_8', 'A');
+    await FetchTask(8, 'linar_1', taskChar);
 }
