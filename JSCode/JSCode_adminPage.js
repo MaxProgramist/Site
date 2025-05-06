@@ -4,7 +4,7 @@ const CODE_TEXT_FIELD = document.getElementById("code");
 const GRADE_TEXT_FIELD = document.getElementById("grade");
 const SET_OF_TASKS_TEXT_FIELD = document.getElementById("setOfTasks");
 const PLAYER_DIV_LIST = document.getElementById("playersGrid");
-const COUNT_OF_TASKS_INPUT = document.getElementById('countOfTasksInput‎‎');
+const COUNT_OF_TASKS_INPUT = document.getElementById("countOfTasksInput‎‎");
 
 const GRADE_DIV_LIST = document.getElementById("gradeList");
 const SET_OF_TASKS_DIV_LIST_GRADE_8 = document.getElementById("setList_grade_8");
