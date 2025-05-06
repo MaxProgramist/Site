@@ -4,6 +4,7 @@ const CODE_TEXT_FIELD = document.getElementById("code");
 const GRADE_TEXT_FIELD = document.getElementById("grade");
 const SET_OF_TASKS_TEXT_FIELD = document.getElementById("setOfTasks");
 const PLAYER_DIV_LIST = document.getElementById("playersGrid");
+const COUNT_OF_TASKS_INPUT = document.getElementById('countOfTasksInput‎');
 
 const GRADE_DIV_LIST = document.getElementById("gradeList");
 const SET_OF_TASKS_DIV_LIST_GRADE_8 = document.getElementById("setList_grade_8");
@@ -14,6 +15,7 @@ const SET_OF_TASKS_DIV_LIST_GRADE_11 = document.getElementById("setList_grade_11
 CODE_TEXT_FIELD.innerText = "Код: " + ROOM_CODE;
 GRADE_TEXT_FIELD.innerText = ";  Клас:" + 8;
 SET_OF_TASKS_TEXT_FIELD.innerText = ";  Сет задач: Лінійні алгоритми 1";
+COUNT_OF_TASKS_INPUT.value = 8;
 
 let divToPlayer = [];
 
@@ -36,7 +38,7 @@ function Delay(ms) {
 async function SomeAsyncFunction() {
     let payload = await LoadData();
 
-    //if (payload.roomsCodes.length < 1) window.location.href = "index.html";
+    if (payload.roomsCodes.length < 1) window.location.href = "index.html";
 
     for (let i = 0; i < divToPlayer.length; i++)
         UpdatePlayerSkin(payload, i);
@@ -136,6 +138,7 @@ async function StartGame() {
         return PopUpWindowOfError("Count of players is to small (at least 2)");
 
     payload.rooms[ROOM_CODE].isActive = true;
+    payload.rooms[ROOM_CODE].maxCountOfTasks = COUNT_OF_TASKS_INPUT.value;
 
     let playerList = [];
     for (let i = 0; i < payload.rooms[ROOM_CODE].players.length; i++) {
