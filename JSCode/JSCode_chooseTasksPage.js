@@ -141,9 +141,9 @@ function CreateCardWithTask(task, taskPeriod) {
         payload.rooms[ROOM_CODE].players[THIS_PLAYER_INDEX].canChoose = !canPlayerChoose;
         payload.rooms[ROOM_CODE].players[ENEMY_INDEX].canChoose = canPlayerChoose;
 
-        await SaveData(payload);
-
         taskCard.remove();
+
+        await SaveData(payload);
     };
     infoButton.innerHTML = "I";
     infoButton.setAttribute('class', 'chooseTasks_cardOfTask_button_info');

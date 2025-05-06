@@ -1,6 +1,7 @@
 .universal_iconImage {
     width: min(10vw, min(10vh, 60px));
-    height: min(10vw, min(10vh, 60px));;
+    height: min(10vw, min(10vh, 60px));
+    padding: min(1vw, min(1vh, 6px));
 }
 
 /* ---------- Index ---------- */
@@ -163,3 +164,41 @@
 }
 
 /* ---------- Battle_DoTasks ---------- */
+
+.programming_topBar {
+    position: fixed;
+    width: 100%;
+    background: #333;
+    color: white;
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+    top: 0;
+    left: 0;
+}
+
+.programming_playerStats,
+.programming_enemyStats {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.programming_timer {
+    padding: 30px;
+}
+
+.programming_textarea {
+    position: fixed;
+    width: min(50vw, 500px);
+    height: 80vh;
+
+    right: 15px;
+    bottom: 15px;
+
+    border: thick solid #32a1ce;;
+}

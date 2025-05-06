@@ -8,22 +8,34 @@
 </head>
 
 <body>
+    <div class="programming_topBar">
+        <div class="programming_playerStats" id="playerStats">
+            <span id="playerName"> Name11111111111111111111 (Ти) </span>
+            <img class="universal_iconImage" id="playerIcon">
+        </div>
 
-    <div class="programming_enemyStats" id="enemyStats">
-        <img class="universal_iconImage" id="enemyIcon"> <img>
-        <div>
+        <span class="programming_timer"> 30:00 </span>
+
+        <div class="programming_enemyStats" id="enemyStats">
+            <img class="universal_iconImage" id="enemyIcon">
             <span id="enemyName"> Name11111111111111111111 </span>
         </div>
     </div>
 
-    <div class="programming_playerStats" id="playerStats">
-        <img class="universal_iconImage" id="playerIcon"> <img>
-        <div>
-            <span id="playerName"> Name11111111111111111111 (Ти) </span> <br>
-        </div>
-    </div>
+    <div id="editor" class="programming_textarea"> <button onclick="UploadSolution()"></button> </div>
 
-    
+    <script src="https://unpkg.com/monaco-editor@latest/min/vs/loader.js"></script>
+    <script>
+        require.config({ paths: { 'vs': 'https://unpkg.com/monaco-editor@latest/min/vs' } });
+        require(['vs/editor/editor.main'], function () {
+            window.editor = monaco.editor.create(document.getElementById('editor'), {
+                value: `#include <iostream>\nusing namespace std;\n\nint main() {\n    \n    return 0;\n}`,
+                language: 'cpp',
+                theme: 'vs-light'
+            });
+        });
+    </script>
+
 
     <script src="JSCode/universalJS.js"></script>
     <script src="JSCode/CPPCompiler.js"></script>
