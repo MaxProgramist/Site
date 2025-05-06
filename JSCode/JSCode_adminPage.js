@@ -138,7 +138,7 @@ async function StartGame() {
         return PopUpWindowOfError("Count of players is to small (at least 2)");
 
     payload.rooms[ROOM_CODE].isActive = true;
-    payload.rooms[ROOM_CODE].maxCountOfTasks = COUNT_OF_TASKS_INPUT.value;
+    payload.rooms[ROOM_CODE].maxCountOfTasks = clamp(COUNT_OF_TASKS_INPUT.value, 1, 8);
 
     let playerList = [];
     for (let i = 0; i < payload.rooms[ROOM_CODE].players.length; i++) {
@@ -169,4 +169,10 @@ async function StartGame() {
 
 function getRandomInt(min, max) {
     return min + Math.floor(Math.random() * max);
+}
+
+const clamp = (value, min, max) => {
+  if (value < min) return min;
+  if (value > max) return max;
+  return value;
 }
