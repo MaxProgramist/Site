@@ -51,7 +51,7 @@ async function SomeAsyncFunction() {
     let myTasks = payload.rooms[ROOM_CODE].players[THIS_PLAYER_INDEX].tasks;
     let enemyTasks = payload.rooms[ROOM_CODE].players[payload.rooms[ROOM_CODE].players[THIS_PLAYER_INDEX].enemy].tasks;
 
-    if (myTasks.length == 8 && enemyTasks.length == 8) {
+    if (myTasks.length == payload.rooms[ROOM_CODE].maxCountOfTasks && enemyTasks.length == payload.rooms[ROOM_CODE].maxCountOfTasks) {
         await localStorage.setItem("gradeNum", payload.rooms[ROOM_CODE].grade);
         await localStorage.setItem("setOfTasks", payload.rooms[ROOM_CODE].numberOfTasksSet);
         await localStorage.setItem("playerIndex", THIS_PLAYER_INDEX);
