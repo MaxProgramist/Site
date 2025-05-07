@@ -22,7 +22,10 @@
         </div>
     </div>
 
-    <div id="editor" class="programming_textarea"> <button onclick="UploadSolution()"></button> </div>
+    <div id="editorField">
+        <button class="programming_submitButton" onclick="UploadSolution()"> Відправити розв'язок </button> 
+        <div id="editor"></div> 
+    </div>
 
     <script src="https://unpkg.com/monaco-editor@latest/min/vs/loader.js"></script>
     <script>
@@ -31,7 +34,11 @@
             window.editor = monaco.editor.create(document.getElementById('editor'), {
                 value: `#include <iostream>\nusing namespace std;\n\nint main() {\n    \n    return 0;\n}`,
                 language: 'cpp',
-                theme: 'vs-light'
+                theme: 'vs-dark'
+            });
+            window.editor.layout();
+            window.addEventListener("resize", () => {
+                window.editor.layout();
             });
         });
     </script>

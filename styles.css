@@ -1,3 +1,8 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
 .universal_iconImage {
     width: min(10vw, min(10vh, 60px));
     height: min(10vw, min(10vh, 60px));
@@ -192,13 +197,31 @@
     padding: 30px;
 }
 
-.programming_textarea {
+#editorField {
     position: fixed;
-    width: min(50vw, 500px);
-    height: 80vh;
+    width: min(50vw, 450px);
+    height: calc(100vh - 84px - 25px);
+    background-color: #458c99;
 
     right: 15px;
-    bottom: 15px;
+    top: 84px;
+}
 
-    border: thick solid #32a1ce;;
+#editorField::after {
+    z-index: -1;
+    content: "";
+    position: absolute;
+    background-color: #aaffaa;
+    left: -10px; top: 0;
+    height: 100%; width: 100%;
+    padding: 10px;
+}
+
+#editor {
+    width: 100%;
+    height: calc(100% - 25px);
+}
+
+.programming_submitButton {
+    margin: 9px 15px 9px 9px;
 }
