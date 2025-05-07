@@ -1,20 +1,22 @@
 const ROOM_CODE = localStorage.getItem("roomCode");
-const THIS_PLAYER_INDEX = localStorage.getItem("playerIndex");
 const GRADE_NUM = localStorage.getItem("gradeNum");
 const SET_OF_TASKS = localStorage.getItem("setOfTasks");
+const THIS_PLAYER_INDEX = localStorage.getItem("playerIndex");
+const THIS_ENEMY_INDEX = localStorage.getItem("enemyIndex");
 
-let editor = window.editor;
+const EDITOR = document.getElementById("editor");
+const PLAYER_PROFILE_ICON = document.getElementById("playerIcon");
+const PLAYER_PROFILE_NAME = document.getElementById("playerName");
+const PLAYER_PROFILE_SCORE = document.getElementById("playerScore");
+const ENEMY_PROFILE_ICON = document.getElementById("enemyIcon");
+const ENEMY_PROFILE_NAME = document.getElementById("enemyName");
+const ENEMY_PROFILE_SCORE = document.getElementById("enemyScore");
 
-let myTasks = payload.rooms[ROOM_CODE].players[THIS_PLAYER_INDEX].tasks;
-let enemyTasks = ;
+let myTasks;
+let enemyTasks;
 
-const waitForEditor = setInterval(() => {
-    if (window.editor) {
-        clearInterval(waitForEditor);
-        editor = window.editor;
-        editor.layout();
-    }
-}, 10);
+let setUpProfiles = false;
+
 
 Loop();
 
@@ -35,15 +37,37 @@ async function SomeAsyncFunction() {
 
     //if (payload.roomsCodes.length < 1) window.location.href = "index.html";
 
-    let myTasks = payload.rooms[ROOM_CODE].players[THIS_PLAYER_INDEX].tasks;
-    let enemyTasks = payload.rooms[ROOM_CODE].players[payload.rooms[ROOM_CODE].players[THIS_PLAYER_INDEX].enemy].tasks;
+    myTasks = payload.rooms[ROOM_CODE].players[THIS_PLAYER_INDEX].tasks;
+    enemyTasks = payload.rooms[ROOM_CODE].players[THIS_ENEMY_INDEX].tasks;
+
+    SetUpProfiles(payload);
+
+
 }
 
-function UploadSolution()
-{
-    if (!editor) return;
-    
-    let currentNewCode = editor.getValue();
+function SetUpProfiles(payload) {
+    let playerScore = payload.rooms[ROOM_CODE].players[THIS_PLAYER_INDEX].score;
+    let enemyScore = payload.rooms[ROOM_CODE].players[THIS_ENEMY_INDEX].score;
 
-    console.log(currentNewCode)
+    PLAYER_PROFILE_SCORE.innerHTML = `${playerScore}/800`;
+    ENEMY_PROFILE_SCORE.innerHTML = `${enemyScore}/800`;
+
+    if (setUpProfiles) return;
+
+    let playerName = payload.rooms[ROOM_CODE].players[THIS_PLAYER_INDEX].name;
+    let enemyName = payload.rooms[ROOM_CODE].players[THIS_ENEMY_INDEX].name;
+    let playerIcon = payload.rooms[ROOM_CODE].players[THIS_PLAYER_INDEX].skin;
+    let enemyIcon = payload.rooms[ROOM_CODE].players[THIS_ENEMY_INDEX].skin;
+
+    PLAYER_PROFILE_ICON.src = `./Icons/icon_${playerIcon}.png`;
+    PLAYER_PROFILE_NAME.innerHTML = playerName + " (Ти)";
+    ENEMY_PROFILE_ICON.src = `./Icons/icon_${enemyIcon}.png`;
+    ENEMY_PROFILE_NAME.innerHTML = enemyName;
+}
+
+async function UploadSolution() {
+    let currentNewCode = EDITOR.value;
+
+    let res = await SubmitSolution(GRADE_NUM, SET_OF_TASKS, 'A', currentNewCode);
+    console.log(res);
 }

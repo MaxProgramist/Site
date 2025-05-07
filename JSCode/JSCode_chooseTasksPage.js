@@ -55,6 +55,7 @@ async function SomeAsyncFunction() {
         await localStorage.setItem("gradeNum", payload.rooms[ROOM_CODE].grade);
         await localStorage.setItem("setOfTasks", payload.rooms[ROOM_CODE].numberOfTasksSet);
         await localStorage.setItem("playerIndex", THIS_PLAYER_INDEX);
+        await localStorage.setItem("enemyIndex", payload.rooms[ROOM_CODE].players[THIS_PLAYER_INDEX].enemy);
 
         window.location.href = "programmingPage.html";
     }

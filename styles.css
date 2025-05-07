@@ -1,3 +1,14 @@
+:root {
+    --bg: #282c34;
+    --fg: #abb2bf;
+    --kw: #c678dd;
+    --str: #98c379;
+    --num: #d19a66;
+    --cm: #5c6370;
+    --id: #61afef;
+    --lib: #e5c07b;
+}
+
 body {
     margin: 0;
     padding: 0;
@@ -212,15 +223,46 @@ body {
     content: "";
     position: absolute;
     background-color: #aaffaa;
-    left: -10px; top: 0;
-    height: 100%; width: 100%;
+    left: -10px;
+    top: 0;
+    height: 100%;
+    width: 100%;
     padding: 10px;
 }
 
 #editor {
     width: 100%;
     height: calc(100% - 25px);
+    white-space: pre-wrap;
 }
+
+/*----------------------------------------*/
+.token.keyword {
+    color: var(--kw);
+}
+
+.token.string {
+    color: var(--str);
+}
+
+.token.number {
+    color: var(--num);
+}
+
+.token.comment {
+    color: var(--cm);
+    font-style: italic;
+}
+
+.token.id {
+    color: var(--id);
+}
+
+.token.library {
+    color: var(--lib);
+}
+
+/*----------------------------------------*/
 
 .programming_submitButton {
     margin: 9px 15px 9px 9px;
