@@ -124,6 +124,7 @@ function CreateCardWithTask(task, taskPeriod) {
         let myTasks = payload.rooms[ROOM_CODE].players[THIS_PLAYER_INDEX].tasks;
 
         if (listOfEnemyLetter.includes(taskPeriod)) return;
+        if (listOfPlayerLetter.includes(taskPeriod)) return;
 
         for (let myCurrentTaskIndex = 0; myCurrentTaskIndex < myTasks.length; myCurrentTaskIndex++) {
             let myCurrentTask = myTasks[myCurrentTaskIndex];
