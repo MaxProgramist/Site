@@ -60,6 +60,7 @@ async function SomeAsyncFunction() {
         window.location.href = "programmingPage.html";
     }
 
+    if (myTasks.length > listOfPlayerLetter.lenght) {
     for (let myCurrentTaskIndex = 0; myCurrentTaskIndex < myTasks.length; myCurrentTaskIndex++) {
         let myCurrentTask = myTasks[myCurrentTaskIndex];
         for (let currentTaskIndex = 0; currentTaskIndex < listOfCardsLetter.length; currentTaskIndex++) {
@@ -69,15 +70,14 @@ async function SomeAsyncFunction() {
 
                 let playerTaskLatter = document.createElement("span");
                 playerTaskLatter.innerHTML = myCurrentTask;
-
-                if (!listOfPlayerLetter.includes(myCurrentTask)) {
-                    PLAYER_SPAN_LIST_OF_TASKS.appendChild(playerTaskLatter);
-                    listOfPlayerLetter.push(myCurrentTask);
+                PLAYER_SPAN_LIST_OF_TASKS.appendChild(playerTaskLatter);
+                listOfPlayerLetter.push(myCurrentTask);
                 }
 
                 break;
             }
         }
+    }
     }
 
 
