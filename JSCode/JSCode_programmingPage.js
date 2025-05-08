@@ -66,7 +66,9 @@ function SetUpProfiles(payload) {
 }
 
 async function UploadSolution() {
-    let currentNewCode = EDITOR.value;
+    let currentNewCode = EDITOR.innerText;
+
+    console.log(currentNewCode);
 
     let res = await SubmitSolution(GRADE_NUM, SET_OF_TASKS, 'A', currentNewCode);
     console.log(res);

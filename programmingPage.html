@@ -26,124 +26,12 @@
 
     <div id="editorField">
         <button class="programming_submitButton" onclick="UploadSolution()"> Відправити розв'язок </button>
-        <div id="editor" contenteditable spellcheck="false"></div>
+        <textarea id="editor" spellcheck="false"></textarea>
     </div>
 
 
-    <script>
-        (() => {
-            const editor = document.getElementById('editor');
-            const keywords = [
-                "auto", "break", "case", "char", "const", "continue", "default", "do", "double",
-                "else", "enum", "extern", "float", "for", "goto", "if", "inline", "int", "long", "register",
-                "restrict", "return", "short", "signed", "sizeof", "static", "struct", "switch", "typedef",
-                "union", "unsigned", "void", "volatile", "while", "class", "public", "private", "protected",
-                "template", "typename", "using", "namespace", "std"
-            ];
 
-            const regex = new RegExp(
-                "(//[^\n]*)" +                             // коментарі
-                "|(\"(?:\\.|[^\\\"])*\")" +            // рядки
-                "|(\\b\\d+\\b)" +                           // числа
-                "|(&lt;[a-zA-Z0-9_\\.]+&gt;)" +                 // бібліотеки
-                "|(\\b(?:" + keywords.join("|") + ")\\b)", // ключові слова
-                "g"
-            );
-
-            function saveSelection(root) {
-                const sel = window.getSelection();
-                const range = sel.getRangeAt(0);
-                let charIndex = 0, start = 0, end = 0;
-                const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null);
-                while (walker.nextNode()) {
-                    const node = walker.currentNode;
-                    const nextIndex = charIndex + node.textContent.length;
-                    if (node === range.startContainer) start = charIndex + range.startOffset;
-                    if (node === range.endContainer) end = charIndex + range.endOffset;
-                    charIndex = nextIndex;
-                }
-                return { start, end };
-            }
-
-            function restoreSelection(root, saved) {
-                const sel = window.getSelection(); sel.removeAllRanges();
-                const range = document.createRange();
-                let charIndex = 0;
-                const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null);
-                while (walker.nextNode()) {
-                    const node = walker.currentNode;
-                    const nextIndex = charIndex + node.textContent.length;
-                    if (saved.start >= charIndex && saved.start <= nextIndex)
-                        range.setStart(node, saved.start - charIndex);
-                    if (saved.end >= charIndex && saved.end <= nextIndex) {
-                        range.setEnd(node, saved.end - charIndex);
-                        break;
-                    }
-                    charIndex = nextIndex;
-                }
-                sel.addRange(range);
-                editor.focus();
-            }
-
-            function highlight(text) {
-                return text.replace(regex, (m, c1, c2, c3, c4, c5) => {
-                    if (c1) return `<span class="token comment">${c1}</span>`;
-                    if (c2) return `<span class="token string">${c2}</span>`;
-                    if (c3) return `<span class="token number">${c3}</span>`;
-                    if (c4) return `<span class="token library">${c4}</span>`;
-                    if (c5) return `<span class="token keyword">${c5}</span>`;
-                    return m;
-                });
-            }
-
-            let updating = false;
-            editor.addEventListener('input', () => {
-                if (updating) return;
-                updating = true;
-                const saved = saveSelection(editor);
-                const text = editor.innerText;
-                editor.innerHTML = highlight(text.replace(/</g, '&lt;').replace(/>/g, '&gt;'));
-                restoreSelection(editor, saved);
-                updating = false;
-            });
-
-            editor.addEventListener('keydown', (e) => {
-                const sel = window.getSelection(); if (!sel.rangeCount) return;
-                const saved = saveSelection(editor);
-                if (e.key === 'Tab') {
-                    e.preventDefault();
-                    document.execCommand('insertText', false, '    ');
-                } else if (e.key === 'Enter') {
-                    e.preventDefault();
-                    const range = sel.getRangeAt(0);
-                    const br = document.createTextNode('\n');
-                    range.deleteContents();
-                    range.insertNode(br);
-                    range.setStartAfter(br);
-                    range.setEndAfter(br);
-                    sel.removeAllRanges();
-                    sel.addRange(range);
-                } else if (e.key === 'Backspace') {
-                    const { start, end } = saved;
-                    if (start === end) {
-                        const text = editor.innerText;
-                        const before = text.slice(0, start);
-                        const currentIndent = before.split('\n').pop() || '';
-                        if (/^ {1,4}$/.test(currentIndent)) {
-                            e.preventDefault();
-                            const removeCount = currentIndent.length % 4 === 0 ? 4 : currentIndent.length % 4;
-                            for (let i = 0; i < removeCount; i++) document.execCommand('delete');
-                        }
-                    }
-                }
-            });
-
-            window.setTokenColor = (token, color) => {
-                document.documentElement.style.setProperty(`--${token}`, color);
-            };
-        })();
-    </script>
-
+    <script src="JSCode\CPPEditor.js"></script>
     <script src="JSCode/universalJS.js"></script>
     <script src="JSCode/CPPCompiler.js"></script>
     <script src="JSCode/JSCode_programmingPage.js"></script>

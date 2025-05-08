@@ -221,7 +221,7 @@ body {
     z-index: -1;
     content: "";
     position: absolute;
-    background-color: #eeeeeee;
+    background-color: #eeeeee;
     left: -10px;
     top: 0;
     height: 100%;

@@ -61,38 +61,37 @@ async function SomeAsyncFunction() {
     }
 
     if (myTasks.length > listOfPlayerLetter.lenght) {
-    for (let myCurrentTaskIndex = 0; myCurrentTaskIndex < myTasks.length; myCurrentTaskIndex++) {
-        let myCurrentTask = myTasks[myCurrentTaskIndex];
-        for (let currentTaskIndex = 0; currentTaskIndex < listOfCardsLetter.length; currentTaskIndex++) {
-            if (`<font size="3"> Задача ${myCurrentTask} </font>` == listOfCardsLetter[currentTaskIndex].innerHTML) {
-                listOfCardsLetter[currentTaskIndex].parentElement.remove();
-                listOfCardsLetter.splice(currentTaskIndex, currentTaskIndex);
+        for (let myCurrentTaskIndex = 0; myCurrentTaskIndex < myTasks.length; myCurrentTaskIndex++) {
+            let myCurrentTask = myTasks[myCurrentTaskIndex];
+            for (let currentTaskIndex = 0; currentTaskIndex < listOfCardsLetter.length; currentTaskIndex++) {
+                if (`<font size="3"> Задача ${myCurrentTask} </font>` == listOfCardsLetter[currentTaskIndex].innerHTML) {
+                    listOfCardsLetter[currentTaskIndex].parentElement.remove();
+                    listOfCardsLetter.splice(currentTaskIndex, currentTaskIndex);
 
-                let playerTaskLatter = document.createElement("span");
-                playerTaskLatter.innerHTML = myCurrentTask;
-                PLAYER_SPAN_LIST_OF_TASKS.appendChild(playerTaskLatter);
-                listOfPlayerLetter.push(myCurrentTask);
+                    let playerTaskLatter = document.createElement("span");
+                    playerTaskLatter.innerHTML = myCurrentTask;
+                    PLAYER_SPAN_LIST_OF_TASKS.appendChild(playerTaskLatter);
+                    listOfPlayerLetter.push(myCurrentTask);
                 }
 
                 break;
             }
         }
     }
+
+
+if (!cardMade) {
+    SetUpProfiles(payload);
+
+    for (let i = 0; i < 16; i++) {
+        let taskChar = String.fromCharCode('A'.charCodeAt(0) + i);
+        let res = await FetchTask(GRADE_NUM, SET_OF_TASKS, taskChar);
+        CreateCardWithTask(res, taskChar);
     }
+    cardMade = !cardMade;
+}
 
-
-    if (!cardMade) {
-        SetUpProfiles(payload);
-
-        for (let i = 0; i < 16; i++) {
-            let taskChar = String.fromCharCode('A'.charCodeAt(0) + i);
-            let res = await FetchTask(GRADE_NUM, SET_OF_TASKS, taskChar);
-            CreateCardWithTask(res, taskChar);
-        }
-        cardMade = !cardMade;
-    }
-
-    console.log(THIS_PLAYER_INDEX);
+console.log(THIS_PLAYER_INDEX);
 }
 
 function CreateCardWithTask(task, taskPeriod) {
