@@ -212,7 +212,6 @@ body {
     position: fixed;
     width: min(50vw, 450px);
     height: calc(100vh - 84px - 25px);
-    background-color: #458c99;
 
     right: 15px;
     top: 84px;
