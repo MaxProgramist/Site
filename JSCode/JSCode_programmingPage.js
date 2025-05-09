@@ -12,8 +12,12 @@ const ENEMY_PROFILE_ICON = document.getElementById("enemyIcon");
 const ENEMY_PROFILE_NAME = document.getElementById("enemyName");
 const ENEMY_PROFILE_SCORE = document.getElementById("enemyScore");
 
+const BOM_CHAR = '\uFEFF';
+
 let myTasks;
 let enemyTasks;
+
+let currentTask = "A";
 
 let setUpProfiles = false;
 
@@ -67,9 +71,16 @@ function SetUpProfiles(payload) {
 
 async function UploadSolution() {
     let currentNewCode = EDITOR.innerText;
+    let cleanedCode = CleanCode(currentNewCode);
 
-    console.log(currentNewCode);
+    console.log(cleanedCode);
 
-    let res = await SubmitSolution(GRADE_NUM, SET_OF_TASKS, 'A', currentNewCode);
+    let res = await SubmitSolution(GRADE_NUM, SET_OF_TASKS, currentTask, cleanedCode);
     console.log(res);
+}
+
+function CleanCode(rawCode) {
+    let withoutBom = rawCode.replace(new RegExp(`^${BOM_CHAR}`), '');
+    let normalized = withoutBom.normalize('NFKC');
+    return normalized;
 }

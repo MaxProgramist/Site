@@ -14,8 +14,8 @@ async function SubmitSolution(grade, category, taskName, codeText) {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-            grade,
-            category,
+            grade: grade,
+            category: category,
             task: taskName,
             code: codeText
         })
