@@ -8,28 +8,68 @@
 </head>
 
 <body>
-    <div class="programming_topBar">
-        <div class="programming_playerStats" id="playerStats">
-            <span id="playerName"> Name11111111111111111111 (Ти) </span>
-            <img class="universal_iconImage" id="playerIcon">
+    <div class="programming_wrapper">
+
+        <div class="programming_topBar">
+            <div class="programming_playerStats" id="playerStats">
+                <span id="playerName"> Name11111111111111111111 (Ти) </span>
+                <img class="universal_iconImage" id="playerIcon">
+            </div>
+            <span id="playerScore"> 0/800 </span>
+
+            <span class="programming_timer"> 30:00 </span>
+
+            <span id="enemyScore"> 0/800 </span>
+            <div class="programming_enemyStats" id="enemyStats">
+                <img class="universal_iconImage" id="enemyIcon">
+                <span id="enemyName"> Name11111111111111111111 </span>
+            </div>
         </div>
-        <span id="playerScore"> 0/800 </span>
 
-        <span class="programming_timer"> 30:00 </span>
-
-        <span id="enemyScore"> 0/800 </span>
-        <div class="programming_enemyStats" id="enemyStats">
-            <img class="universal_iconImage" id="enemyIcon">
-            <span id="enemyName"> Name11111111111111111111 </span>
+        <div class="programming_tasksButtons" id="tasksButtons">
+            <button> A </button>
+            <button> B </button>
+            <button> C </button>
+            <button> D </button>
+            <button> E </button>
+            <button> F </button>
+            <button> G </button>
+            <button> I </button>
         </div>
+
+        <div class="programming_tasksField" id="tasksField">
+            <p> <font size="4">Задача А</font> <br> <font size="6"><b>Назва задачі</b></font> </p>
+            <p class="programming_limits"> <font size="4"> <em>Ліміт часу 1 секунда</em></font> </p>
+            <p>Умова задачі</p>
+            <p><font size="5"><b>Вхідні файли</b></font></p>
+            <p>...</p>
+            <p><font size="5"><b>Вихідні файли</b></font></p>
+            <p>... </p>
+            <p><font size="5"><b>Приклади</b></font></p>
+
+            <p><font size="4"><b>Приклад №1</b></font></p>
+            <b>Ввід:</b>
+            <p class="programming_examples">10</p> 
+            <b>Вивід:</b>
+            <p class="programming_examples">11</p>
+
+            <p><font size="4"><b>Приклад №2</b></font></p>
+            <b>Ввід:</b>
+            <p class="programming_examples">31 </p> 
+            <b>Вивід:</b>
+            <p class="programming_examples">32</p>
+        </div>
+
+        <div class="programming_result" id="resultField">
+            50/100
+        </div>
+
+        <div class="programming_editorField" id="editorField">
+            <button class="programming_submitButton" onclick="UploadSolution()"> Відправити розв'язок </button>
+            <div class="programming_editor" id="editor" contenteditable="true" spellcheck="false"></div>
+        </div>
+
     </div>
-
-    <div id="editorField">
-        <button class="programming_submitButton" onclick="UploadSolution()"> Відправити розв'язок </button>
-        <div class="programming_editor" id="editor" contenteditable="true" spellcheck="false"></div>
-    </div>
-
-
 
     <script src="JSCode/CPPEditor.js"></script>
     <script src="JSCode/universalJS.js"></script>

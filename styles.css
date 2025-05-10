@@ -181,9 +181,21 @@ body {
 
 /* ---------- Battle_DoTasks ---------- */
 
+.programming_wrapper {
+    background: #fbfbfb;
+    height: 100vh;
+    display: grid;
+    grid-template-columns: 6fr 5fr;
+    grid-template-rows: 0.15fr 0.08fr 1fr 0.3fr;
+    gap: 10px 7px;
+}
+
 .programming_topBar {
-    position: fixed;
+    grid-column-start: 1;
+    grid-column-end: 3;
+
     width: 100%;
+    height: 100%;
     background: #333;
     color: white;
     display: flex;
@@ -208,65 +220,78 @@ body {
     padding: 30px;
 }
 
-#editorField {
-    position: fixed;
-    width: min(50vw, 450px);
-    height: calc(100vh - 84px - 25px);
+.programming_editorField {
+    background: #c9c9c9;
+    grid-row-start: 2;
+    grid-row-end: 4;
+
+    grid-column-start: 2;
+    grid-column-start: 2;
+
+    width: 100%;
+    height: 100%;
 
     right: 15px;
     top: 84px;
 }
 
-#editorField::after {
-    z-index: -1;
-    content: "";
-    position: absolute;
-    background-color: #eeeeee;
-    left: -10px;
-    top: 0;
-    height: 100%;
-    width: 100%;
-    padding: 10px;
-}
-
 .programming_editor {
     width: calc(100% - 6px - 10px);
-    height: calc(100% - 25px - 6px - 10px);
-    border: 5px solid #5e5b5b;
+    height: calc(100% - 25px - 6px - 10px - 17px);
+    border: 5px solid #5b5b5b;
     padding: 3px;
     overflow: auto;
     white-space: pre;
     word-wrap: normal;
 }
 
-/*----------------------------------------*/
-.token.keyword {
-    color: var(--kw);
-}
-
-.token.string {
-    color: var(--str);
-}
-
-.token.number {
-    color: var(--num);
-}
-
-.token.comment {
-    color: var(--cm);
-    font-style: italic;
-}
-
-.token.id {
-    color: var(--id);
-}
-
-.token.library {
-    color: var(--lib);
-}
-
-/*----------------------------------------*/
-
 .programming_submitButton {
     margin: 9px 15px 9px 9px;
+}
+
+.programming_tasksButtons {
+    width: 100%;
+    height: 100%;
+    background: #dfdfdf;
+}
+
+.programming_result {
+    grid-row-start: 4;
+    grid-row-end: 4;
+
+    grid-column-start: 2;
+    grid-column-start: 2;
+
+    align-items: center;
+    align-content: center;
+}
+
+.programming_tasksField {
+    grid-row-start: 3;
+    grid-row-end: 5;
+
+    padding: 10px;
+    width: calc(100% - 20px);
+    height: calc(100% - 20px);
+    background: #dfdfdf;
+    line-height: 1;
+    overflow-y: auto;
+    overflow-wrap: anywhere;
+}
+
+.programming_limits {
+    display: inline-block; 
+    background: #c9c9c9;
+    border-radius: 10px;
+    padding: 10px;
+    margin: -6px;
+    width: auto;
+}
+
+.programming_examples {
+    background: #c9c9c9;
+    padding: 15px;
+    margin: 10px;
+    border-radius: 10px;
+    overflow: auto;
 }

@@ -5,6 +5,9 @@ const THIS_PLAYER_INDEX = localStorage.getItem("playerIndex");
 const THIS_ENEMY_INDEX = localStorage.getItem("enemyIndex");
 
 const EDITOR = document.getElementById("editor");
+const TASK_FIELD = document.getElementById("tasksField");
+const TASK_BUTTONS_FIELD = document.getElementById("tasksButtons");
+
 const PLAYER_PROFILE_ICON = document.getElementById("playerIcon");
 const PLAYER_PROFILE_NAME = document.getElementById("playerName");
 const PLAYER_PROFILE_SCORE = document.getElementById("playerScore");
@@ -45,8 +48,6 @@ async function SomeAsyncFunction() {
     enemyTasks = payload.rooms[ROOM_CODE].players[THIS_ENEMY_INDEX].tasks;
 
     SetUpProfiles(payload);
-
-
 }
 
 function SetUpProfiles(payload) {
@@ -67,6 +68,54 @@ function SetUpProfiles(payload) {
     PLAYER_PROFILE_NAME.innerHTML = playerName + " (Ти)";
     ENEMY_PROFILE_ICON.src = `./Icons/icon_${enemyIcon}.png`;
     ENEMY_PROFILE_NAME.innerHTML = enemyName;
+
+    currentTask = payload.rooms[ROOM_CODE].players[THIS_PLAYER_INDEX].tasks[0];
+
+    SetUpUI(payload);
+}
+
+function SetUpUI(payload) {
+    const TASKS = payload.rooms[ROOM_CODE].players[THIS_PLAYER_INDEX].tasks;
+
+    for (let currentChar in TASKS) {
+        let taskButton = document.createElement("button");
+        taskButton.innerText = currentChar;
+        taskButton.onclick = NewTask(currentChar);
+
+        TASK_BUTTONS_FIELD.appendChild(taskButton);
+    }
+}
+
+async function NewTask(taskChar) {
+    const CURRENT_NEW_TASK = await FetchTask(GRADE_NUM, SET_OF_TASKS, taskChar);;
+
+    TASK_FIELD.innerHTML = "";
+
+    let taskLetterAndName = document.createElement("p");
+    let taskLimits = document.createElement("p");
+    let taskCondition = document.createElement("p");
+    let taskInputExplanation_Title = document.createElement("p");
+    let taskInputExplanation = document.createElement("p");
+    let taskOutputExplanation_Title = document.createElement("p");
+    let taskOutputExplanation = document.createElement("p");
+
+    taskLimits.setAttribute('class', 'programming_limits');
+
+    taskLetterAndName.innerHTML = `<font size="4"> Задача ${taskChar}</font> <br> <font size="6"><b>${CURRENT_NEW_TASK.name}</b></font>`;
+    taskLimits.innerHTML = `<font size="4"> <em>${CURRENT_NEW_TASK.limits}</em></font>`;
+    taskCondition.innerText = CURRENT_NEW_TASK.description;
+    taskInputExplanation_Title.innerHTML = `<font size="5"><b>Вхідні файли</b></font>`;
+    taskInputExplanation.innerText = CURRENT_NEW_TASK.inputExplanation;
+    taskOutputExplanation_Title.innerHTML = `<font size="5"><b>Вихідні файли</b></font>`;
+    taskOutputExplanation.innerText = CURRENT_NEW_TASK.outputExplanation;
+
+    TASK_FIELD.appendChild(taskLetterAndName);
+    TASK_FIELD.appendChild(taskLimits);
+    TASK_FIELD.appendChild(taskCondition);
+    TASK_FIELD.appendChild(taskInputExplanation_Title);
+    TASK_FIELD.appendChild(taskInputExplanation);
+    TASK_FIELD.appendChild(taskOutputExplanation_Title);
+    TASK_FIELD.appendChild(taskOutputExplanation);
 }
 
 async function UploadSolution() {
