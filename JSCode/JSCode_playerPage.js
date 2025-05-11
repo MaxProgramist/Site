@@ -1,5 +1,5 @@
-const ROOM_CODE = localStorage.getItem("roomCode");
-const THIS_PLAYER_INDEX = localStorage.getItem("playerIndex");
+const ROOM_CODE = sessionStorage.getItem("roomCode");
+const THIS_PLAYER_INDEX = sessionStorage.getItem("playerIndex");
 
 const PLAYER_DIV_LIST = document.getElementById("playersGrid");
 const CHOOSE_IMAGE_GRID = document.getElementById("chooseImageGrid");
@@ -28,9 +28,9 @@ async function SomeAsyncFunction() {
 
     if (payload.rooms[ROOM_CODE].isActive)
     {
-        await localStorage.setItem("gradeNum", payload.rooms[ROOM_CODE].grade);
-        await localStorage.setItem("setOfTasks", payload.rooms[ROOM_CODE].numberOfTasksSet);
-        await localStorage.setItem("playerIndex", THIS_PLAYER_INDEX);
+        await sessionStorage.setItem("gradeNum", payload.rooms[ROOM_CODE].grade);
+        await sessionStorage.setItem("setOfTasks", payload.rooms[ROOM_CODE].numberOfTasksSet);
+        await sessionStorage.setItem("playerIndex", THIS_PLAYER_INDEX);
 
         window.location.href = "chooseTasksPage.html";
     }

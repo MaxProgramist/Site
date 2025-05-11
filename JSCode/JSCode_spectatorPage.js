@@ -1,4 +1,4 @@
-const ROOM_CODE = localStorage.getItem("roomCode");
+const ROOM_CODE = sessionStorage.getItem("roomCode");
 
 const PLAYER_DIV_LIST = document.getElementById("playersGrid");
 

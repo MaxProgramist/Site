@@ -1,12 +1,13 @@
-const ROOM_CODE = localStorage.getItem("roomCode");
-const GRADE_NUM = localStorage.getItem("gradeNum");
-const SET_OF_TASKS = localStorage.getItem("setOfTasks");
-const THIS_PLAYER_INDEX = localStorage.getItem("playerIndex");
-const THIS_ENEMY_INDEX = localStorage.getItem("enemyIndex");
+const ROOM_CODE = sessionStorage.getItem("roomCode");
+const GRADE_NUM = sessionStorage.getItem("gradeNum");
+const SET_OF_TASKS = sessionStorage.getItem("setOfTasks");
+const THIS_PLAYER_INDEX = sessionStorage.getItem("playerIndex");
+const THIS_ENEMY_INDEX = sessionStorage.getItem("enemyIndex");
 
 const EDITOR = document.getElementById("editor");
 const TASK_FIELD = document.getElementById("tasksField");
 const TASK_BUTTONS_FIELD = document.getElementById("tasksButtons");
+const RESULT_FIELD = document.getElementById("resultField");
 
 const PLAYER_PROFILE_ICON = document.getElementById("playerIcon");
 const PLAYER_PROFILE_NAME = document.getElementById("playerName");
@@ -58,6 +59,7 @@ function SetUpProfiles(payload) {
     ENEMY_PROFILE_SCORE.innerHTML = `${enemyScore}/800`;
 
     if (setUpProfiles) return;
+    setUpProfiles = true;
 
     let playerName = payload.rooms[ROOM_CODE].players[THIS_PLAYER_INDEX].name;
     let enemyName = payload.rooms[ROOM_CODE].players[THIS_ENEMY_INDEX].name;
@@ -72,15 +74,18 @@ function SetUpProfiles(payload) {
     currentTask = payload.rooms[ROOM_CODE].players[THIS_PLAYER_INDEX].tasks[0];
 
     SetUpUI(payload);
+    NewTask(currentTask);
 }
 
-function SetUpUI(payload) {
+async function SetUpUI(payload) {
     const TASKS = payload.rooms[ROOM_CODE].players[THIS_PLAYER_INDEX].tasks;
 
-    for (let currentChar in TASKS) {
+    console.log(TASKS)
+
+    for (let currentChar of TASKS) {
         let taskButton = document.createElement("button");
         taskButton.innerText = currentChar;
-        taskButton.onclick = NewTask(currentChar);
+        taskButton.addEventListener("click", () => NewTask(currentChar));
 
         TASK_BUTTONS_FIELD.appendChild(taskButton);
     }
@@ -88,6 +93,9 @@ function SetUpUI(payload) {
 
 async function NewTask(taskChar) {
     const CURRENT_NEW_TASK = await FetchTask(GRADE_NUM, SET_OF_TASKS, taskChar);;
+    const CURRENT_TASK_EXAMPLES = CURRENT_NEW_TASK.examples;
+
+    currentTask = taskChar;
 
     TASK_FIELD.innerHTML = "";
 
@@ -98,6 +106,7 @@ async function NewTask(taskChar) {
     let taskInputExplanation = document.createElement("p");
     let taskOutputExplanation_Title = document.createElement("p");
     let taskOutputExplanation = document.createElement("p");
+    let taskExample_Title = document.createElement("p");
 
     taskLimits.setAttribute('class', 'programming_limits');
 
@@ -108,6 +117,7 @@ async function NewTask(taskChar) {
     taskInputExplanation.innerText = CURRENT_NEW_TASK.inputExplanation;
     taskOutputExplanation_Title.innerHTML = `<font size="5"><b>Вихідні файли</b></font>`;
     taskOutputExplanation.innerText = CURRENT_NEW_TASK.outputExplanation;
+    taskExample_Title.innerHTML = `<font size="5"><b>Приклади</b></font>`;
 
     TASK_FIELD.appendChild(taskLetterAndName);
     TASK_FIELD.appendChild(taskLimits);
@@ -116,6 +126,30 @@ async function NewTask(taskChar) {
     TASK_FIELD.appendChild(taskInputExplanation);
     TASK_FIELD.appendChild(taskOutputExplanation_Title);
     TASK_FIELD.appendChild(taskOutputExplanation);
+    TASK_FIELD.appendChild(taskExample_Title);
+
+    let currentExampleIndex = 1;
+    for (let currentExample in CURRENT_TASK_EXAMPLES) {
+        let exampleCount = document.createElement("p");
+        let exampleInputTitle = document.createElement("span");
+        let exampleInput = document.createElement("p");
+        let exampleOutputTitle = document.createElement("span");
+        let exampleOutput = document.createElement("p");
+
+        exampleCount.innerHTML = `<font size="4"><b>Приклад №${currentExampleIndex}</b></font>`;
+        exampleInputTitle.innerHTML = `<b>Ввід:</b>`;
+        exampleInput.innerText = currentExample.input;
+        exampleOutputTitle.innerHTML = `<b>Вивід:</b>`;
+        exampleOutput.innerText = currentExample.output;
+
+        TASK_FIELD.appendChild(exampleCount);
+        TASK_FIELD.appendChild(exampleInputTitle);
+        TASK_FIELD.appendChild(exampleInput);
+        TASK_FIELD.appendChild(exampleOutputTitle);
+        TASK_FIELD.appendChild(exampleOutput);
+
+        currentExampleIndex++;
+    }
 }
 
 async function UploadSolution() {
@@ -125,7 +159,7 @@ async function UploadSolution() {
     console.log(cleanedCode);
 
     let res = await SubmitSolution(GRADE_NUM, SET_OF_TASKS, currentTask, cleanedCode);
-    console.log(res);
+    RESULT_FIELD.innerText = res;
 }
 
 function CleanCode(rawCode) {

@@ -42,8 +42,8 @@ async function JoinRoom() {
 
     await SaveData(payload);
 
-    await localStorage.setItem("roomCode", joinRoomCodeValue);
-    await localStorage.setItem("playerIndex", payload.rooms[joinRoomCodeValue].players.length-1);
+    await sessionStorage.setItem("roomCode", joinRoomCodeValue);
+    await sessionStorage.setItem("playerIndex", payload.rooms[joinRoomCodeValue].players.length-1);
     window.location.href = "playerPage.html";
 }
 
@@ -79,7 +79,7 @@ async function MakeRoom() {
 
     await SaveData(payload);
 
-    await localStorage.setItem("roomCode", makeRoomCodeValue);
+    await sessionStorage.setItem("roomCode", makeRoomCodeValue);
     window.location.href = "adminPage.html";
 }
 

@@ -1,7 +1,7 @@
-const ROOM_CODE = localStorage.getItem("roomCode");
-const THIS_PLAYER_INDEX = localStorage.getItem("playerIndex");
-const GRADE_NUM = localStorage.getItem("gradeNum");
-const SET_OF_TASKS = localStorage.getItem("setOfTasks");
+const ROOM_CODE = sessionStorage.getItem("roomCode");
+const THIS_PLAYER_INDEX = sessionStorage.getItem("playerIndex");
+const GRADE_NUM = sessionStorage.getItem("gradeNum");
+const SET_OF_TASKS = sessionStorage.getItem("setOfTasks");
 
 const PLAYER_PROFILE_ICON = document.getElementById("playerIcon");
 const PLAYER_PROFILE_NAME = document.getElementById("playerName");
@@ -52,22 +52,22 @@ async function SomeAsyncFunction() {
     let enemyTasks = payload.rooms[ROOM_CODE].players[payload.rooms[ROOM_CODE].players[THIS_PLAYER_INDEX].enemy].tasks;
 
     if (myTasks.length == payload.rooms[ROOM_CODE].maxCountOfTasks && enemyTasks.length == payload.rooms[ROOM_CODE].maxCountOfTasks) {
-        await localStorage.setItem("gradeNum", payload.rooms[ROOM_CODE].grade);
-        await localStorage.setItem("setOfTasks", payload.rooms[ROOM_CODE].numberOfTasksSet);
-        await localStorage.setItem("playerIndex", THIS_PLAYER_INDEX);
-        await localStorage.setItem("enemyIndex", payload.rooms[ROOM_CODE].players[THIS_PLAYER_INDEX].enemy);
+        await sessionStorage.setItem("gradeNum", payload.rooms[ROOM_CODE].grade);
+        await sessionStorage.setItem("setOfTasks", payload.rooms[ROOM_CODE].numberOfTasksSet);
+        await sessionStorage.setItem("playerIndex", THIS_PLAYER_INDEX);
+        await sessionStorage.setItem("enemyIndex", payload.rooms[ROOM_CODE].players[THIS_PLAYER_INDEX].enemy);
 
         window.location.href = "programmingPage.html";
     }
 
-    if (myTasks.length > listOfPlayerLetter.lenght) {
-        for (let myCurrentTaskIndex = 0; myCurrentTaskIndex < myTasks.length; myCurrentTaskIndex++) {
-            let myCurrentTask = myTasks[myCurrentTaskIndex];
-            for (let currentTaskIndex = 0; currentTaskIndex < listOfCardsLetter.length; currentTaskIndex++) {
-                if (`<font size="3"> Задача ${myCurrentTask} </font>` == listOfCardsLetter[currentTaskIndex].innerHTML) {
-                    listOfCardsLetter[currentTaskIndex].parentElement.remove();
-                    listOfCardsLetter.splice(currentTaskIndex, currentTaskIndex);
+    for (let myCurrentTaskIndex = 0; myCurrentTaskIndex < myTasks.length; myCurrentTaskIndex++) {
+        let myCurrentTask = myTasks[myCurrentTaskIndex];
+        for (let currentTaskIndex = 0; currentTaskIndex < listOfCardsLetter.length; currentTaskIndex++) {
+            if (myCurrentTask == listOfCardsLetter[currentTaskIndex].id) {
+                listOfCardsLetter[currentTaskIndex].remove();
+                listOfCardsLetter.splice(currentTaskIndex, currentTaskIndex);
 
+                if (!listOfPlayerLetter.includes(myCurrentTask)) {
                     let playerTaskLatter = document.createElement("span");
                     playerTaskLatter.innerHTML = myCurrentTask;
                     PLAYER_SPAN_LIST_OF_TASKS.appendChild(playerTaskLatter);
@@ -79,24 +79,25 @@ async function SomeAsyncFunction() {
         }
     }
 
+    console.log(listOfPlayerLetter.length + " " + myTasks.length);
 
-if (!cardMade) {
-    SetUpProfiles(payload);
 
-    for (let i = 0; i < 16; i++) {
-        let taskChar = String.fromCharCode('A'.charCodeAt(0) + i);
-        let res = await FetchTask(GRADE_NUM, SET_OF_TASKS, taskChar);
-        CreateCardWithTask(res, taskChar);
+    if (!cardMade) {
+        SetUpProfiles(payload);
+
+        for (let i = 0; i < 16; i++) {
+            let taskChar = String.fromCharCode('A'.charCodeAt(0) + i);
+            let res = await FetchTask(GRADE_NUM, SET_OF_TASKS, taskChar);
+            CreateCardWithTask(res, taskChar);
+        }
+        cardMade = !cardMade;
     }
-    cardMade = !cardMade;
-}
-
-console.log(THIS_PLAYER_INDEX);
 }
 
 function CreateCardWithTask(task, taskPeriod) {
     let taskCard = document.createElement("div");
     taskCard.setAttribute('class', 'chooseTasks_cardOfTask');
+    taskCard.id = taskPeriod;
 
     let selectButton = document.createElement("button");
     let infoButton = document.createElement("button");
@@ -105,8 +106,6 @@ function CreateCardWithTask(task, taskPeriod) {
 
     taskLetter.innerHTML = `<font size="3"> Задача ${taskPeriod} </font>`;
     taskName.innerHTML = `<font size="4"> ${task.name} </font>`;
-
-    listOfCardsLetter.push(taskLetter);
 
     selectButton.innerHTML = "✓";
     selectButton.setAttribute('class', 'chooseTasks_cardOfTask_button_select');
@@ -154,6 +153,8 @@ function CreateCardWithTask(task, taskPeriod) {
     taskCard.appendChild(taskName);
     taskCard.appendChild(selectButton);
     taskCard.appendChild(infoButton);
+
+    listOfCardsLetter.push(taskCard);
 
     DIV_LIST_OF_CARDS.appendChild(taskCard);
 }

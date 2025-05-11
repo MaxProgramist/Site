@@ -1,4 +1,4 @@
-const ROOM_CODE = localStorage.getItem("roomCode");
+const ROOM_CODE = sessionStorage.getItem("roomCode");
 
 const CODE_TEXT_FIELD = document.getElementById("code");
 const GRADE_TEXT_FIELD = document.getElementById("grade");
