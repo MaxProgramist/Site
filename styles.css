@@ -264,6 +264,9 @@ body {
 
     align-items: center;
     align-content: center;
+
+    overflow: auto;
+    overflow-wrap: anywhere;
 }
 
 .programming_tasksField {

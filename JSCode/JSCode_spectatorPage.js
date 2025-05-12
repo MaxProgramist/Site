@@ -37,7 +37,7 @@ function ChangePlayersScore(payload, playerIndex) {
     let imgInsideDiv = playerDiv.querySelector("img");
     let pInsideDiv = playerDiv.querySelectorAll("p");
     imgInsideDiv.src = `./Icons/icon_${playerSkin}.png`;
-    pInsideDiv[1].textContent = `${playerScore}/800`;
+    pInsideDiv[1].textContent = `${playerScore}/${payload.rooms[ROOM_CODE].maxCountOfTasks*100}`;
 }
 
 async function MakePlayersGroups() {
@@ -73,7 +73,7 @@ function NewPlayerIcon(payload, playerIndex) {
     let playerBoxName = document.createElement("p");
     playerBoxName.textContent = `${playerName}`;
     let playerBoxScore = document.createElement("p");
-    playerBoxScore.textContent = `${playerScore}/800`;
+    playerBoxScore.textContent = `${playerScore}/${payload.rooms[ROOM_CODE].maxCountOfTasks*100}`;
 
     playerBoxProfile.appendChild(playerBoxName);
     playerBoxProfile.appendChild(playerBoxScore);

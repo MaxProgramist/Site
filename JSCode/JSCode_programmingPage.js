@@ -25,6 +25,9 @@ let currentTask = "A";
 
 let setUpProfiles = false;
 
+let resultScoresOnTasks = new Map();
+let resultTextOnTasks = new Map();
+let codeOnTasks = new Map();
 
 Loop();
 
@@ -48,7 +51,23 @@ async function SomeAsyncFunction() {
     myTasks = payload.rooms[ROOM_CODE].players[THIS_PLAYER_INDEX].tasks;
     enemyTasks = payload.rooms[ROOM_CODE].players[THIS_ENEMY_INDEX].tasks;
 
+    RESULT_FIELD.innerText = resultTextOnTasks.get(currentTask);
+
     SetUpProfiles(payload);
+}
+
+async function SaveNewScore() {
+    let payload = await LoadData();
+
+    const TASKS = payload.rooms[ROOM_CODE].players[THIS_PLAYER_INDEX].tasks;
+    let thisPlayerScore = 0;
+
+    for (let currentChar of TASKS) 
+        thisPlayerScore += resultScoresOnTasks.get(currentChar);
+
+    payload.rooms[ROOM_CODE].players[THIS_PLAYER_INDEX].score = thisPlayerScore;
+
+    await SaveData(payload);
 }
 
 function SetUpProfiles(payload) {
@@ -80,12 +99,13 @@ function SetUpProfiles(payload) {
 async function SetUpUI(payload) {
     const TASKS = payload.rooms[ROOM_CODE].players[THIS_PLAYER_INDEX].tasks;
 
-    console.log(TASKS)
-
     for (let currentChar of TASKS) {
         let taskButton = document.createElement("button");
         taskButton.innerText = currentChar;
         taskButton.addEventListener("click", () => NewTask(currentChar));
+
+        resultScoresOnTasks.set(currentChar, 0);
+        resultTextOnTasks.set(currentChar, "0/100");
 
         TASK_BUTTONS_FIELD.appendChild(taskButton);
     }
@@ -128,15 +148,18 @@ async function NewTask(taskChar) {
     TASK_FIELD.appendChild(taskOutputExplanation);
     TASK_FIELD.appendChild(taskExample_Title);
 
-    let currentExampleIndex = 1;
-    for (let currentExample in CURRENT_TASK_EXAMPLES) {
+    for (let currentExampleIndex = 0; currentExampleIndex < CURRENT_TASK_EXAMPLES.length; currentExampleIndex++) {
+        currentExample = CURRENT_TASK_EXAMPLES[currentExampleIndex];
         let exampleCount = document.createElement("p");
         let exampleInputTitle = document.createElement("span");
         let exampleInput = document.createElement("p");
         let exampleOutputTitle = document.createElement("span");
         let exampleOutput = document.createElement("p");
 
-        exampleCount.innerHTML = `<font size="4"><b>Приклад №${currentExampleIndex}</b></font>`;
+        exampleInput.setAttribute('class', 'programming_examples');
+        exampleOutput.setAttribute('class', 'programming_examples');
+
+        exampleCount.innerHTML = `<font size="4"><b>Приклад №${currentExampleIndex+1}</b></font>`;
         exampleInputTitle.innerHTML = `<b>Ввід:</b>`;
         exampleInput.innerText = currentExample.input;
         exampleOutputTitle.innerHTML = `<b>Вивід:</b>`;
@@ -156,10 +179,21 @@ async function UploadSolution() {
     let currentNewCode = EDITOR.innerText;
     let cleanedCode = CleanCode(currentNewCode);
 
-    console.log(cleanedCode);
-
     let res = await SubmitSolution(GRADE_NUM, SET_OF_TASKS, currentTask, cleanedCode);
-    RESULT_FIELD.innerText = res;
+    console.log(res);
+
+    if (!res.compiled) { resultTextOnTasks.set(currentTask, res.errors); return; }
+
+    let countOfPassed = 0, countOfTests = res.results.length;
+
+    for (let currentResultIndex = 0; currentResultIndex < res.results.length; currentResultIndex++) {
+        if (res.results[currentResultIndex].passed) countOfPassed++;
+    }
+
+    resultScoresOnTasks.set(currentTask, Math.max(resultScoresOnTasks.get(currentTask), countOfPassed / countOfTests * 100));
+    resultTextOnTasks.set(currentTask, `${countOfPassed / countOfTests * 100}/100`);
+
+    SaveNewScore();
 }
 
 function CleanCode(rawCode) {
@@ -167,3 +201,4 @@ function CleanCode(rawCode) {
     let normalized = withoutBom.normalize('NFKC');
     return normalized;
 }
+
