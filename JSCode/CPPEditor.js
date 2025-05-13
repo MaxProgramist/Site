@@ -1,6 +1,10 @@
 const INPUT_FIELD = document.getElementById('editor');
 
+const LIST_OF_PARE_SYMBOLS = {'{':'}', '[':']', '(':')', '"':'"'};
+
 INPUT_FIELD.addEventListener('keydown', GetAKey);
+
+
 
 function GetAKey(currentKey) {
     if (currentKey.key === 'Tab') {
@@ -10,10 +14,14 @@ function GetAKey(currentKey) {
         SetCursorAt(currentCursorPos + 4);
         INPUT_FIELD.focus();
     }
-    if (currentKey.key === '{') {
+    else if (LIST_OF_PARE_SYMBOLS.hasOwnProperty(currentKey.key)) {
         currentKey.preventDefault();
+        let currentSymbolIndex = currentKey.key.charCodeAt(0);
+        let currentSymbol = String.fromCharCode(currentSymbolIndex);
+        let nextSymbol = LIST_OF_PARE_SYMBOLS[currentSymbol];
         let currentCursorPos = GetCursorPosition();
-        InsertTextAtPosition("}", currentCursorPos);
+        InsertTextAtPosition(currentSymbol+nextSymbol, currentCursorPos);
+        SetCursorAt(currentCursorPos+1);
         INPUT_FIELD.focus();
     }
 }

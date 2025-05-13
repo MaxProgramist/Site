@@ -71,6 +71,8 @@ async function MakeRoom() {
         "grade": 8,
         "numberOfTasksSet": "linar_1",
         "maxCountOfTasks": 8,
+        "maxTimeForTasks": 45,
+        "startTimeForTasks": 0,
         "players": []
     };
 

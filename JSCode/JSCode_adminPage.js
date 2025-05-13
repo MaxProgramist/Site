@@ -5,6 +5,7 @@ const GRADE_TEXT_FIELD = document.getElementById("grade");
 const SET_OF_TASKS_TEXT_FIELD = document.getElementById("setOfTasks");
 const PLAYER_DIV_LIST = document.getElementById("playersGrid");
 const COUNT_OF_TASKS_INPUT = document.getElementById("countOfPlayersInput");
+const TIME_FIELD = document.getElementById("timeField");
 
 const GRADE_DIV_LIST = document.getElementById("gradeList");
 const SET_OF_TASKS_DIV_LIST_GRADE_8 = document.getElementById("setList_grade_8");
@@ -18,6 +19,7 @@ SET_OF_TASKS_TEXT_FIELD.innerText = ";  Сет задач: Лінійні алг
 COUNT_OF_TASKS_INPUT.value = 8;
 
 let divToPlayer = [];
+let timeForTasksInMinutes = 45;
 
 var currentRoomPlayers = 0;
 
@@ -39,6 +41,8 @@ async function SomeAsyncFunction() {
     let payload = await LoadData();
 
     if (payload.roomsCodes.length < 1) window.location.href = "index.html";
+
+    TIME_FIELD.innerText = timeForTasksInMinutes;
 
     for (let i = 0; i < divToPlayer.length; i++)
         UpdatePlayerSkin(payload, i);
@@ -121,6 +125,11 @@ async function ChangeGradeOfRoom(numberOfGrade) {
     await SaveData(payload);
 }
 
+async function AddTimeForTasks(timeChanger) {
+    if ((timeChanger > 0 && timeForTasksInMinutes < 120) || (timeChanger < 0 && timeForTasksInMinutes > 25))
+        timeForTasksInMinutes += timeChanger;
+}
+
 async function ChangeSetOfTasksOfRoom(numberOfSet) {
     let payload = await LoadData();
 
@@ -139,6 +148,8 @@ async function StartGame() {
 
     payload.rooms[ROOM_CODE].isActive = true;
     payload.rooms[ROOM_CODE].maxCountOfTasks = clamp(COUNT_OF_TASKS_INPUT.value, 1, 8);
+    payload.rooms[ROOM_CODE].maxTimeForTasks = timeForTasksInMinutes;
+    payload.rooms[ROOM_CODE].startTimeForTasks = new Date();
 
     let playerList = [];
     for (let i = 0; i < payload.rooms[ROOM_CODE].players.length; i++) {

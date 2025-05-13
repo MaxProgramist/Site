@@ -8,6 +8,7 @@ const EDITOR = document.getElementById("editor");
 const TASK_FIELD = document.getElementById("tasksField");
 const TASK_BUTTONS_FIELD = document.getElementById("tasksButtons");
 const RESULT_FIELD = document.getElementById("resultField");
+const TIMER_FIELD = document.getElementById("timer");
 
 const PLAYER_PROFILE_ICON = document.getElementById("playerIcon");
 const PLAYER_PROFILE_NAME = document.getElementById("playerName");
@@ -46,7 +47,9 @@ function Delay(ms) {
 async function SomeAsyncFunction() {
     let payload = await LoadData();
 
-    //if (payload.roomsCodes.length < 1) window.location.href = "index.html";
+    if (payload.roomsCodes.length < 1) window.location.href = "index.html";
+
+    SetTimer(payload);
 
     myTasks = payload.rooms[ROOM_CODE].players[THIS_PLAYER_INDEX].tasks;
     enemyTasks = payload.rooms[ROOM_CODE].players[THIS_ENEMY_INDEX].tasks;
@@ -54,6 +57,21 @@ async function SomeAsyncFunction() {
     RESULT_FIELD.innerText = resultTextOnTasks.get(currentTask);
 
     SetUpProfiles(payload);
+}
+
+function SetTimer(payload) {
+    const startTime = payload.rooms[ROOM_CODE].startTimeForTasks;
+    let currentTime = new Date();
+    let elapsedMilliseconds = currentTime - startTime;
+    
+    let totalSeconds = Math.floor(elapsedMilliseconds / 1000);
+    let currentMinutes = Math.floor(totalSeconds / 60);
+    let currentSeconds = totalSeconds % 60;
+
+    let formattedMinutes = String(currentMinutes).padStart(2, '0');
+    let formattedSeconds = String(currentSeconds).padStart(2, '0');
+
+    TIMER_FIELD.innerText = `${formattedMinutes}:${formattedSeconds}`;
 }
 
 async function SaveNewScore() {
