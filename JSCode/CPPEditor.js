@@ -10,6 +10,12 @@ function GetAKey(currentKey) {
         SetCursorAt(currentCursorPos + 4);
         INPUT_FIELD.focus();
     }
+    if (currentKey.key === '{') {
+        currentKey.preventDefault();
+        let currentCursorPos = GetCursorPosition();
+        InsertTextAtPosition("}", currentCursorPos);
+        INPUT_FIELD.focus();
+    }
 }
 
 function GetCursorPosition() {
