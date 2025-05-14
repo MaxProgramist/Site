@@ -65,7 +65,10 @@ function SetTimer(payload) {
     let currentTime = new Date();
     let elapsedMilliseconds = currentTime - START_TIME;
     
-    let totalSeconds = TIME_FOR_TASKS - Math.floor(elapsedMilliseconds / 1000);
+    let totalSeconds = TIME_FOR_TASKS*60 - Math.floor(elapsedMilliseconds / 1000);
+
+    if (totalSeconds <= 0) window.location.href = "resultPage.html";
+
     let currentMinutes = Math.floor(totalSeconds / 60);
     let currentSeconds = totalSeconds % 60;
 
@@ -92,9 +95,10 @@ async function SaveNewScore() {
 function SetUpProfiles(payload) {
     let playerScore = payload.rooms[ROOM_CODE].players[THIS_PLAYER_INDEX].score;
     let enemyScore = payload.rooms[ROOM_CODE].players[THIS_ENEMY_INDEX].score;
+    let maxPosibleScore = payload.rooms[ROOM_CODE].maxCountOfTasks * 100;
 
-    PLAYER_PROFILE_SCORE.innerHTML = `${playerScore}/800`;
-    ENEMY_PROFILE_SCORE.innerHTML = `${enemyScore}/800`;
+    PLAYER_PROFILE_SCORE.innerHTML = `${playerScore}/${maxPosibleScore}`;
+    ENEMY_PROFILE_SCORE.innerHTML = `${enemyScore}/${maxPosibleScore}`;
 
     if (setUpProfiles) return;
     setUpProfiles = true;

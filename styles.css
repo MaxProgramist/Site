@@ -1,14 +1,3 @@
-:root {
-    --bg: #282c34;
-    --fg: #abb2bf;
-    --kw: #c678dd;
-    --str: #98c379;
-    --num: #d19a66;
-    --cm: #5c6370;
-    --id: #61afef;
-    --lib: #e5c07b;
-}
-
 body {
     margin: 0;
     padding: 0;
@@ -19,6 +8,7 @@ body {
     height: min(10vw, min(10vh, 60px));
     padding: min(1vw, min(1vh, 6px));
 }
+
 
 /* ---------- Index ---------- */
 
@@ -179,6 +169,7 @@ body {
     right: 0;
 }
 
+
 /* ---------- Battle_DoTasks ---------- */
 
 .programming_wrapper {
@@ -297,4 +288,34 @@ body {
     margin: 10px;
     border-radius: 10px;
     overflow: auto;
+}
+
+
+/* ---------- Result ---------- */
+
+.result_players {
+    grid-column-start: 1;
+    grid-column-end: 3;
+
+    width: 100%;
+    height: 100%;
+    background: #333;
+    color: white;
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+    top: 0;
+    left: 0;
+}
+
+.result_playerStats,
+.result_enemyStats {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin: 100px;
 }
