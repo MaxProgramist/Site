@@ -60,7 +60,7 @@ async function SomeAsyncFunction() {
 }
 
 function SetTimer(payload) {
-    const startTime = payload.rooms[ROOM_CODE].startTimeForTasks;
+    const startTime = new Date(payload.rooms[ROOM_CODE].startTimeForTasks);
     let currentTime = new Date();
     let elapsedMilliseconds = currentTime - startTime;
     
