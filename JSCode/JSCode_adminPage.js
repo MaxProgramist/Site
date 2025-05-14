@@ -126,7 +126,7 @@ async function ChangeGradeOfRoom(numberOfGrade) {
 }
 
 async function AddTimeForTasks(timeChanger) {
-    if ((timeChanger > 0 && timeForTasksInMinutes < 120) || (timeChanger < 0 && timeForTasksInMinutes > 25))
+    if ((timeChanger > 0 && timeForTasksInMinutes < 120) || (timeChanger < 0 && timeForTasksInMinutes > 5))
         timeForTasksInMinutes += timeChanger;
 }
 
