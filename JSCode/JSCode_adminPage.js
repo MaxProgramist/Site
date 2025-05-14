@@ -99,22 +99,44 @@ function GradeMenu() {
 async function SetOfTasksMenu() {
     let payload = await LoadData();
 
-    SET_OF_TASKS_DIV_LIST_GRADE_8.style.display = "none";
-    SET_OF_TASKS_DIV_LIST_GRADE_9.style.display = "none";
-    SET_OF_TASKS_DIV_LIST_GRADE_10.style.display = "none";
-    SET_OF_TASKS_DIV_LIST_GRADE_11.style.display = "none";
-
-    let currentDivList = null;
-    if (payload.rooms[ROOM_CODE].grade == 8) currentDivList = SET_OF_TASKS_DIV_LIST_GRADE_8;
-    else if (payload.rooms[ROOM_CODE].grade == 9) currentDivList = SET_OF_TASKS_DIV_LIST_GRADE_9;
-    else if (payload.rooms[ROOM_CODE].grade == 10) currentDivList = SET_OF_TASKS_DIV_LIST_GRADE_10;
-    else if (payload.rooms[ROOM_CODE].grade == 11) currentDivList = SET_OF_TASKS_DIV_LIST_GRADE_11;
-
-    if (currentDivList.style.display === "none")
-        currentDivList.style.display = "block";
-    else
-    currentDivList.style.display = "none";
+    if (payload.rooms[ROOM_CODE].grade == 8) {
+        SET_OF_TASKS_DIV_LIST_GRADE_9.style.display = "none";
+        SET_OF_TASKS_DIV_LIST_GRADE_10.style.display = "none";
+        SET_OF_TASKS_DIV_LIST_GRADE_11.style.display = "none";
+        if (SET_OF_TASKS_DIV_LIST_GRADE_8.style.display === "none")
+            SET_OF_TASKS_DIV_LIST_GRADE_8.style.display = "block";
+        else
+            SET_OF_TASKS_DIV_LIST_GRADE_8.style.display = "none";
+    }
+    else if (payload.rooms[ROOM_CODE].grade == 9) {
+        SET_OF_TASKS_DIV_LIST_GRADE_8.style.display = "none";
+        SET_OF_TASKS_DIV_LIST_GRADE_10.style.display = "none";
+        SET_OF_TASKS_DIV_LIST_GRADE_11.style.display = "none";
+        if (SET_OF_TASKS_DIV_LIST_GRADE_9.style.display === "none")
+            SET_OF_TASKS_DIV_LIST_GRADE_9.style.display = "block";
+        else
+            SET_OF_TASKS_DIV_LIST_GRADE_9.style.display = "none";
+    }
+    else if (payload.rooms[ROOM_CODE].grade == 10) {
+        SET_OF_TASKS_DIV_LIST_GRADE_9.style.display = "none";
+        SET_OF_TASKS_DIV_LIST_GRADE_8.style.display = "none";
+        SET_OF_TASKS_DIV_LIST_GRADE_11.style.display = "none";
+        if (SET_OF_TASKS_DIV_LIST_GRADE_10.style.display === "none")
+            SET_OF_TASKS_DIV_LIST_GRADE_10.style.display = "block";
+        else
+            SET_OF_TASKS_DIV_LIST_GRADE_10.style.display = "none";
+    }
+    else if (payload.rooms[ROOM_CODE].grade == 11) {
+        SET_OF_TASKS_DIV_LIST_GRADE_8.style.display = "none";
+        SET_OF_TASKS_DIV_LIST_GRADE_10.style.display = "none";
+        SET_OF_TASKS_DIV_LIST_GRADE_9.style.display = "none";
+        if (SET_OF_TASKS_DIV_LIST_GRADE_11.style.display === "none")
+            SET_OF_TASKS_DIV_LIST_GRADE_11.style.display = "block";
+        else
+            SET_OF_TASKS_DIV_LIST_GRADE_11.style.display = "none";
+    }
 }
+
 
 async function ChangeGradeOfRoom(numberOfGrade) {
     let payload = await LoadData();
