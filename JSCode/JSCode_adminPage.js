@@ -99,6 +99,8 @@ function GradeMenu() {
 async function SetOfTasksMenu() {
     let payload = await LoadData();
 
+    GRADE_DIV_LIST.style.display = "none";
+
     if (payload.rooms[ROOM_CODE].grade == 8) {
         SET_OF_TASKS_DIV_LIST_GRADE_9.style.display = "none";
         SET_OF_TASKS_DIV_LIST_GRADE_10.style.display = "none";
