@@ -16,34 +16,12 @@ async function JoinRoom() {
         if (charCode < 48 || charCode > 57) return PopUpWindowOfError("Incorrect code type");
     }
 
-    let payload = await LoadData();
+    let serverAnswer = await GetFunctionResultFromServer("JSCode_index", "JoinRoom", [nicknameValue, joinRoomCodeValue]);
 
-    if (payload.roomsCodes.includes(joinRoomCodeValue)) {
-        if (payload.rooms[joinRoomCodeValue].countOfPlayers <= payload.rooms[joinRoomCodeValue].players.length)
-            return PopUpWindowOfError("Too many players in room");
-        if (payload.rooms[joinRoomCodeValue].isActive)
-            return PopUpWindowOfError("The game has started in this room");
-
-        for (let currentPlayer of payload.rooms[joinRoomCodeValue].players)
-            if (currentPlayer.name == nicknameValue)
-                return PopUpWindowOfError("Nickname is already taken!");
-
-        const newPlayer = {
-            "name": nicknameValue,
-            "skin": 0,
-            "enemy": -1,
-            "tasks": "",
-            "score": 0,
-            "canChoose": false
-        }
-        payload.rooms[joinRoomCodeValue].players.push(newPlayer);
-    }
-    else return PopUpWindowOfError("Wrong room code");
-
-    await SaveData(payload);
+    if (typeof serverAnswer === "string") return PopUpWindowOfError(serverAnswer);
 
     await sessionStorage.setItem("roomCode", joinRoomCodeValue);
-    await sessionStorage.setItem("playerIndex", payload.rooms[joinRoomCodeValue].players.length-1);
+    await sessionStorage.setItem("playerIndex", serverAnswer);
     window.location.href = "playerPage.html";
 }
 
@@ -60,41 +38,16 @@ async function MakeRoom() {
         if (charCode < 48 || charCode > 57) return PopUpWindowOfError("Incorrect code type");
     }
 
-    let payload = await LoadData();
+    let serverAnswer = await GetFunctionResultFromServer("JSCode_index", "MakeRoom", [makeRoomCodeValue, roomPlayersCount]);
 
-    if (payload.roomsCodes.includes(makeRoomCodeValue))
-        return PopUpWindowOfError("Room is already created!");
-
-    let newRoom = {
-        "countOfPlayers": roomPlayersCount,
-        "isActive": false,
-        "grade": 8,
-        "numberOfTasksSet": "linar_1",
-        "maxCountOfTasks": 8,
-        "maxTimeForTasks": 45,
-        "startTimeForTasks": 0,
-        "players": []
-    };
-
-    payload.roomsCodes.push(makeRoomCodeValue);
-    payload.rooms[makeRoomCodeValue] = newRoom;
-
-    await SaveData(payload);
+    if (typeof serverAnswer === "string") return PopUpWindowOfError(serverAnswer);
 
     await sessionStorage.setItem("roomCode", makeRoomCodeValue);
     window.location.href = "adminPage.html";
 }
 
 async function MakeRandomRoomCode() {
-    let payload = await LoadData();
-
-    let currentRoomCode = RandomString(4);
-
-    while (payload.roomsCodes.includes(currentRoomCode)) {
-        currentRoomCode = RandomString(4);
-    }
-
-    MAKE_ROOM_CODE_INPUT.value = `${currentRoomCode}`;
+    MAKE_ROOM_CODE_INPUT.value = await GetFunctionResultFromServer("JSCode_index", "MakeRandomRoomCode");
 }
 
 function RandomString(length) {
@@ -110,7 +63,9 @@ function RandomString(length) {
 }
 
 async function WakeUpServers() {
-    await LoadData();
-    await FetchTask(8, 'linar_1', 'A');
-    return PopUpWindowOfError("Servers are awake!");
+    return PopUpWindowOfError(await GetFunctionResultFromServer("JSCode_index", "WakeUpServers"));
+}
+
+async function ResetData() {
+    await GetFunctionResultFromServer("JSCode_index", "ResetRoomsData")
 }

@@ -20,52 +20,53 @@ function Delay(ms) {
 }
 
 async function SomeAsyncFunction() {
-    let payload = await LoadData();
+    let isRoomAvailable = await GetFunctionResultFromServer("JSCode_index", "RoomAvailability");
+    if (!isRoomAvailable) window.location.href = "index.html";
 
-    if (payload.roomsCodes.length < 1) window.location.href = "index.html";
+    let playersInRooms = await GetFunctionResultFromServer("JSCode_spectatorPage", "GetPlayers", [ROOM_CODE]);
+    let maxCountOfTasks = await GetFunctionResultFromServer("JSCode_spectatorPage", "GetMaxCountOfTasks", [ROOM_CODE]);
 
-    for (let i = 0; i < payload.rooms[ROOM_CODE].players.length; i++)
-        ChangePlayersScore(payload, i);
+    for (let i = 0; i < playersInRooms.length; i++)
+        ChangePlayersScore(playersInRooms, i, maxCountOfTasks);
 }
 
-function ChangePlayersScore(payload, playerIndex) {
+function ChangePlayersScore(playersInRooms, playerIndex, maxCountOfTasks) {
     let playerDiv = divToPlayer[playerIndex];
 
-    let playerScore = payload.rooms[ROOM_CODE].players[playerIndex].score;
-    let playerSkin = payload.rooms[ROOM_CODE].players[playerIndex].skin;
+    let playerScore = playersInRooms[playerIndex].score;
+    let playerSkin = playersInRooms[playerIndex].skin;
     
     let imgInsideDiv = playerDiv.querySelector("img");
     let pInsideDiv = playerDiv.querySelectorAll("p");
     imgInsideDiv.src = `./Icons/icon_${playerSkin}.png`;
-    pInsideDiv[1].textContent = `${playerScore}/${payload.rooms[ROOM_CODE].maxCountOfTasks*100}`;
+    pInsideDiv[1].textContent = `${playerScore}/${maxCountOfTasks*100}`;
 }
 
 async function MakePlayersGroups() {
-    let payload = await LoadData();
-
-    if (payload.roomsCodes.length < 1) window.location.href = "index.html";
+    let playersInRooms = await GetFunctionResultFromServer("JSCode_spectatorPage", "GetPlayers", [ROOM_CODE]);
+    let maxCountOfTasks = await GetFunctionResultFromServer("JSCode_spectatorPage", "GetMaxCountOfTasks", [ROOM_CODE]);
 
     let usedPlayers = [];
-    for (let i = 0; i < payload.rooms[ROOM_CODE].players.length; i++) {
+    for (let i = 0; i < playersInRooms.length; i++) {
         if (usedPlayers.includes(i)) continue;
 
-        NewPlayerIcon(payload, i);
-        NewPlayerIcon(payload, payload.rooms[ROOM_CODE].players[i].enemy);
+        NewPlayerIcon(playersInRooms, i, maxCountOfTasks);
+        NewPlayerIcon(playersInRooms, playersInRooms[i].enemy, maxCountOfTasks);
         usedPlayers.push(i);
-        usedPlayers.push(payload.rooms[ROOM_CODE].players[i].enemy);
+        usedPlayers.push(playersInRooms[i].enemy);
     }
 }
 
-function NewPlayerIcon(payload, playerIndex) {
+function NewPlayerIcon(playersInRooms, playerIndex, maxCountOfTasks) {
     let playerBox = document.createElement("div");
     playerBox.setAttribute('class', 'admin_grid_item');
 
-    let playerName = payload.rooms[ROOM_CODE].players[playerIndex].name;
-    let playerScore = payload.rooms[ROOM_CODE].players[playerIndex].score;
-    let playerSkin = payload.rooms[ROOM_CODE].players[playerIndex].skin;
+    let playerName = playersInRooms[playerIndex].name;
+    let playerScore = playersInRooms[playerIndex].score;
+    let playerSkin = playersInRooms[playerIndex].skin;
 
     let playerBoxSkinImage = document.createElement("img");
-    playerBoxSkinImage.src = "./Icons/icon_0.png";
+    playerBoxSkinImage.src = `./Icons/icon_${playerSkin}.png`;
     playerBoxSkinImage.setAttribute('class', 'universal_iconImage');
 
     let playerBoxProfile = document.createElement("div");
@@ -73,7 +74,7 @@ function NewPlayerIcon(payload, playerIndex) {
     let playerBoxName = document.createElement("p");
     playerBoxName.textContent = `${playerName}`;
     let playerBoxScore = document.createElement("p");
-    playerBoxScore.textContent = `${playerScore}/${payload.rooms[ROOM_CODE].maxCountOfTasks*100}`;
+    playerBoxScore.textContent = `${playerScore}/${maxCountOfTasks*100}`;
 
     playerBoxProfile.appendChild(playerBoxName);
     playerBoxProfile.appendChild(playerBoxScore);

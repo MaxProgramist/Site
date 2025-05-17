@@ -5,7 +5,6 @@ const LIST_OF_PARE_SYMBOLS = {'{':'}', '[':']', '(':')', '"':'"'};
 INPUT_FIELD.addEventListener('keydown', GetAKey);
 
 
-
 function GetAKey(currentKey) {
     if (currentKey.key === 'Tab') {
         currentKey.preventDefault();

@@ -13,10 +13,12 @@ const SET_OF_TASKS_DIV_LIST_GRADE_9 = document.getElementById("setList_grade_9")
 const SET_OF_TASKS_DIV_LIST_GRADE_10 = document.getElementById("setList_grade_10");
 const SET_OF_TASKS_DIV_LIST_GRADE_11 = document.getElementById("setList_grade_11");
 
-CODE_TEXT_FIELD.innerText = "Код: " + ROOM_CODE;
-GRADE_TEXT_FIELD.innerText = ";  Клас:" + 8;
-SET_OF_TASKS_TEXT_FIELD.innerText = ";  Сет задач: Лінійні алгоритми 1";
-COUNT_OF_TASKS_INPUT.value = 8;
+let thisRoomGrade = 8, thisRoomTasksSet = "linar_1", thisRoomCountOfTasks = 8;
+
+CODE_TEXT_FIELD.innerText = "Код: " + ROOM_CODE + ";";
+GRADE_TEXT_FIELD.innerText = "Клас:" + thisRoomGrade + ";";
+SET_OF_TASKS_TEXT_FIELD.innerText = "Сет задач: "+thisRoomTasksSet+";";
+COUNT_OF_TASKS_INPUT.value = thisRoomCountOfTasks;
 
 let divToPlayer = [];
 let timeForTasksInMinutes = 45;
@@ -38,26 +40,27 @@ function Delay(ms) {
 }
 
 async function SomeAsyncFunction() {
-    let payload = await LoadData();
+    let isRoomAvailable = await GetFunctionResultFromServer("JSCode_index", "RoomAvailability");
+    if (!isRoomAvailable) window.location.href = "index.html";
 
-    if (payload.roomsCodes.length < 1) window.location.href = "index.html";
+    let playersInRooms = await GetFunctionResultFromServer("JSCode_adminPage", "GetPlayers", [ROOM_CODE]);
 
     TIME_FIELD.innerText = timeForTasksInMinutes;
 
     for (let i = 0; i < divToPlayer.length; i++)
-        UpdatePlayerSkin(payload, i);
+        UpdatePlayerSkin(playersInRooms, i);
 
-    while (payload.rooms[ROOM_CODE].players.length > currentRoomPlayers) {
-        NewPlayerIcon(payload, currentRoomPlayers);
+    while (playersInRooms.length > currentRoomPlayers) {
+        NewPlayerIcon(playersInRooms, currentRoomPlayers);
         currentRoomPlayers++;
     }
 }
 
-function UpdatePlayerSkin(payload, playerIndex) {
+function UpdatePlayerSkin(playersInRooms, playerIndex) {
     let playerDiv = divToPlayer[playerIndex];
 
-    let playerSkin = payload.rooms[ROOM_CODE].players[playerIndex].skin;
-    let playerName = payload.rooms[ROOM_CODE].players[playerIndex].name;
+    let playerSkin = playersInRooms[playerIndex].skin;
+    let playerName = playersInRooms[playerIndex].name;
 
     let imgInsideDiv = playerDiv.querySelector("img");
     let pInsideDiv = playerDiv.querySelector("p");
@@ -65,7 +68,7 @@ function UpdatePlayerSkin(payload, playerIndex) {
     pInsideDiv.textContent = playerName;
 }
 
-function NewPlayerIcon(payload, playerIndex) {
+function NewPlayerIcon(playersInRooms, playerIndex) {
     let playerBox = document.createElement("div");
     playerBox.setAttribute('class', 'admin_grid_item');
 
@@ -74,7 +77,7 @@ function NewPlayerIcon(payload, playerIndex) {
     playerBoxSkinImage.setAttribute('class', 'universal_iconImage');
 
     let playerBoxName = document.createElement("p");
-    playerBoxName.textContent = payload.rooms[ROOM_CODE].players[playerIndex].name;
+    playerBoxName.textContent = playersInRooms[playerIndex].name;
 
     playerBox.appendChild(playerBoxSkinImage);
     playerBox.appendChild(playerBoxName);
@@ -97,11 +100,9 @@ function GradeMenu() {
 }
 
 async function SetOfTasksMenu() {
-    let payload = await LoadData();
-
     GRADE_DIV_LIST.style.display = "none";
 
-    if (payload.rooms[ROOM_CODE].grade == 8) {
+    if (thisRoomGrade == 8) {
         SET_OF_TASKS_DIV_LIST_GRADE_9.style.display = "none";
         SET_OF_TASKS_DIV_LIST_GRADE_10.style.display = "none";
         SET_OF_TASKS_DIV_LIST_GRADE_11.style.display = "none";
@@ -110,7 +111,7 @@ async function SetOfTasksMenu() {
         else
             SET_OF_TASKS_DIV_LIST_GRADE_8.style.display = "none";
     }
-    else if (payload.rooms[ROOM_CODE].grade == 9) {
+    else if (thisRoomGrade == 9) {
         SET_OF_TASKS_DIV_LIST_GRADE_8.style.display = "none";
         SET_OF_TASKS_DIV_LIST_GRADE_10.style.display = "none";
         SET_OF_TASKS_DIV_LIST_GRADE_11.style.display = "none";
@@ -119,7 +120,7 @@ async function SetOfTasksMenu() {
         else
             SET_OF_TASKS_DIV_LIST_GRADE_9.style.display = "none";
     }
-    else if (payload.rooms[ROOM_CODE].grade == 10) {
+    else if (thisRoomGrade == 10) {
         SET_OF_TASKS_DIV_LIST_GRADE_9.style.display = "none";
         SET_OF_TASKS_DIV_LIST_GRADE_8.style.display = "none";
         SET_OF_TASKS_DIV_LIST_GRADE_11.style.display = "none";
@@ -128,7 +129,7 @@ async function SetOfTasksMenu() {
         else
             SET_OF_TASKS_DIV_LIST_GRADE_10.style.display = "none";
     }
-    else if (payload.rooms[ROOM_CODE].grade == 11) {
+    else if (thisRoomGrade == 11) {
         SET_OF_TASKS_DIV_LIST_GRADE_8.style.display = "none";
         SET_OF_TASKS_DIV_LIST_GRADE_10.style.display = "none";
         SET_OF_TASKS_DIV_LIST_GRADE_9.style.display = "none";
@@ -141,12 +142,8 @@ async function SetOfTasksMenu() {
 
 
 async function ChangeGradeOfRoom(numberOfGrade) {
-    let payload = await LoadData();
-
-    payload.rooms[ROOM_CODE].grade = numberOfGrade;
+    thisRoomGrade = numberOfGrade;
     GRADE_TEXT_FIELD.innerText = ";  Клас:" + numberOfGrade;
-
-    await SaveData(payload);
 }
 
 async function AddTimeForTasks(timeChanger) {
@@ -154,59 +151,21 @@ async function AddTimeForTasks(timeChanger) {
         timeForTasksInMinutes += timeChanger;
 }
 
-async function ChangeSetOfTasksOfRoom(numberOfSet) {
-    let payload = await LoadData();
-
-    payload.rooms[ROOM_CODE].numberOfTasksSet = numberOfSet;
-    SET_OF_TASKS_TEXT_FIELD.innerText = ";  Сет задач: " + numberOfSet;
-
-    await SaveData(payload);
+async function ChangeSetOfTasksOfRoom(setOfTasks) {
+    thisRoomTasksSet = setOfTasks;
+    SET_OF_TASKS_TEXT_FIELD.innerText = ";  Сет задач: " + setOfTasks;
 }
 
 async function StartGame() {
-    let payload = await LoadData();
+    thisRoomCountOfTasks = COUNT_OF_TASKS_INPUT.value;
+    let serverAnswer = await GetFunctionResultFromServer("JSCode_adminPage", "StartGame", [ROOM_CODE, thisRoomGrade, thisRoomTasksSet, timeForTasksInMinutes, Clamp(thisRoomCountOfTasks,1,8)]);
 
-    if (payload.roomsCodes.length < 1) window.location.href = "index.html";
-    if (payload.rooms[ROOM_CODE].players.length < 1)
-        return PopUpWindowOfError("Count of players is to small (at least 2)");
-
-    payload.rooms[ROOM_CODE].isActive = true;
-    payload.rooms[ROOM_CODE].maxCountOfTasks = clamp(COUNT_OF_TASKS_INPUT.value, 1, 8);
-    payload.rooms[ROOM_CODE].maxTimeForTasks = timeForTasksInMinutes;
-    payload.rooms[ROOM_CODE].startTimeForTasks = new Date();
-
-    let playerList = [];
-    for (let i = 0; i < payload.rooms[ROOM_CODE].players.length; i++) {
-        playerList.push(i);
-    }
-
-    let usedPlayers = [];
-
-    while (usedPlayers.length < payload.rooms[ROOM_CODE].players.length) {
-        let randomInd = getRandomInt(0, payload.rooms[ROOM_CODE].players.length);
-        while (usedPlayers.includes(randomInd) || playerList[0] == randomInd)
-            randomInd = getRandomInt(0, payload.rooms[ROOM_CODE].players.length);
-
-        payload.rooms[ROOM_CODE].players[playerList[0]].enemy = randomInd;
-        payload.rooms[ROOM_CODE].players[randomInd].enemy = playerList[0];
-        payload.rooms[ROOM_CODE].players[playerList[0]].canChoose = Math.random() < 0.5;
-        payload.rooms[ROOM_CODE].players[randomInd].canChoose = !payload.rooms[ROOM_CODE].players[playerList[0]].canChoose;
-        usedPlayers.push(randomInd);
-        usedPlayers.push(playerList[0]);
-        playerList.splice(0, 1);
-        playerList.splice(playerList.indexOf(randomInd), 1);
-    }
-
-    await SaveData(payload);
+    if (typeof serverAnswer === "string") return PopUpWindowOfError(serverAnswer);
 
     window.location.href = "spectatorPage.html";
 }
 
-function getRandomInt(min, max) {
-    return min + Math.floor(Math.random() * max);
-}
-
-const clamp = (value, min, max) => {
+const Clamp = (value, min, max) => {
   if (value < min) return min;
   if (value > max) return max;
   return value;
